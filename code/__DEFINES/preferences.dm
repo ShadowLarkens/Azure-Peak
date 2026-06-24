@@ -12,16 +12,9 @@
 #define SOUND_MIDI				(1<<1)
 #define SOUND_AMBIENCE			(1<<2)
 #define SOUND_LOBBY				(1<<3)
-#define MEMBER_PUBLIC			(1<<4)
-#define INTENT_STYLE			(1<<5)
-#define MIDROUND_ANTAG			(1<<6)
 #define SOUND_INSTRUMENTS		(1<<7)
-#define SOUND_SHIP_AMBIENCE		(1<<8)
 #define SOUND_PRAYERS			(1<<9)
 #define ANNOUNCE_LOGIN			(1<<10)
-#define SOUND_ANNOUNCEMENTS		(1<<11)
-#define DISABLE_DEATHRATTLE		(1<<12)
-#define DISABLE_ARRIVALRATTLE	(1<<13)
 #define COMBOHUD_LIGHTING		(1<<14)
 
 #define DEADMIN_ALWAYS			(1<<15)
@@ -32,7 +25,7 @@
 #define SCHIZO_VOICE			(1<<21)
 #define ROLEPLAY_ADS			(1<<22)
 
-#define TOGGLES_DEFAULT (SOUND_ADMINHELP|SOUND_MIDI|SOUND_AMBIENCE|SOUND_LOBBY|MEMBER_PUBLIC|INTENT_STYLE|MIDROUND_ANTAG|SOUND_INSTRUMENTS|SOUND_SHIP_AMBIENCE|SOUND_PRAYERS|SOUND_ANNOUNCEMENTS|TOGGLE_FULLSCREEN)
+#define TOGGLES_DEFAULT (SOUND_ADMINHELP|SOUND_MIDI|SOUND_AMBIENCE|SOUND_LOBBY|SOUND_INSTRUMENTS|SOUND_PRAYERS|TOGGLE_FULLSCREEN)
 
 //Combat toggles
 #define FLOATING_TEXT			(1<<0)
@@ -45,23 +38,15 @@
 #define TOGGLE_ANTIGHOST		(1<<0)
 
 //Chat toggles
-#define CHAT_OOC			(1<<0)
-#define CHAT_DEAD			(1<<1)
 #define CHAT_GHOSTEARS		(1<<2)
-#define CHAT_GHOSTSIGHT		(1<<3)
 #define CHAT_PRAYER			(1<<4)
-#define CHAT_RADIO			(1<<5)
-#define CHAT_PULLR			(1<<6)
 #define CHAT_GHOSTWHISPER	(1<<7)
-#define CHAT_GHOSTPDA		(1<<8)
-#define CHAT_GHOSTRADIO 	(1<<9)
-#define CHAT_BANKCARD		(1<<10)
 #define CHAT_ADMINLOOC		(1<<11)
 #define CHAT_ADMINSPAWN		(1<<12)
 #define CHAT_DSAY			(1<<13)
 #define CHAT_MOODMESSAGES	(1<<14)
 
-#define TOGGLES_DEFAULT_CHAT (CHAT_OOC|CHAT_DSAY|CHAT_PRAYER|CHAT_RADIO|CHAT_PULLR|CHAT_GHOSTPDA|CHAT_BANKCARD|CHAT_MOODMESSAGES)
+#define TOGGLES_DEFAULT_CHAT (CHAT_DSAY|CHAT_PRAYER|CHAT_MOODMESSAGES)
 #define TOGGLES_DEFAULT_CHAT_ADMIN (CHAT_ADMINSPAWN|CHAT_ADMINLOOC)
 
 #define SEC_DEPT_NONE "None"
@@ -99,25 +84,6 @@
 #define JP_LOW 1
 #define JP_MEDIUM 2
 #define JP_HIGH 3
-
-//randomised elements
-#define RANDOM_NAME "random_name"
-#define RANDOM_NAME_ANTAG "random_name_antag"
-#define RANDOM_BODY "random_body"
-#define RANDOM_BODY_ANTAG "random_body_antag"
-#define RANDOM_SPECIES "random_species"
-#define RANDOM_GENDER "random_gender"
-#define RANDOM_GENDER_ANTAG "random_gender_antag"
-#define RANDOM_AGE "random_age"
-#define RANDOM_AGE_ANTAG "random_age_antag"
-#define RANDOM_UNDERWEAR "random_underwear"
-#define RANDOM_UNDERWEAR_COLOR "random_underwear_color"
-#define RANDOM_UNDERSHIRT "random_undershirt"
-#define RANDOM_SOCKS "random_socks"
-#define RANDOM_BACKPACK "random_backpack"
-#define RANDOM_JUMPSUIT_STYLE "random_jumpsuit_style"
-#define RANDOM_SKIN_TONE "random_skin_tone"
-#define RANDOM_EYE_COLOR "random_eye_color"
 
 //Age ranges
 #define AGE_ADULT			"Adult"
@@ -201,3 +167,7 @@ GLOBAL_LIST_INIT(attack_blip_pref_list, list(
 	"Rarely" = ATTACK_BLIP_PREF_RARELY,
 	"Never" = ATTACK_BLIP_PREF_NEVER
 ))
+
+// We need to diffentiate between data and preview updates to save cycles
+#define CHARACTER_ACT_DATA_UPDATE 1
+#define CHARACTER_ACT_PREVIEW_UPDATE 2

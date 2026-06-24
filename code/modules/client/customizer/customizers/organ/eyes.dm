@@ -10,6 +10,7 @@
 	customizer_entry_type = /datum/customizer_entry/organ/eyes
 	organ_dna_type = /datum/organ_dna/eyes
 	allows_accessory_color_customization = FALSE //Customized through eye color
+	tgui_template = "FeatureChoiceEyes"
 	var/allows_heterochromia = TRUE
 
 /datum/customizer_choice/organ/eyes/on_randomize_entry(datum/customizer_entry/entry, datum/preferences/prefs)
@@ -33,6 +34,48 @@
 	if(allows_heterochromia)
 		eyes_dna.heterochromia  = eyes_entry.heterochromia
 		eyes_dna.second_color = eyes_entry.second_color
+
+/datum/customizer_choice/organ/eyes/tgui_pref_choices(datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
+	var/list/data = ..()
+
+	var/datum/customizer_entry/organ/eyes/eyes_entry = entry
+	data["eye_color"] = eyes_entry.eye_color
+	data["allows_heterochromia"] = allows_heterochromia
+	data["heterochromia"] = eyes_entry.heterochromia
+	data["second_color"] = eyes_entry.second_color
+
+	return data
+
+
+/datum/customizer_choice/organ/eyes/handle_tgui_act(list/params, datum/tgui/ui, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
+	. = ..()
+	if(.)
+		return
+
+	var/mob/user = ui.user
+	var/datum/customizer_entry/organ/eyes/eyes_entry = entry
+	switch(params["customizer_task"])
+		if("eye_color")
+			var/new_color = input(user, "Choose your eyes color:", "Character Preference", eyes_entry.eye_color) as color|null
+			if(!new_color)
+				return TRUE
+			eyes_entry.eye_color = sanitize_hexcolor(new_color, 6, TRUE)
+			return TRUE
+
+		if("heterochromia")
+			if(!allows_heterochromia)
+				return TRUE
+			eyes_entry.heterochromia = !eyes_entry.heterochromia
+			return TRUE
+
+		if("second_eye_color")
+			if(!allows_heterochromia)
+				return TRUE
+			var/new_color = input(user, "Choose your eyes' secondary color:", "Character Preference", eyes_entry.second_color) as color|null
+			if(!new_color)
+				return TRUE
+			eyes_entry.second_color = sanitize_hexcolor(new_color, 6, TRUE)
+			return TRUE
 
 /datum/customizer_choice/organ/eyes/generate_pref_choices(list/dat, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	..()

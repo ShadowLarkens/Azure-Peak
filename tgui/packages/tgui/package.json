@@ -15,6 +15,9 @@
 		"react": "^19.1.0",
 		"react-dom": "^19.1.0",
 		"react-json-tree": "^0.20.0",
+		"react-sortablejs": "^6.1.4",
+		"sortablejs": "^1.15.7",
+		"tegaki": "^0.18.0",
 		"tgui-core": "^4.2.3",
 		"tgui-dev-server": "workspace:*"
 	},

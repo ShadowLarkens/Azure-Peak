@@ -539,10 +539,9 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 			sleep(30)
 			target.client.images.Remove(speech_overlay)
 		var/spans = list(person.speech_span)
-		if(target.client?.prefs)
-			if (target.client?.prefs.chat_on_map)
-				sleep(30)
-				target.create_chat_message(person, understood_language, chosen, spans, 0)
+		if(target.client)
+			sleep(30)
+			target.create_chat_message(person, understood_language, chosen, spans, 0)
 	/*else // Radio talk -- Could be updated for SCOM use by a less-amateur coder
 		var/chosen = specific_message
 		if(!chosen)

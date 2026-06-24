@@ -15,6 +15,7 @@
 	organ_slot = ORGAN_SLOT_PENIS
 	organ_dna_type = /datum/organ_dna/penis
 	customizer_entry_type = /datum/customizer_entry/organ/penis
+	tgui_template = "FeatureChoicePenis"
 
 /datum/customizer_choice/organ/penis/validate_entry(datum/preferences/prefs, datum/customizer_entry/entry)
 	..()
@@ -27,6 +28,34 @@
 	var/datum/customizer_entry/organ/penis/penis_entry = entry
 	penis_dna.penis_size = penis_entry.penis_size
 	penis_dna.functional = penis_entry.functional
+
+/datum/customizer_choice/organ/penis/tgui_pref_choices(datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
+	var/list/data = ..()
+
+	var/datum/customizer_entry/organ/penis/penis_entry = entry
+	data["penis_size"] = find_key_by_value(PENIS_SIZES_BY_NAME, penis_entry.penis_size)
+	data["penis_functional"] = penis_entry.functional
+
+	return data
+
+/datum/customizer_choice/organ/penis/handle_tgui_act(list/params, datum/tgui/ui, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
+	. = ..()
+	if(.)
+		return
+
+	var/mob/user = ui.user
+	var/datum/customizer_entry/organ/penis/penis_entry = entry
+	switch(params["customizer_task"])
+		if("penis_size")
+			var/named_size = input(user, "Choose your penis size:", "Character Preference", find_key_by_value(PENIS_SIZES_BY_NAME, penis_entry.penis_size)) as anything in PENIS_SIZES_BY_NAME
+			if(isnull(named_size))
+				return TRUE
+			var/new_size = PENIS_SIZES_BY_NAME[named_size]
+			penis_entry.penis_size = sanitize_integer(new_size, MIN_PENIS_SIZE, MAX_PENIS_SIZE, DEFAULT_PENIS_SIZE)
+			return TRUE
+		if("functional")
+			penis_entry.functional = !penis_entry.functional
+			return TRUE
 
 /datum/customizer_choice/organ/penis/generate_pref_choices(list/dat, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	..()
@@ -188,6 +217,7 @@
 	organ_dna_type = /datum/organ_dna/testicles
 	customizer_entry_type = /datum/customizer_entry/organ/testicles
 	organ_slot = ORGAN_SLOT_TESTICLES
+	tgui_template = "FeatureChoiceTesticles"
 	var/can_customize_size = TRUE
 
 /datum/customizer_choice/organ/testicles/validate_entry(datum/preferences/prefs, datum/customizer_entry/entry)
@@ -202,6 +232,35 @@
 	if(can_customize_size)
 		testicles_dna.ball_size = testicles_entry.ball_size
 	testicles_dna.virility = testicles_entry.virility
+
+/datum/customizer_choice/organ/testicles/tgui_pref_choices(datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
+	var/list/data = ..()
+
+	var/datum/customizer_entry/organ/testicles/testicles_entry = entry
+	data["can_customize_size"] = can_customize_size
+	data["ball_size"] = find_key_by_value(TESTICLE_SIZES_BY_NAME, testicles_entry.ball_size)
+	data["virile"] = testicles_entry.virility
+
+	return data
+
+/datum/customizer_choice/organ/testicles/handle_tgui_act(list/params, datum/tgui/ui, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
+	. = ..()
+	if(.)
+		return
+
+	var/mob/user = ui.user
+	var/datum/customizer_entry/organ/testicles/testicles_entry = entry
+	switch(params["customizer_task"])
+		if("ball_size")
+			var/named_size = input(user, "Choose your ball size:", "Character Preference", find_key_by_value(TESTICLE_SIZES_BY_NAME, testicles_entry.ball_size)) as anything in TESTICLE_SIZES_BY_NAME
+			if(isnull(named_size))
+				return TRUE
+			var/new_size = TESTICLE_SIZES_BY_NAME[named_size]
+			testicles_entry.ball_size = sanitize_integer(new_size, MIN_TESTICLES_SIZE, MAX_TESTICLES_SIZE, DEFAULT_TESTICLES_SIZE)
+			return TRUE
+		if("virile")
+			testicles_entry.virility = !testicles_entry.virility
+			return TRUE
 
 /datum/customizer_choice/organ/testicles/generate_pref_choices(list/dat, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	..()
@@ -274,6 +333,7 @@
 	organ_type = /obj/item/organ/breasts
 	organ_slot = ORGAN_SLOT_BREASTS
 	organ_dna_type = /datum/organ_dna/breasts
+	tgui_template = "FeatureChoiceBreasts"
 
 /datum/customizer_choice/organ/breasts/validate_entry(datum/preferences/prefs, datum/customizer_entry/entry)
 	..()
@@ -286,6 +346,34 @@
 	var/datum/customizer_entry/organ/breasts/breasts_entry = entry
 	breasts_dna.breast_size = breasts_entry.breast_size
 	breasts_dna.lactating = breasts_entry.lactating
+
+/datum/customizer_choice/organ/breasts/tgui_pref_choices(datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
+	var/list/data = ..()
+
+	var/datum/customizer_entry/organ/breasts/breasts_entry = entry
+	data["breast_size"] = find_key_by_value(BREAST_SIZES_BY_NAME, breasts_entry.breast_size)
+	data["lactating"] = breasts_entry.lactating
+
+	return data
+
+/datum/customizer_choice/organ/breasts/handle_tgui_act(list/params, datum/tgui/ui, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
+	. = ..()
+	if(.)
+		return
+
+	var/mob/user = ui.user
+	var/datum/customizer_entry/organ/breasts/breasts_entry = entry
+	switch(params["customizer_task"])
+		if("breast_size")
+			var/named_size = input(user, "Choose your breast size:", "Character Preference", find_key_by_value(BREAST_SIZES_BY_NAME, breasts_entry.breast_size)) as anything in BREAST_SIZES_BY_NAME
+			if(isnull(named_size))
+				return TRUE
+			var/new_size = BREAST_SIZES_BY_NAME[named_size]
+			breasts_entry.breast_size = sanitize_integer(new_size, MIN_BREASTS_SIZE, MAX_BREASTS_SIZE, DEFAULT_BREASTS_SIZE)
+			return TRUE
+		if("lactating")
+			breasts_entry.lactating = !breasts_entry.lactating
+			return TRUE
 
 /datum/customizer_choice/organ/breasts/generate_pref_choices(list/dat, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	..()
@@ -344,6 +432,7 @@
 	organ_type = /obj/item/organ/vagina
 	organ_slot = ORGAN_SLOT_VAGINA
 	organ_dna_type = /datum/organ_dna/vagina
+	tgui_template = "FeatureChoiceVagina"
 
 /datum/customizer_entry/organ/vagina
 	var/fertility = TRUE
@@ -353,6 +442,25 @@
 	var/datum/organ_dna/vagina/vagina_dna = organ_dna
 	var/datum/customizer_entry/organ/vagina/vagina_entry = entry
 	vagina_dna.fertility = vagina_entry.fertility
+
+/datum/customizer_choice/organ/vagina/tgui_pref_choices(datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
+	var/list/data = ..()
+
+	var/datum/customizer_entry/organ/vagina/vagina_entry = entry
+	data["fertility"] = vagina_entry.fertility
+
+	return data
+
+/datum/customizer_choice/organ/vagina/handle_tgui_act(list/params, datum/tgui/ui, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
+	. = ..()
+	if(.)
+		return
+
+	var/datum/customizer_entry/organ/vagina/vagina_entry = entry
+	switch(params["customizer_task"])
+		if("fertile")
+			vagina_entry.fertility = !vagina_entry.fertility
+			return TRUE
 
 /datum/customizer_choice/organ/vagina/generate_pref_choices(list/dat, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	..()
@@ -365,7 +473,7 @@
 	switch(href_list["customizer_task"])
 		if("fertile")
 			vagina_entry.fertility = !vagina_entry.fertility
-			
+			return TRUE
 
 /datum/customizer/organ/vagina/human
 	customizer_choices = list(/datum/customizer_choice/organ/vagina/human)

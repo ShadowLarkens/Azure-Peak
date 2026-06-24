@@ -11,7 +11,6 @@
 	age = AGE_ADULT
 	var/list/skins = pref_species.get_skin_list()
 	skin_tone = skins[pick(skins)]
-	eye_color = random_eye_color()
 	if(ft_reset)
 		flavortext = null
 		nsfwflavortext = null
@@ -25,29 +24,13 @@
 		nsfw_img_gallery = null
 	features = pref_species.get_random_features()
 	body_markings = pref_species.get_random_body_markings(features)
-	accessory = "Nothing"
 	reset_all_customizer_accessory_colors()
 	randomize_all_customizer_accessories()
 
 /datum/preferences/proc/random_species()
 	var/random_species_type = GLOB.species_list[pick(get_selectable_species())]
 	pref_species = new random_species_type
-	if(randomise[RANDOM_NAME])
-		real_name = pref_species.random_name(gender,1)
 	set_new_race(new random_species_type)
-
-/datum/preferences/proc/update_preview_icon()
-	set waitfor = 0
-	if(!parent)
-		return
-	if(parent.is_new_player())
-		return
-	var/mob/living/carbon/human/dummy/mannequin = generate_or_wait_for_human_dummy(DUMMY_HUMAN_SLOT_PREFERENCES)
-	copy_to(mannequin, 1, TRUE, TRUE)
-
-	mannequin.rebuild_obscured_flags()
-	parent.show_character_previews(new /mutable_appearance(mannequin))
-	unset_busy_human_dummy(DUMMY_HUMAN_SLOT_PREFERENCES)
 
 /datum/preferences/proc/spec_check(mob/user)
 	if(!istype(pref_species))

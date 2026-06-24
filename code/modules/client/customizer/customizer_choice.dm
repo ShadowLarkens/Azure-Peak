@@ -12,6 +12,8 @@
 	var/allows_accessory_color_customization = TRUE
 	/// Whether to pick a random accessory from all possible ones in `sprite_accessories` rather than use the proc for randomization
 	var/generic_random_pick = FALSE
+	/// Set to a key in FEATURE_CHOICE_LIST to have a unique tgui template loaded
+	var/tgui_template = null
 
 /datum/customizer_choice/New()
 	. = ..()
@@ -54,6 +56,108 @@
 /datum/customizer_choice/proc/get_random_color(datum/customizer_entry/entry, datum/preferences/prefs, accessory_type)
 	return
 
+// TGUI
+/datum/customizer_choice/proc/tgui_pref_choices(datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
+	var/list/data = list()
+
+	var/datum/sprite_accessory/accessory
+	if(sprite_accessories && entry.accessory_type)
+		accessory = SPRITE_ACCESSORY(entry.accessory_type)
+
+	data["name"] = name
+	data["template"] = tgui_template
+
+	if(accessory)
+		var/show_accessory_color = allows_accessory_color_customization && !(accessory.color_disabled)
+
+		var/list/accessory_data = list(
+			"name" = accessory.name,
+			"show_accessory_color" = show_accessory_color,
+			"colors" = list(),
+		)
+
+		if(show_accessory_color)
+			var/list/color_list = color_string_to_list(entry.accessory_colors)
+			for(var/index in 1 to accessory.color_keys)
+				var/named_index = (accessory.color_keys == 1) ? accessory.color_key_name : accessory.color_key_names[index]
+				UNTYPED_LIST_ADD(accessory_data["colors"], list(
+					"name" = named_index,
+					"index" = index,
+					"color" = color_list[index],
+				))
+
+		data["accessory"] = accessory_data
+	else
+		data["accessory"] = null
+
+	return data
+
+/datum/customizer_choice/proc/handle_tgui_act(list/params, datum/tgui/ui, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
+	var/mob/user = ui.user
+
+	switch(params["customizer_task"])
+		if("choose_acc")
+			if(!sprite_accessories)
+				return TRUE
+			var/list/choice_list = list()
+			for(var/choice_type in sprite_accessories)
+				var/datum/sprite_accessory/accessory = SPRITE_ACCESSORY(choice_type)
+				choice_list[accessory.name] = choice_type
+			var/chosen_input = tgui_input_list(user, "Choose your [lowertext(name)] appearance:", "Character Preference",choice_list)
+			if(!chosen_input)
+				return TRUE
+			var/choice_type = choice_list[chosen_input]
+			set_accessory_type(prefs, choice_type, entry)
+			return TRUE
+
+		if("rotate")
+			if(!sprite_accessories)
+				return TRUE
+			var/current_index
+			var/i = 0
+			for(var/accessory_type in sprite_accessories)
+				i++
+				if(entry.accessory_type != accessory_type)
+					continue
+				current_index = i
+				break
+			var/target_index = current_index
+
+			switch(params["rotate"])
+				if("next")
+					target_index++
+				if("prev")
+					target_index--
+			if(target_index > sprite_accessories.len)
+				target_index = 1
+			else if (target_index <= 0)
+				target_index = sprite_accessories.len
+			var/datum/customizer_choice/customizer_choice = CUSTOMIZER_CHOICE(entry.customizer_choice_type)
+			customizer_choice.set_accessory_type(prefs, sprite_accessories[target_index], entry)
+			return TRUE
+
+		if("acc_color")
+			if(!sprite_accessories || !allows_accessory_color_customization)
+				return TRUE
+			var/index = text2num(params["color_index"])
+			var/datum/sprite_accessory/accessory = SPRITE_ACCESSORY(entry.accessory_type)
+			if(index > accessory.color_keys)
+				return TRUE
+			var/list/color_list = color_string_to_list(entry.accessory_colors)
+			var/new_color = color_pick_sanitized(user, "Choose your accessory color:", "Character Preference","[color_list[index]]")
+			if(!new_color)
+				return TRUE
+			color_list[index] = sanitize_hexcolor(new_color, 6, TRUE)
+			entry.accessory_colors = color_list_to_string(color_list)
+			return TRUE
+
+		if("reset_colors")
+			if(!sprite_accessories || !allows_accessory_color_customization)
+				return TRUE
+			reset_accessory_colors(prefs, entry)
+			return TRUE
+
+// Classic UI
 /datum/customizer_choice/proc/show_pref_choices(datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	var/list/dat = list()
 	generate_pref_choices(dat, prefs, entry, customizer_type)

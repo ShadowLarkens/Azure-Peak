@@ -1,0 +1,265 @@
+@use 'sass:color';
+@use 'sass:map';
+
+// Theme colors for the UI
+@mixin cs-colors($colors) {
+  --color-virtue: #{map.get($colors, 'virtue')};
+  --color-virtue-light: #{color.adjust(
+      map.get($colors, 'virtue'),
+      $lightness: 10%
+    )};
+  --color-virtue-dark: #{color.adjust(
+      map.get($colors, 'virtue'),
+      $lightness: -10%
+    )};
+
+  --color-vice: #{map.get($colors, 'vice')};
+  --color-vice-light: #{color.adjust(map.get($colors, 'vice'), $lightness: 10%)};
+  --color-vice-dark: #{color.adjust(map.get($colors, 'vice'), $lightness: -10%)};
+
+  --color-faith: #{map.get($colors, 'faith')};
+  --color-faith-light: #{color.adjust(
+      map.get($colors, 'faith'),
+      $lightness: 10%
+    )};
+  --color-faith-dark: #{color.adjust(
+      map.get($colors, 'faith'),
+      $lightness: -10%
+    )};
+}
+
+$default-virtue: #a08357;
+$default-vice: #8b0e0e;
+$default-faith: #a89424;
+
+:root {
+  @include cs-colors(
+    (
+      'virtue': $default-virtue,
+      'vice': $default-vice,
+      'faith': $default-faith,
+    )
+  );
+}
+
+.theme-azure_ascendant:root {
+  @include cs-colors(
+    (
+      'virtue': $default-virtue,
+      'vice': $default-vice,
+      'faith': $default-faith,
+    )
+  );
+}
+
+.theme-azure_default:root {
+  @include cs-colors(
+    (
+      'virtue': #5e4d33,
+      'vice': #8d1111,
+      'faith': #8d7c1b,
+    )
+  );
+}
+
+.theme-azure_gilbranze:root {
+  @include cs-colors(
+    (
+      'virtue': $default-virtue,
+      'vice': $default-vice,
+      'faith': $default-faith,
+    )
+  );
+}
+
+.theme-azure_green:root {
+  @include cs-colors(
+    (
+      'virtue': $default-virtue,
+      'vice': $default-vice,
+      'faith': $default-faith,
+    )
+  );
+}
+
+.theme-azure_lane:root {
+  @include cs-colors(
+    (
+      'virtue': #72562c,
+      'vice': #7e1212,
+      'faith': $default-faith,
+    )
+  );
+}
+
+.theme-azure_lingyue:root {
+  @include cs-colors(
+    (
+      'virtue': $default-virtue,
+      'vice': $default-vice,
+      'faith': $default-faith,
+    )
+  );
+}
+
+.theme-azure_psydonic:root {
+  @include cs-colors(
+    (
+      'virtue': #86683b,
+      'vice': #720c0c,
+      'faith': #978311,
+    )
+  );
+}
+
+.theme-azure_purple:root {
+  @include cs-colors(
+    (
+      'virtue': #86683b,
+      'vice': #880f0f,
+      'faith': #978311,
+    )
+  );
+}
+
+// Actual UI Styles
+@mixin colored-section($color) {
+  color: var(#{$color});
+
+  .Section__title {
+    border-bottom-color: var(#{$color});
+  }
+
+  .Section__titleText {
+    color: var(#{$color}-light);
+  }
+
+  .Button {
+    background-color: var(#{$color}) !important;
+    border-color: var(#{$color}-light) !important;
+    outline-color: var(#{$color}-dark) !important;
+  }
+}
+
+.CharacterSetup__Section__Virtues {
+  @include colored-section(--color-virtue);
+}
+
+.CharacterSetup__Section__Vices {
+  @include colored-section(--color-vice);
+}
+
+.CharacterSetup__Section__Faith {
+  @include colored-section(--color-faith);
+
+  .color-label {
+    color: var(--color-faith) !important;
+  }
+}
+
+.CharacterSetup__FeaturesGrid {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 4px 4px;
+
+  .Section {
+    margin: 0;
+  }
+
+  .Section__titleText {
+    font-size: 1em !important;
+  }
+
+  .Section:first-child {
+    margin: 0;
+  }
+}
+
+.CharacterSetup__Job__PriorityButton {
+  border: var(--border-thickness-tiny) solid hsla(0, 0%, 0%, 0.3);
+
+  &--off::after {
+    content: '';
+
+    background: hsla(0, 0%, 0%, 0.2);
+    display: block;
+    height: 80%;
+    left: 50%;
+    position: relative;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%) rotate(40deg);
+    width: 2px;
+  }
+
+  &.Button {
+    &.Button--color--light-grey {
+      background-color: darkgray;
+
+      &:hover {
+        background-color: color.adjust(darkgray, $lightness: 20%);
+      }
+    }
+
+    &.Button--color--white {
+      background-color: black;
+
+      &:hover {
+        background-color: color.adjust(black, $lightness: 20%);
+      }
+    }
+
+    &.Button--color--yellow {
+      background-color: #dfb200;
+
+      &:hover {
+        background-color: color.adjust(#dfb200, $lightness: 20%);
+      }
+    }
+
+    &.Button--color--green {
+      background-color: #27ab4e;
+
+      &:hover {
+        background-color: color.adjust(#27ab4e, $lightness: 20%);
+      }
+    }
+
+    &.Button--color--red {
+      background-color: #a11111;
+
+      &:hover {
+        background-color: color.adjust(#a11111, $lightness: 20%);
+      }
+    }
+  }
+}
+
+.CharacterSetup__Job__Name {
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+.CharacterSetup__TextEditor__Unsaved {
+  border-color: #f00 !important;
+}
+
+.CharacterSetup__MarkingsGrid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: auto auto auto auto;
+  gap: 4px 4px;
+
+  .Section {
+    margin: 0;
+  }
+
+  .Section__titleText {
+    font-size: 1em !important;
+  }
+
+  .Section:first-child {
+    margin: 0;
+  }
+}

@@ -59,10 +59,6 @@
 	if(!msg)
 		return
 
-	if(!(prefs.chat_toggles & CHAT_OOC))
-		to_chat(src, span_danger("You have OOC muted."))
-		return
-
 	if(!holder)
 		if(findtext(msg, "byond://"))
 			to_chat(src, "<B>Advertising other servers is not allowed.</B>")
@@ -93,12 +89,11 @@
 			added_text += " ([mob.ckey]) [ADMIN_FLW(mob)]"
 			is_admin = 1
 		mobs += C
-		if(C.prefs.chat_toggles & CHAT_OOC)
-			var/turf/speakturf = get_turf(M)
-			var/turf/sourceturf = get_turf(usr)
-			if(wp == 1 && (M in range (7, src)))
-				to_chat(C, "<font color='["#6699CC"]'><b><span class='prefix'>[prefix]:</span> <EM>[src.mob.name][added_text]:</EM> <span class='message'>[msg]</span></b></font>", type = MESSAGE_TYPE_OOC)
-			else if(speakturf in get_hear(7, sourceturf))
-				to_chat(C, "<font color='["#6699CC"]'><b><span class='prefix'>[prefix]:</span> <EM>[src.mob.name][added_text]:</EM> <span class='message'>[msg]</span></b></font>", type = MESSAGE_TYPE_OOC)
-			else if(is_admin == 1)
-				to_chat(C, "<font color='["#6699CC"]'><b>(R) <span class='prefix'>[prefix]:</span> <EM>[src.mob.name][added_text]:</EM> <span class='message'>[msg]</span></b></font>", type = MESSAGE_TYPE_OOC)
+		var/turf/speakturf = get_turf(M)
+		var/turf/sourceturf = get_turf(usr)
+		if(wp == 1 && (M in range (7, src)))
+			to_chat(C, "<font color='["#6699CC"]'><b><span class='prefix'>[prefix]:</span> <EM>[src.mob.name][added_text]:</EM> <span class='message'>[msg]</span></b></font>")
+		else if(speakturf in get_hear(7, sourceturf))
+			to_chat(C, "<font color='["#6699CC"]'><b><span class='prefix'>[prefix]:</span> <EM>[src.mob.name][added_text]:</EM> <span class='message'>[msg]</span></b></font>")
+		else if(is_admin == 1)
+			to_chat(C, "<font color='["#6699CC"]'><b>(R) <span class='prefix'>[prefix]:</span> <EM>[src.mob.name][added_text]:</EM> <span class='message'>[msg]</span></b></font>")
