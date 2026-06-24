@@ -424,7 +424,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/list/skins = get_skin_list()
 	H.skin_tone = skins[pick(skins)]
 	H.eye_color = random_eye_color()
-	H.accessory = "Nothing"
 	if(H.dna)
 		H.dna.real_name = H.real_name
 		H.dna.features = get_random_features()
@@ -448,8 +447,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	replace_body(C, src)
 
 	// this needs to be FIRST because qdel calls update_body which checks if we have DIGITIGRADE legs or not and if not then removes DIGITIGRADE from species_traits
-	if(("legs" in C.dna.species.mutant_bodyparts) && C.dna.features["legs"] == "Digitigrade Legs")
-		species_traits += DIGITIGRADE
+	// if(("legs" in C.dna.species.mutant_bodyparts) && C.dna.features["legs"] == "Digitigrade Legs")
+	// 	species_traits += DIGITIGRADE
 	if(DIGITIGRADE in species_traits)
 		C.Digitigrade_Leg_Swap(FALSE)
 
@@ -975,18 +974,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	if(H.nutrition > 0 && H.stat != DEAD && !HAS_TRAIT(H, TRAIT_NOHUNGER))
 		var/hunger_rate = HUNGER_FACTOR
 		H.adjust_nutrition(-hunger_rate)
-		var/obj/item/organ/breasts/breasts = H.has_breasts()
-
-		if(breasts && breasts.lactating)
-			if(H.nutrition > NUTRITION_LEVEL_HUNGRY && breasts.milk_stored < breasts.milk_max)
-				var/milk_to_make = min(hunger_rate, breasts.milk_max - breasts.milk_stored)
-				breasts.milk_stored += milk_to_make
-				H.adjust_nutrition(-milk_to_make)
-
-			else if(H.nutrition < NUTRITION_LEVEL_STARVING && breasts.milk_stored > 0)
-				var/milk_to_take = min(hunger_rate, breasts.milk_stored)
-				breasts.milk_stored -= milk_to_take
-				H.adjust_nutrition(milk_to_take)
 
 	if(H.hydration > 0 && H.stat != DEAD && !HAS_TRAIT(H, TRAIT_NOHUNGER))
 

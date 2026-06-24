@@ -1,240 +1,276 @@
 @use 'sass:color';
 @use 'sass:map';
-@use '../colors.scss';
-@use '../base.scss';
 
-$department_map: (
-  'Assistant': var(--color-gray),
-  'Captain': colors.fg(var(--color-blue)),
-  'Cargo': var(--color-brown),
-  'Command': var(--color-yellow),
-  'Security': var(--color-red),
-  'Engineering': hsl(from var(--color-orange) h s calc(l + 7.5)),
-  'Medical': var(--color-teal),
-  'Science': colors.fg(var(--color-purple)),
-  'Service': var(--color-green),
-  'Silicon': var(--color-pink),
-);
+// Theme colors for the UI
+@mixin cs-colors($colors) {
+  --color-virtue: #{map.get($colors, 'virtue')};
+  --color-virtue-light: #{color.adjust(
+      map.get($colors, 'virtue'),
+      $lightness: 10%
+    )};
+  --color-virtue-dark: #{color.adjust(
+      map.get($colors, 'virtue'),
+      $lightness: -10%
+    )};
 
-.ChoicedSelection {
-  padding: var(--space-m);
-  background-color: var(--color-base);
-  box-shadow: 0 0.5em 1em hsla(0, 0%, 0%, 0.5);
+  --color-vice: #{map.get($colors, 'vice')};
+  --color-vice-light: #{color.adjust(map.get($colors, 'vice'), $lightness: 10%)};
+  --color-vice-dark: #{color.adjust(map.get($colors, 'vice'), $lightness: -10%)};
+
+  --color-faith: #{map.get($colors, 'faith')};
+  --color-faith-light: #{color.adjust(
+      map.get($colors, 'faith'),
+      $lightness: 10%
+    )};
+  --color-faith-dark: #{color.adjust(
+      map.get($colors, 'faith'),
+      $lightness: -10%
+    )};
 }
 
-.PreferencesMenu {
-  &__Antags {
-    &__antagSelection {
-      gap: var(--space-l);
+$default-virtue: #a08357;
+$default-vice: #8b0e0e;
+$default-faith: #a89424;
 
-      @mixin animate-hover {
-        .antagonist-icon-parent .antagonist-icon {
-          &:hover {
-            transform: scale(1.3);
-            transition: transform var(--transition-time-fast) ease-out;
-          }
-        }
+:root {
+  @include cs-colors(
+    (
+      'virtue': $default-virtue,
+      'vice': $default-vice,
+      'faith': $default-faith,
+    )
+  );
+}
+
+.theme-azure_ascendant:root {
+  @include cs-colors(
+    (
+      'virtue': $default-virtue,
+      'vice': $default-vice,
+      'faith': $default-faith,
+    )
+  );
+}
+
+.theme-azure_default:root {
+  @include cs-colors(
+    (
+      'virtue': #5e4d33,
+      'vice': #8d1111,
+      'faith': #8d7c1b,
+    )
+  );
+}
+
+.theme-azure_gilbranze:root {
+  @include cs-colors(
+    (
+      'virtue': $default-virtue,
+      'vice': $default-vice,
+      'faith': $default-faith,
+    )
+  );
+}
+
+.theme-azure_green:root {
+  @include cs-colors(
+    (
+      'virtue': $default-virtue,
+      'vice': $default-vice,
+      'faith': $default-faith,
+    )
+  );
+}
+
+.theme-azure_lane:root {
+  @include cs-colors(
+    (
+      'virtue': #72562c,
+      'vice': #7e1212,
+      'faith': $default-faith,
+    )
+  );
+}
+
+.theme-azure_lingyue:root {
+  @include cs-colors(
+    (
+      'virtue': $default-virtue,
+      'vice': $default-vice,
+      'faith': $default-faith,
+    )
+  );
+}
+
+.theme-azure_psydonic:root {
+  @include cs-colors(
+    (
+      'virtue': #86683b,
+      'vice': #720c0c,
+      'faith': #978311,
+    )
+  );
+}
+
+.theme-azure_purple:root {
+  @include cs-colors(
+    (
+      'virtue': #86683b,
+      'vice': #880f0f,
+      'faith': #978311,
+    )
+  );
+}
+
+// Actual UI Styles
+@mixin colored-section($color) {
+  color: var(#{$color});
+
+  .Section__title {
+    border-bottom-color: var(#{$color});
+  }
+
+  .Section__titleText {
+    color: var(#{$color}-light);
+  }
+
+  .Button {
+    background-color: var(#{$color}) !important;
+    border-color: var(#{$color}-light) !important;
+    outline-color: var(#{$color}-dark) !important;
+  }
+}
+
+.PreferencesMenu__Section__Virtues {
+  @include colored-section(--color-virtue);
+}
+
+.PreferencesMenu__Section__Vices {
+  @include colored-section(--color-vice);
+}
+
+.PreferencesMenu__Section__Faith {
+  @include colored-section(--color-faith);
+
+  .color-label {
+    color: var(--color-faith) !important;
+  }
+}
+
+.PreferencesMenu__Section__NoChildPadding {
+  .Section {
+    margin-top: 0 !important;
+  }
+}
+
+.PreferencesMenu__FeaturesGrid {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 4px 4px;
+
+  .Section {
+    margin: 0;
+  }
+
+  .Section__titleText {
+    font-size: 1em !important;
+  }
+
+  .Section:first-child {
+    margin: 0;
+  }
+}
+
+.PreferencesMenu__Job__PriorityButton {
+  border: var(--border-thickness-tiny) solid hsla(0, 0%, 0%, 0.3);
+
+  &--off::after {
+    content: '';
+
+    background: hsla(0, 0%, 0%, 0.2);
+    display: block;
+    height: 80%;
+    left: 50%;
+    position: relative;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%) rotate(40deg);
+    width: 2px;
+  }
+
+  &.Button {
+    &.Button--color--light-grey {
+      background-color: darkgray;
+
+      &:hover {
+        background-color: color.adjust(darkgray, $lightness: 20%);
       }
+    }
 
-      &__antagonist {
-        .antagonist-icon-parent {
-          cursor: var(--cursor-pointer);
-          border-style: solid;
-          border-radius: var(--border-radius-circular);
-          border-width: var(--border-thickness-large);
-          box-sizing: content-box;
-          overflow: hidden;
-          position: relative;
+    &.Button--color--white {
+      background-color: black;
 
-          height: 96px;
-          width: 96px;
+      &:hover {
+        background-color: color.adjust(black, $lightness: 20%);
+      }
+    }
 
-          .antagonist-icon {
-            image-rendering: pixelated;
-            border-radius: var(--border-radius-circular);
-            overflow: hidden;
-            transition: transform var(--transition-time-fast) ease-in;
-          }
-        }
+    &.Button--color--yellow {
+      background-color: #dfb200;
 
-        &--off {
-          @include animate-hover;
+      &:hover {
+        background-color: color.adjust(#dfb200, $lightness: 20%);
+      }
+    }
 
-          .antagonist-icon-parent {
-            border-color: var(--color-red);
+    &.Button--color--green {
+      background-color: #27ab4e;
 
-            .antagonist-icon {
-              opacity: 0.5;
+      &:hover {
+        background-color: color.adjust(#27ab4e, $lightness: 20%);
+      }
+    }
 
-              &:hover {
-                opacity: 1;
-              }
-            }
-          }
-        }
+    &.Button--color--red {
+      background-color: #a11111;
 
-        &--on {
-          @include animate-hover;
-
-          .antagonist-icon-parent {
-            border-color: var(--color-green);
-          }
-        }
-
-        &--banned {
-          .antagonist-icon-parent {
-            border-color: var(--color-grey);
-          }
-
-          .antagonist-icon {
-            opacity: 0.5;
-          }
-        }
-
-        .antagonist-banned-slash {
-          background: var(--color-grey);
-
-          width: 100%;
-          height: 3px;
-
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translateY(-50%) translateX(-50%) rotate(35deg);
-
-          opacity: 0.8;
-        }
-
-        .antagonist-days-left {
-          text-align: center;
-          text-shadow: 1px 1px 1px hsl(0, 0%, 13.3%);
-
-          width: 100%;
-
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translateY(-50%) translateX(-50%);
-        }
+      &:hover {
+        background-color: color.adjust(#a11111, $lightness: 20%);
       }
     }
   }
+}
 
-  &__Jobs {
-    > * {
-      flex: 1;
-    }
+.PreferencesMenu__Job__Name {
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
 
-    &__departments {
-      @each $department-name, $color-value in $department_map {
-        &--#{$department-name} {
-          &.head {
-            background: $color-value;
+.PreferencesMenu__TextEditor__Unsaved {
+  border-color: #f00 !important;
+}
 
-            .job-name {
-              font-weight: bold;
-            }
-          }
+.PreferencesMenu__MarkingsGrid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: auto auto auto auto;
+  gap: 4px 4px;
 
-          background: colors.fg($color-value);
-          border: var(--border-thickness-small) outset colors.fg($color-value);
-          color: black;
-
-          > * {
-            height: calc(100% + 0.2em);
-            padding-bottom: 0.2em;
-          }
-
-          .options {
-            margin-right: var(--space-xxs);
-            background: hsla(0, 0%, 0%, 0.2);
-            height: 100%;
-          }
-        }
-
-        &--Captain {
-          border: var(--border-thickness-medium)
-            outset
-            hsla(60, 100%, 39.2%, 1);
-
-          &:first-child {
-            border-top: var(--border-thickness-medium)
-              outset
-              hsla(60, 100%, 39.2%, 1);
-          }
-
-          .job-name {
-            font-size: 17px;
-          }
-        }
-      }
-
-      &__priority {
-        border: var(--border-thickness-tiny) solid hsla(0, 0%, 0%, 0.3);
-
-        &--off::after {
-          content: '';
-
-          background: hsla(0, 0%, 0%, 0.2);
-          display: block;
-          height: 80%;
-          left: 50%;
-          position: relative;
-          top: 50%;
-          transform: translateX(-50%) translateY(-50%) rotate(40deg);
-          width: 2px;
-        }
-      }
-    }
-
-    &__PriorityHeader {
-      font-weight: bold;
-      transform: translateX(-4px) translateY(-8px) rotate(315deg);
-      white-space: nowrap;
-      width: 19px;
-    }
+  .Section {
+    margin: 0;
   }
 
-  &__Quirks {
-    &__QuirkList {
-      scrollbar-color: var(--color-grey) transparent;
-      background-color: var(--color-light-grey);
-      width: 100%;
-      overflow-x: hidden;
-      overflow-y: scroll;
-
-      &__quirk {
-        cursor: var(--cursor-pointer);
-        background-color: var(--color-white);
-        border-bottom: var(--border-thickness-tiny) solid var(--color-black);
-        color: hsl(0, 0%, 6.7%);
-        transition: background-color var(--transition-time-fast) ease-in;
-
-        $quality_map: (
-          'positive': var(--color-green),
-          'neutral': var(--color-white),
-          'negative': var(--color-red),
-        );
-
-        @each $quality, $color-value in $quality_map {
-          &--#{$quality} {
-            background-color: $color-value;
-            transition: background-color var(--transition-time-fast) ease-in;
-          }
-        }
-
-        &:hover {
-          background-color: var(--color-grey);
-          transition: background-color var(--transition-time-fast) ease-out;
-
-          @each $quality, $color-value in $quality_map {
-            .PreferencesMenu__Quirks__QuirkList__quirk--#{$quality} {
-              background-color: hsl(from $color-value h s calc(l - 10));
-              transition: background-color var(--transition-time-fast) ease-out;
-            }
-          }
-        }
-      }
-    }
+  .Section__titleText {
+    font-size: 1em !important;
   }
+
+  .Section:first-child {
+    margin: 0;
+  }
+}
+
+.PreferencesMenuContent {
+  // we need this because the default tab text color is too faint
+  --tab-color: #ccc;
 }

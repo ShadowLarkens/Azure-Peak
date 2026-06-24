@@ -191,13 +191,19 @@ export const ImageGalleryPage = (props) => {
       }
     >
       <Stack fill justify="space-evenly">
-        {activeGallery.map((val) => (
-          <Stack.Item grow key={val}>
-            <Section align="center">
-              <Image maxHeight="100%" maxWidth="100%" src={resolveAsset(val)} />
-            </Section>
-          </Stack.Item>
-        ))}
+        {activeGallery.length
+          ? activeGallery.map((val) => (
+              <Stack.Item grow key={val}>
+                <Section align="center">
+                  <Image
+                    maxHeight="100%"
+                    maxWidth="100%"
+                    src={resolveAsset(val)}
+                  />
+                </Section>
+              </Stack.Item>
+            ))
+          : 'No images in this gallery!'}
       </Stack>
     </Section>
   );
