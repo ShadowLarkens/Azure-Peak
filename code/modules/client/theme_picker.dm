@@ -51,6 +51,7 @@
 				return
 			user.client.prefs.tgui_theme = theme_key
 			user.client.prefs.save_preferences()
+			SStgui.update_user_uis(user)
 			confirmed = TRUE
 			return TRUE
 
@@ -58,3 +59,17 @@
 	. = ..()
 	closed = TRUE
 	QDEL_IN(src, 1) // clean up next tick
+
+/proc/get_tgui_themes()
+	var/static/list/themes = list(
+		"azure_default" = "Ascendant",
+		"azure_ascendant" = "New Ascendant",
+		"azure_green" = "Oaken",
+		"azure_lane" = "Noccite",
+		"azure_purple" = "Raneshen",
+		"azure_gilbranze" = "Gilbranze",
+		"azure_psydonic" = "Psydonic",
+		"azure_lingyue" = "Lingyue",
+		"trey_liam" = "Trey Liam"
+	)
+	return themes
