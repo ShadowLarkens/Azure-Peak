@@ -131,8 +131,6 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/datum/job/mob_job = null
 	if(target.mind?.assigned_role)
 		mob_job = SSjob.GetJob(target.mind.assigned_role)
-	else if(target.client?.prefs?.lastclass)
-		mob_job = SSjob.GetJob(target.client.prefs.lastclass)
 
 	if(mob_job && mob_job.vice_restrictions)
 		for(var/key in cf_list)

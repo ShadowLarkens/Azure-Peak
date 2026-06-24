@@ -109,54 +109,6 @@
 					output += "</details>"
 			to_chat(user, output)
 
-/datum/preferences/proc/print_descriptors_page()
-	var/list/dat = list()
-	for(var/choice_type in pref_species.descriptor_choices)
-		var/datum/descriptor_choice/choice = DESCRIPTOR_CHOICE(choice_type)
-		var/datum/descriptor_entry/entry = get_descriptor_entry_for_choice(choice_type)
-		var/datum/mob_descriptor/descriptor = MOB_DESCRIPTOR(entry.descriptor_type)
-		dat += "<b>[choice.name]:</b> <a href='?_src_=prefs;descriptor_choice=[choice_type];preference=choose_descriptor;task=change_descriptor'>[descriptor.name]</a><br>"
-
-	var/static/list/custom_descriptor_types = CUSTOM_DESCRIPTOR_TYPE_LIST
-	for(var/i in 1 to CUSTOM_DESCRIPTOR_AMOUNT)
-		if(!has_descriptor_type_in_entries(custom_descriptor_types[i]))
-			continue
-		var/list/custom_data = print_custom_descriptor_customization(i)
-		if(custom_data)
-			dat += custom_data
-
-	dat += "<br><a href='?_src_=prefs;preference=print_descriptor_setup;task=change_descriptor'>Print descriptor setup to chat</a>"
-	dat += "<br><center><b>Custom descriptor rules:</b> No proper nouns. No immersion breaking words. No overtly sexual descriptors. Look at the pre-written descriptors for examples of what is acceptable. Capitalization is handled automatically.</center>"
-	return dat
-
-/datum/preferences/proc/print_custom_descriptor_customization(index)
-	var/static/list/full_translation = CUSTOM_PREFIX_TRANSLATION_LIST
-	var/static/list/article_translation = CUSTOM_ARTICLE_TRANSLATION_LIST
-	var/static/list/custom_descriptor_types = CUSTOM_DESCRIPTOR_TYPE_LIST
-	var/static/list/prefix_support = CUSTOM_DESCRIPTOR_SHOWS_PREFIX
-	var/static/list/article_only_types = CUSTOM_DESCRIPTOR_ARTICLE_ONLY
-	var/list/dat = list()
-	var/datum/custom_descriptor_entry/custom_entry = custom_descriptors[index]
-	var/datum/mob_descriptor/descriptor = MOB_DESCRIPTOR(custom_descriptor_types[index])
-	var/desc_type = custom_descriptor_types[index]
-	if(desc_type in prefix_support)
-		var/is_article_only = (desc_type in article_only_types)
-		var/translation = is_article_only ? article_translation : full_translation
-		var/prefix_display = translation["[custom_entry.prefix_type]"]
-		if(!prefix_display)
-			prefix_display = is_article_only ? "a" : "Has a"
-		dat += "<br><b>[descriptor.name]:</b> <a href='?_src_=prefs;index=[index];preference=custom_descriptor_prefix;task=change_descriptor'>[prefix_display]</a> <a href='?_src_=prefs;index=[index];preference=custom_descriptor_content;task=change_descriptor'>[custom_entry.content_text]</a>"
-	else
-		dat += "<br><b>[descriptor.name]:</b> <a href='?_src_=prefs;index=[index];preference=custom_descriptor_content;task=change_descriptor'>[custom_entry.content_text]</a>"
-	return dat
-
-/datum/preferences/proc/show_descriptors_ui(mob/user)
-	var/list/dat = list()
-	dat += print_descriptors_page()
-	var/datum/browser/popup = new(user, "descriptors_customization", "<div align='center'>Describe myself</div>", 350, 510)
-	popup.set_content(dat.Join())
-	popup.open(FALSE)
-
 /datum/preferences/proc/has_descriptor_type_in_entries(descriptor_type)
 	if(length(descriptor_entries))
 		for(var/datum/descriptor_entry/entry as anything in descriptor_entries)

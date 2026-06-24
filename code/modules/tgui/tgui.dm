@@ -101,7 +101,7 @@
 	if(!window.is_ready())
 		window.initialize(
 			strict_mode = TRUE,
-			fancy = TRUE, // user.client.prefs.read_preference(/datum/preference/toggle/tgui_fancy),
+			fancy = TRUE,
 			assets = list(
 				get_asset_datum(/datum/asset/simple/tgui),
 			))
@@ -265,7 +265,7 @@
 		"window" = list(
 			"key" = window_key,
 			"size" = window_size,
-			"fancy" = user.client.prefs.tgui_fancy,
+			"fancy" = TRUE,
 			"locked" = user.client.prefs.tgui_lock,
 			"theme" = user.client.prefs.tgui_theme,
 			"parchment_skin" = user.client.prefs.parchment_skin,
