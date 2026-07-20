@@ -1,3 +1,6 @@
+import { ColorButton, ensureColorHash } from 'cs/components/ColorButton';
+import { useConstantPrefs } from 'cs/constant_data';
+import { LoadingScreen } from 'interfaces/common/LoadingScreen';
 import { useBackend } from 'tgui/backend';
 import {
   Box,
@@ -8,9 +11,6 @@ import {
   Tooltip,
 } from 'tgui-core/components';
 
-import { LoadingScreen } from '../../../../common/LoadingScreen';
-import { ColorButton } from '../../../components/ColorButton';
-import { useConstantPrefs } from '../../../constant_data';
 import type { CharacterSheetData, Virtue } from '../data';
 
 export const SubtabIdentity = (props) => {
@@ -103,8 +103,8 @@ export const SubtabIdentityCardInfo = (props) => {
               {data.highlight_color ? (
                 <ColorButton
                   onClick={() => act('highlight_color')}
-                  backgroundColor={`#${data.highlight_color}`}
-                  tooltip={`Highlight Color: #${data.highlight_color}`}
+                  backgroundColor={data.highlight_color}
+                  tooltip={`Highlight Color: ${ensureColorHash(data.highlight_color)}`}
                 />
               ) : (
                 <ColorButton
@@ -331,8 +331,8 @@ export const SubtabIdentityCardVoice = (props) => {
               {voice_color ? (
                 <ColorButton
                   onClick={() => act('voice_color')}
-                  backgroundColor={`#${voice_color}`}
-                  tooltip={`Voice Color: #${voice_color}`}
+                  backgroundColor={voice_color}
+                  tooltip={`Voice Color: ${ensureColorHash(voice_color)}`}
                 />
               ) : (
                 <ColorButton
@@ -524,7 +524,7 @@ export const VirtueEntry = (props: {
 
 export const SubtabIdentityCardVices = (props) => {
   const { act, data } = useBackend<CharacterSheetData>();
-  const constantData = useConstantPrefs();
+  const [constantData] = useConstantPrefs();
 
   if (!constantData) {
     return (
@@ -538,11 +538,14 @@ export const SubtabIdentityCardVices = (props) => {
     <Section className="CharacterSetup__Section__Vices" title="Vices">
       {data.charflaws.map((flaw) => (
         <Button
+          // TODO: make sure this looks good
+          color={flaw.warning ? 'bad' : undefined}
           onClick={() => act('charflaw', { task: 'remove', index: flaw.index })}
           key={flaw.index}
           fluid
         >
           {flaw.name}
+          {flaw.warning ? ' (Requires Extra Vice!)' : null}
         </Button>
       ))}
       {data.charflaws.length < constantData.MAX_VICES ? (

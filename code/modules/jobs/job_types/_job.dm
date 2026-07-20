@@ -499,7 +499,7 @@
 /proc/should_wear_masc_clothes(mob/living/carbon/human/H)
 	if(!H.mind)
 		return (H.pronouns == HE_HIM || H.pronouns == THEY_THEM || H.pronouns == IT_ITS)
-	else 
+	else
 		return (H.clothes_pref == CLOTHES_M)
 
 /proc/should_wear_femme_clothes(mob/living/carbon/human/H)
@@ -516,6 +516,9 @@
 	return display_title || title
 
 /datum/job/proc/show_explain(mob/user)
+	if(!class_setup_examine)
+		to_chat(user, span_danger("[title] does not allow examining it!"))
+		return
 	var/list/dat = list()
 	var/show_job_traits = TRUE
 	var/sclass_count = 0
@@ -764,7 +767,6 @@
 
 	data["title"] = title
 	data["spawn_positions"] = spawn_positions
-	data["total_positions"] = total_positions
 
 	return data
 

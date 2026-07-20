@@ -1,3 +1,6 @@
+import { ColorButton, SaveUndo } from 'cs/components';
+import { ensureColorHash } from 'cs/components/ColorButton';
+import type { Antag, GameSettingsData } from 'cs/data';
 import { useBackend } from 'tgui/backend';
 import {
   Button,
@@ -6,9 +9,6 @@ import {
   Section,
   Stack,
 } from 'tgui-core/components';
-
-import { ColorButton, SaveUndo } from '../components';
-import type { Antag, GameSettingsData } from '../data';
 
 export const GameSettings = (props) => {
   return (
@@ -198,14 +198,6 @@ const AntagListItem = (props: { antag: Antag }) => {
   );
 };
 
-// have to do this because asaycolor sometimes but only sometimes has the hash
-const ensureHash = (text: string) => {
-  if (!text.startsWith('#')) {
-    return `#${text}`;
-  }
-  return text;
-};
-
 const AdminPreferences = (props) => {
   const { act, data } = useBackend<GameSettingsData>();
 
@@ -267,8 +259,8 @@ const AdminPreferences = (props) => {
           <LabeledList.Item label="ASAY Color" verticalAlign="middle">
             <ColorButton
               onClick={() => act('asaycolor')}
-              backgroundColor={asaycolor ? ensureHash(asaycolor) : '#FF4500'}
-              tooltip={asaycolor ? ensureHash(asaycolor) : '#FF4500'}
+              backgroundColor={asaycolor ? asaycolor : '#FF4500'}
+              tooltip={asaycolor ? ensureColorHash(asaycolor) : '#FF4500'}
             />
           </LabeledList.Item>
         ) : null}

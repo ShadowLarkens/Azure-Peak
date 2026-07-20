@@ -1,8 +1,8 @@
+import { ColorButton } from 'cs/components';
+import { ensureColorHash } from 'cs/components/ColorButton';
+import type { Customizer, CustomizerChoice } from 'cs/tabs/CharacterSheet/data';
 import { useBackend } from 'tgui/backend';
 import { Button, LabeledList, Stack } from 'tgui-core/components';
-
-import { ColorButton } from '../../../../../components';
-import type { Customizer, CustomizerChoice } from '../../../data';
 
 export interface HairCustomizer extends CustomizerChoice {
   hair_color: string;
@@ -32,7 +32,7 @@ export const FeatureChoiceHair = (props: { customizer: Customizer }) => {
                 })
               }
               backgroundColor={hair_color}
-              tooltip={hair_color}
+              tooltip={ensureColorHash(hair_color)}
             />
           </LabeledList.Item>
         </LabeledList>
@@ -66,7 +66,7 @@ export const FeatureChoiceHair = (props: { customizer: Customizer }) => {
                   })
                 }
                 backgroundColor={natural_color}
-                tooltip={natural_color}
+                tooltip={ensureColorHash(natural_color)}
               />
             </Stack.Item>
           ) : null}
@@ -101,7 +101,7 @@ export const FeatureChoiceHair = (props: { customizer: Customizer }) => {
                   })
                 }
                 backgroundColor={dye_color}
-                tooltip={dye_color}
+                tooltip={ensureColorHash(dye_color)}
               />
             </Stack.Item>
           ) : null}

@@ -128,7 +128,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["windowflash"]		>> windowflashing
 	S["be_special"] 		>> be_special
 	S["no_storyteller_events"] >> no_storyteller_events
-	S["triumphs"]			>> triumphs
 	S["musicvol"]			>> musicvol
 	S["lobbymusicvol"]		>> lobbymusicvol
 	S["ambiencevol"]		>> ambiencevol
@@ -244,7 +243,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	//general preferences
 	WRITE_FILE(S["favorited_slots"], favorited_slots)
 	WRITE_FILE(S["asaycolor"], asaycolor)
-	WRITE_FILE(S["triumphs"], triumphs)
 	WRITE_FILE(S["musicvol"], musicvol)
 	WRITE_FILE(S["lobbymusicvol"], lobbymusicvol)
 	WRITE_FILE(S["ambiencevol"], ambiencevol)
@@ -402,7 +400,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	if(length(virtue_choices))
 		virtue.picked_choices = virtue_choices.Copy()
-	
+
 	if(length(virtuetwo_choices))
 		virtuetwo.picked_choices = virtuetwo_choices.Copy()
 

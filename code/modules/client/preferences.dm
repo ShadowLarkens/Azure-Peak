@@ -17,7 +17,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/favorited_slots = list()
 	var/lastchangelog = ""				//Saved changlog filesize to detect if there was a change
 	var/asaycolor = "#ff4500"			//This won't change the color for current admins, only incoming ones.
-	var/triumphs = 0
 	// Commend variable on prefs instead of client to prevent reconnect abuse (is persistant on prefs, opposed to not on client)
 	var/commendedsomeone = FALSE
 
@@ -110,8 +109,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/list/menuoptions
 
 	var/datum/migrant_pref/migrant
-
-	var/action_buttons_screen_locs = list()
 
 	var/domhand = 2
 	var/nickname = "Please Change Me"

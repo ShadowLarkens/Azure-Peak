@@ -1,8 +1,8 @@
+import { LoadingScreen } from 'interfaces/common/LoadingScreen';
 import { ReactSortable } from 'react-sortablejs';
 import { useBackend } from 'tgui/backend';
 import { Button, Section, Stack } from 'tgui-core/components';
 
-import { LoadingScreen } from '../../../common/LoadingScreen';
 import type { CharacterSheetData, Slot } from './data';
 
 export const CharacterSelect = (props: {

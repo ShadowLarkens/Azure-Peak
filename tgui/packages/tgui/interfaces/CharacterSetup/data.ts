@@ -1,6 +1,7 @@
 import type { BooleanLike } from 'tgui-core/react';
 
 export type Path = string;
+export type Color = string; // Color, may or may not include #
 
 export type AllPagesData = {
   current_tab: number;
@@ -25,7 +26,7 @@ export type GameSettingsData = {
 export type Antag = {
   key: string; // remember to capitalize for display!
   banned: BooleanLike;
-  days_remaining: number | null;
+  days_remaining: number | null; // null indicates unlocked
   enabled: BooleanLike;
 };
 
@@ -37,7 +38,7 @@ export type AdminPrefData = {
   show_dsay: BooleanLike;
   show_prayer: BooleanLike;
   allow_asaycolor: BooleanLike;
-  asaycolor: string | null; // null indicates #FF4500
+  asaycolor: Color | null; // null indicates #FF4500
   auto_deadmin_players: BooleanLike;
   deadmin_player: BooleanLike;
   auto_deadmin_antagonists: BooleanLike;

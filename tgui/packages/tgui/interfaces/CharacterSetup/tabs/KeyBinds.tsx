@@ -1,15 +1,14 @@
+import { type ConstantData, useConstantPrefs } from 'cs/constant_data';
+import type { KeyBind, KeybindsPageData } from 'cs/data';
+import { LoadingScreen } from 'interfaces/common/LoadingScreen';
 import { useBackend } from 'tgui/backend';
 import { Box, Button, LabeledList, Section } from 'tgui-core/components';
-
-import { LoadingScreen } from '../../common/LoadingScreen';
-import { type ConstantData, useConstantPrefs } from '../constant_data';
-import type { KeyBind, KeybindsPageData } from '../data';
 
 export const KeyBinds = (props) => {
   const { act, data } = useBackend<KeybindsPageData>();
   const { keybindings } = data;
 
-  const constantData = useConstantPrefs();
+  const [constantData] = useConstantPrefs();
 
   if (!constantData) {
     return (

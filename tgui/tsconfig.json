@@ -14,6 +14,10 @@
 		"paths": {
 			"tgui": ["./packages/tgui"],
 			"tgui/*": ["./packages/tgui/*"],
+			"interfaces": ["./packages/tgui/interfaces"],
+			"interfaces/*": ["./packages/tgui/interfaces/*"],
+			"cs": ["./packages/tgui/interfaces/CharacterSetup"],
+			"cs/*": ["./packages/tgui/interfaces/CharacterSetup/*"],
 			"tgui-panel": ["./packages/tgui-panel"],
 			"tgui-panel/*": ["./packages/tgui-panel/*"],
 			"tgui-dev-server": ["./packages/tgui-dev-server"],
@@ -25,5 +29,5 @@
 		"strictNullChecks": true,
 		"target": "ESNext"
 	},
-	"include": ["./*.d.ts", "./packages"]
+	"include": ["./*.d.ts", "./packages", "happydom.ts"]
 }

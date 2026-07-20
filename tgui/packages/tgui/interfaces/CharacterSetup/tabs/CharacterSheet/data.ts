@@ -1,6 +1,5 @@
+import type { Color, Path } from 'cs/data';
 import type { BooleanLike } from 'tgui-core/react';
-
-import type { Path } from '../../data';
 
 /* INSTRUCTIONS FOR DOWNSTREAM:
 Just define your own data types in your modular tsx files.
@@ -41,14 +40,14 @@ export type BodyData = {
   body_size: number;
 
   use_mutcolor: BooleanLike;
-  mcolor: string;
-  mcolor2: string;
-  mcolor3: string;
+  mcolor: Color;
+  mcolor2: Color;
+  mcolor3: Color;
 
   // Taur stuff
   taur_type: Path | null;
   taur_name: string;
-  taur_color: string;
+  taur_color: Color;
   allowed_taur_types: Path[];
 };
 
@@ -74,14 +73,13 @@ export interface CustomizerChoice {
 
 export type Accessory = {
   name: string;
-  show_accessory_color: BooleanLike;
-  colors: AccessoryColor[];
+  colors: AccessoryColor[] | null; // null indicates accessory colors are not allowed
 };
 
 export type AccessoryColor = {
   name: string;
   index: number;
-  color: string;
+  color: Color;
 };
 
 // MARKINGS
@@ -98,7 +96,7 @@ export type Marking = {
 
 export type MarkingKey = {
   key: string;
-  color: string;
+  color: Color;
   can_move_up: BooleanLike;
   can_move_down: BooleanLike;
 };
@@ -128,7 +126,6 @@ export type Class = {
   unavailable: ClassAvailability;
   unavailable_details: string;
   spawn_positions: number;
-  total_positions: number;
   pref: ClassPreference | null; // null means "NEVER"
 };
 
@@ -239,7 +236,7 @@ export type IdentityData = {
   race_bonus: string | null; // null indicates no race bonus
 
   nickname: string | null; // null indicates error
-  highlight_color: string | null; // null indicates error
+  highlight_color: Color | null; // null indicates error
   age: string;
 
   pronouns: string;
@@ -258,7 +255,7 @@ export type IdentityData = {
   selected_patron: string | null; // null indicates error
 
   voice_type: string;
-  voice_color: string | null; // null indicates error
+  voice_color: Color | null; // null indicates error
   voice_pack: string | null;
   voice_pitch: number;
 

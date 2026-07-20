@@ -129,6 +129,8 @@ export default defineConfig({
     extensions: ['.tsx', '.ts', '.js', '.jsx'],
     alias: {
       tgui: path.resolve(dirname, './packages/tgui'),
+      interfaces: path.resolve(dirname, './packages/tgui/interfaces'),
+      cs: path.resolve(dirname, './packages/tgui/interfaces/CharacterSetup'),
       'tgui-panel': path.resolve(dirname, './packages/tgui-panel'),
       'tgui-dev-server': path.resolve(dirname, './packages/tgui-dev-server'),
       roguefont: path.resolve(dirname, '../interface/fonts'),

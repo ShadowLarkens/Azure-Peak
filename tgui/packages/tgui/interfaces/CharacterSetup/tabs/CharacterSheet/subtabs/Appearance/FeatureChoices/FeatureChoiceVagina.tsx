@@ -1,8 +1,7 @@
+import type { Customizer, CustomizerChoice } from 'cs/tabs/CharacterSheet/data';
 import { useBackend } from 'tgui/backend';
 import { Button, LabeledList, Stack } from 'tgui-core/components';
 import type { BooleanLike } from 'tgui-core/react';
-
-import type { Customizer, CustomizerChoice } from '../../../data';
 
 export interface VaginaCustomizer extends CustomizerChoice {
   fertility: BooleanLike;

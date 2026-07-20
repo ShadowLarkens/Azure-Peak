@@ -1,3 +1,4 @@
+import { useConstantPrefs } from 'cs/constant_data';
 import { useState } from 'react';
 import { useBackend, useSharedState } from 'tgui/backend';
 import {
@@ -9,7 +10,6 @@ import {
   TextArea,
 } from 'tgui-core/components';
 
-import { useConstantPrefs } from '../../../constant_data';
 import type { CharacterSheetData } from '../data';
 
 export const SubtabDescriptors = (props) => {
@@ -229,7 +229,7 @@ const OtherInfo = (props) => {
 
 const TextDescriptions = (props) => {
   const { act, data } = useBackend<CharacterSheetData>();
-  const constantData = useConstantPrefs();
+  const [constantData] = useConstantPrefs();
 
   return (
     <Section

@@ -1,3 +1,12 @@
+import { SaveUndo } from 'cs/components/SaveUndo';
+import {
+  DepartmentEnum,
+  getClassDepartment,
+  getClassDisplayOrder,
+  getClassDisplayTitle,
+  useConstantPrefs,
+} from 'cs/constant_data';
+import { LoadingScreen } from 'interfaces/common/LoadingScreen';
 import { useBackend } from 'tgui/backend';
 import {
   Box,
@@ -9,15 +18,6 @@ import {
 } from 'tgui-core/components';
 import { classes } from 'tgui-core/react';
 
-import { LoadingScreen } from '../../../../common/LoadingScreen';
-import { SaveUndo } from '../../../components/SaveUndo';
-import {
-  DepartmentEnum,
-  getClassDepartment,
-  getClassDisplayOrder,
-  getClassDisplayTitle,
-  useConstantPrefs,
-} from '../../../constant_data';
 import {
   type CharacterSheetData,
   CLASSAVAIL_COLOR,
@@ -42,7 +42,7 @@ const COLS = [
 ];
 
 export const SubtabClass = (props) => {
-  const constantData = useConstantPrefs();
+  const [constantData] = useConstantPrefs();
 
   if (!constantData) {
     return (
@@ -245,7 +245,7 @@ const DEPARTMENT_ENUM_TO_NAME = {
 };
 
 export const Department = (props: { dept: DepartmentEnum }) => {
-  const constantData = useConstantPrefs();
+  const [constantData] = useConstantPrefs();
   const { dept } = props;
   const { data } = useBackend<CharacterSheetData>();
 
@@ -343,7 +343,7 @@ export const UnavailableExplanation = (props: { cls: Class }) => {
 export const ClassTitle = (props: { cls: Class }) => {
   const { act, data } = useBackend<CharacterSheetData>();
   const { cls } = props;
-  const constantData = useConstantPrefs();
+  const [constantData] = useConstantPrefs();
 
   if (!constantData) {
     return (
@@ -353,10 +353,28 @@ export const ClassTitle = (props: { cls: Class }) => {
     );
   }
 
+  const constClass = constantData.classes[cls.title];
+
   return (
-    <Tooltip content={constantData.classes[cls.title].tutorial}>
+    <Tooltip
+      content={
+        // TODO: check this looks okay
+        <Stack vertical>
+          <Stack.Item>{constClass.tutorial}</Stack.Item>
+          <Stack.Item>Slots: {cls.spawn_positions}</Stack.Item>
+          {constClass.round_contrib_points ? (
+            <Stack.Item>RCP: {constClass.round_contrib_points}</Stack.Item>
+          ) : null}
+        </Stack>
+      }
+    >
       <Box
-        className="CharacterSetup__Job__Name"
+        className={
+          // Review if this is obvious enough or if it should always be underlined
+          constClass.class_setup_examine
+            ? 'CharacterSetup__Job__Name'
+            : undefined
+        }
         inline
         onClick={() => act('explainjob', { job: cls.title })}
       >

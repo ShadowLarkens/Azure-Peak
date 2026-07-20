@@ -1,8 +1,7 @@
+import { ColorButton, ensureColorHash } from 'cs/components/ColorButton';
+import type { Customizer } from 'cs/tabs/CharacterSheet/data';
 import { useBackend } from 'tgui/backend';
 import { Button, LabeledList, Stack } from 'tgui-core/components';
-
-import { ColorButton } from '../../../../components/ColorButton';
-import type { Customizer } from '../../data';
 
 export const FeatureChoice = (props: { customizer: Customizer }) => {
   const { act } = useBackend();
@@ -86,29 +85,44 @@ const FeatureChoiceAccessory = (props: { customizer: Customizer }) => {
           </Stack.Item>
         </Stack>
       </Stack.Item>
-      <Stack.Item>
-        <LabeledList>
-          {accessory.colors.map((c) => (
-            <LabeledList.Item
-              key={c.index}
-              label={c.name}
-              verticalAlign="middle"
-            >
-              <ColorButton
-                onClick={() =>
+      {accessory.colors ? (
+        <Stack.Item>
+          <LabeledList>
+            {accessory.colors.map((c) => (
+              <LabeledList.Item
+                key={c.index}
+                label={c.name}
+                verticalAlign="middle"
+              >
+                <ColorButton
+                  onClick={() =>
+                    act('change_customizer', {
+                      customizer: customizer.type,
+                      customizer_task: 'acc_color',
+                      color_index: c.index,
+                    })
+                  }
+                  backgroundColor={c.color}
+                  tooltip={ensureColorHash(c.color)}
+                />
+              </LabeledList.Item>
+            ))}
+            {/* TODO: check this looks good */}
+            <LabeledList.Item>
+              <Button
+                onClick={() => {
                   act('change_customizer', {
                     customizer: customizer.type,
-                    customizer_task: 'acc_color',
-                    color_index: c.index,
-                  })
-                }
-                backgroundColor={c.color}
-                tooltip={c.color}
-              />
+                    customizer_task: 'reset_colors',
+                  });
+                }}
+              >
+                Reset Colors
+              </Button>
             </LabeledList.Item>
-          ))}
-        </LabeledList>
-      </Stack.Item>
+          </LabeledList>
+        </Stack.Item>
+      ) : null}
     </>
   );
 };

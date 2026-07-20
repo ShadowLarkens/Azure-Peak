@@ -1,8 +1,8 @@
+import { CollapsibleShared } from 'cs/components/CollapsibleShared';
+import { ColorButton, ensureColorHash } from 'cs/components/ColorButton';
 import { useBackend } from 'tgui/backend';
 import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
 
-import { CollapsibleShared } from '../../../components/CollapsibleShared';
-import { ColorButton } from '../../../components/ColorButton';
 import type { CharacterSheetData } from '../data';
 import { FeatureChoice } from './Appearance/FeatureChoice';
 
@@ -53,22 +53,22 @@ const SubtabAppearanceCardBody = (props) => {
             <LabeledList.Item label="Mutant Color #1" verticalAlign="middle">
               <ColorButton
                 onClick={() => act('mutant_color')}
-                backgroundColor={`#${data.mcolor}`}
-                tooltip={`#${data.mcolor}`}
+                backgroundColor={data.mcolor}
+                tooltip={ensureColorHash(data.mcolor)}
               />
             </LabeledList.Item>
             <LabeledList.Item label="Mutant Color #2" verticalAlign="middle">
               <ColorButton
                 onClick={() => act('mutant_color2')}
-                backgroundColor={`#${data.mcolor2}`}
-                tooltip={`#${data.mcolor2}`}
+                backgroundColor={data.mcolor2}
+                tooltip={ensureColorHash(data.mcolor2)}
               />
             </LabeledList.Item>
             <LabeledList.Item label="Mutant Color #3" verticalAlign="middle">
               <ColorButton
                 onClick={() => act('mutant_color3')}
-                backgroundColor={`#${data.mcolor3}`}
-                tooltip={`#${data.mcolor3}`}
+                backgroundColor={data.mcolor3}
+                tooltip={ensureColorHash(data.mcolor3)}
               />
             </LabeledList.Item>
           </>
@@ -88,8 +88,8 @@ const SubtabAppearanceCardBody = (props) => {
               <Stack.Item>
                 <ColorButton
                   onClick={() => act('taur_color')}
-                  backgroundColor={`#${data.taur_color}`}
-                  tooltip={`Taur Color: #${data.taur_color}`}
+                  backgroundColor={data.taur_color}
+                  tooltip={`Taur Color: ${ensureColorHash(data.taur_color)}`}
                 />
               </Stack.Item>
             </Stack>
@@ -233,7 +233,7 @@ const SubtabAppearanceCardMarkings = (props) => {
                                 })
                               }
                               backgroundColor={marking.color}
-                              tooltip={marking.color}
+                              tooltip={ensureColorHash(marking.color)}
                             />
                           </Stack.Item>
                           <Stack.Item>

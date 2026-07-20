@@ -79,8 +79,6 @@
 	if(modifiers["ctrl"])
 		locked = !locked
 		to_chat(usr, span_notice("Action button \"[name]\" [locked ? "" : "un"]locked."))
-		if(id && usr.client) //try to (un)remember position
-			usr.client.prefs.action_buttons_screen_locs["[name]_[id]"] = locked ? moved : null
 		return TRUE
 	if(modifiers["shift"])
 		var/datum/action/spell_action/SA = linked_action
@@ -146,8 +144,6 @@
 	if(modifiers["ctrl"])
 		locked = !locked
 		to_chat(usr, span_notice("Action button \"[name]\" [locked ? "" : "un"]locked."))
-		if(id && usr.client) //try to (un)remember position
-			usr.client.prefs.action_buttons_screen_locs["[name]_[id]"] = locked ? moved : null
 		return TRUE
 	if(modifiers["alt"])
 		var/datum/hud/usr_hud = usr.hud_used
@@ -156,13 +152,9 @@
 			if(!B)
 				continue
 			B.moved = FALSE
-			if(B.id && usr.client)
-				usr.client.prefs.action_buttons_screen_locs["[B.name]_[B.id]"] = null
 			B.locked = TRUE
 		locked = TRUE
 		moved = FALSE
-		if(id && usr.client)
-			usr.client.prefs.action_buttons_screen_locs["[name]_[id]"] = null
 		usr.update_action_buttons(TRUE)
 		to_chat(usr, span_notice("Action button positions have been reset."))
 		return TRUE

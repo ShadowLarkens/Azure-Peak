@@ -1,3 +1,4 @@
+import { HeadshotButton, SaveUndo } from 'cs/components';
 import { useBackend, useSharedState } from 'tgui/backend';
 import {
   Box,
@@ -8,7 +9,6 @@ import {
   Tabs,
 } from 'tgui-core/components';
 
-import { HeadshotButton, SaveUndo } from '../components';
 import { CharacterSelect } from './CharacterSheet/CharacterSelect';
 import type { CharacterSheetData } from './CharacterSheet/data';
 import { SubtabAppearance } from './CharacterSheet/subtabs/Appearance';

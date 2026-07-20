@@ -1,3 +1,5 @@
+import { ColorButton, HeadshotButton } from 'cs/components';
+import { ensureColorHash } from 'cs/components/ColorButton';
 import { useBackend } from 'tgui/backend';
 import {
   Button,
@@ -7,7 +9,6 @@ import {
   Stack,
 } from 'tgui-core/components';
 
-import { ColorButton, HeadshotButton } from '../../../components';
 import type { CharacterSheetData } from '../data';
 
 export const SubtabVillain = () => {
@@ -79,6 +80,9 @@ const VillainSettings = () => {
                   <ColorButton
                     onClick={() => act('vampire_skin')}
                     backgroundColor={vampire_skin || '#FFFFFF'}
+                    tooltip={
+                      vampire_skin ? ensureColorHash(vampire_skin) : 'Unset'
+                    }
                   />
                 </Stack.Item>
                 <Stack.Item>
@@ -92,6 +96,9 @@ const VillainSettings = () => {
                   <ColorButton
                     onClick={() => act('vampire_eyes')}
                     backgroundColor={vampire_eyes || '#FFFFFF'}
+                    tooltip={
+                      vampire_eyes ? ensureColorHash(vampire_eyes) : 'Unset'
+                    }
                   />
                 </Stack.Item>
                 <Stack.Item>
@@ -105,6 +112,9 @@ const VillainSettings = () => {
                   <ColorButton
                     onClick={() => act('vampire_hair')}
                     backgroundColor={vampire_hair || '#FFFFFF'}
+                    tooltip={
+                      vampire_hair ? ensureColorHash(vampire_hair) : 'Unset'
+                    }
                   />
                 </Stack.Item>
                 <Stack.Item>
@@ -118,6 +128,9 @@ const VillainSettings = () => {
                   <ColorButton
                     onClick={() => act('vampire_ears')}
                     backgroundColor={vampire_ears || '#FFFFFF'}
+                    tooltip={
+                      vampire_ears ? ensureColorHash(vampire_ears) : 'Unset'
+                    }
                   />
                 </Stack.Item>
                 <Stack.Item>

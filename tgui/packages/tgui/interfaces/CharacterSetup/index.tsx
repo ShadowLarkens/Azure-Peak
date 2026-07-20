@@ -1,13 +1,15 @@
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { resolveAsset } from 'tgui/assets';
 import { useBackend } from 'tgui/backend';
+import { dragStartHandler } from 'tgui/drag';
+import { suspendStart } from 'tgui/events/handlers/suspense';
 import { Window } from 'tgui/layouts';
+import { TitleBar } from 'tgui/layouts/TitleBar';
 import { logger } from 'tgui/logging';
-import { Box, Stack, Tabs } from 'tgui-core/components';
+import { Box, Icon, Stack, Tabs } from 'tgui-core/components';
 import { fetchRetry } from 'tgui-core/http';
 
-import { LoadingScreen } from '../common/LoadingScreen';
-import { type ConstantData, ConstantDataContext } from './constant_data';
+import { useConstantPrefs } from './constant_data';
 import { TAB_CHARACTER, TAB_GAMESETTINGS, TAB_KEYBIND } from './constants';
 import type { AllPagesData } from './data';
 import { CharacterSheet } from './tabs/CharacterSheet';
@@ -15,27 +17,52 @@ import { GameSettings } from './tabs/GameSettings';
 import { KeyBinds } from './tabs/KeyBinds';
 
 export const CharacterSetup = (props) => {
+  useEffect(() => {
+    Byond.winset(Byond.windowId, { 'background-color': '#ff0000' });
+    Byond.winset(Byond.windowId, { 'transparent-color': '#ff0000' });
+    Byond.winset(`${Byond.windowId}.browser`, {
+      'inner-background-color': 'transparent',
+    });
+    document.body.style = 'background-color: rgba(0, 0, 0, 0)';
+  }, []);
+
+  return (
+    <Box style={{ border: '2px solid #ff0000', borderRadius: '4px' }}>
+      <Stack vertical>
+        <Stack.Item>
+          <TitleBar
+            title="Transparent Window"
+            onDragStart={dragStartHandler}
+            onClose={suspendStart}
+            canClose={true}
+          />
+        </Stack.Item>
+        <Stack.Item>
+          <Box height={10}>
+            <Stack align="center" justify="center" fill>
+              <Stack.Item>
+                <Icon name="toolbox" color="blue" spin size={4} />
+              </Stack.Item>
+            </Stack>
+          </Box>
+        </Stack.Item>
+        <Stack.Item>
+          This is a popup browser window with no background!
+        </Stack.Item>
+      </Stack>
+    </Box>
+  );
+};
+
+export const CharacterSetupReal = (props) => {
   const { config } = useBackend();
+  const [, setConstantData] = useConstantPrefs();
 
   // deny trey liam lol
   const theme =
     config.window?.theme === 'trey_liam'
       ? 'azure_ascendant'
       : config.window.theme;
-
-  return (
-    <Window width={1000} height={900} theme={theme}>
-      <Window.Content className="CharacterSetupContent">
-        <Suspense fallback={<LoadingScreen />}>
-          <ConstantDataLoader />
-        </Suspense>
-      </Window.Content>
-    </Window>
-  );
-};
-
-export const ConstantDataLoader = (props) => {
-  const [constantData, setConstantData] = useState<ConstantData>();
 
   useEffect(() => {
     fetchRetry(resolveAsset('preferences.json'))
@@ -49,9 +76,11 @@ export const ConstantDataLoader = (props) => {
   }, []);
 
   return (
-    <ConstantDataContext value={constantData}>
-      <CharacterSetupContent />
-    </ConstantDataContext>
+    <Window width={1000} height={900} theme={theme}>
+      <Window.Content className="CharacterSetupContent">
+        <CharacterSetupContent />
+      </Window.Content>
+    </Window>
   );
 };
 

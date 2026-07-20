@@ -1,4 +1,5 @@
-import { createContext, useContext } from 'react';
+import { atom, type ExtractAtomValue } from 'jotai';
+import { store } from 'tgui/events/store';
 import type { BooleanLike } from 'tgui-core/react';
 
 export type ConstantData = {
@@ -85,16 +86,22 @@ export const DEPARTMENT_FLAG_TO_ENUM = {
   [DepartmentFlag.ANTAGONIST]: DepartmentEnum.ANTAGONIST,
 };
 
-// Context stuff
-export const ConstantDataContext = createContext<ConstantData | undefined>(
-  undefined,
-);
+export const constantDataAtom = atom<ConstantData | undefined>(undefined);
+
+type StateWithSetter<T> = [T, (nextState: T) => void];
 
 /**
  * ## WARNING: MAY RETURN UNDEFINED
  * ## THIS MUST BE HANDLED GRACEFULLY
  * @returns
  */
-export function useConstantPrefs() {
-  return useContext(ConstantDataContext);
+export function useConstantPrefs(): StateWithSetter<
+  ExtractAtomValue<typeof constantDataAtom>
+> {
+  return [
+    store.get(constantDataAtom),
+    (nextState: ConstantData | undefined) => {
+      store.set(constantDataAtom, nextState);
+    },
+  ];
 }

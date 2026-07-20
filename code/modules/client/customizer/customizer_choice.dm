@@ -68,23 +68,22 @@
 	data["template"] = tgui_template
 
 	if(accessory)
-		var/show_accessory_color = allows_accessory_color_customization && !(accessory.color_disabled)
-
 		var/list/accessory_data = list(
 			"name" = accessory.name,
-			"show_accessory_color" = show_accessory_color,
-			"colors" = list(),
+			"colors" = null,
 		)
 
-		if(show_accessory_color)
+		if(allows_accessory_color_customization && !(accessory.color_disabled))
+			var/list/color_data = list()
 			var/list/color_list = color_string_to_list(entry.accessory_colors)
 			for(var/index in 1 to accessory.color_keys)
 				var/named_index = (accessory.color_keys == 1) ? accessory.color_key_name : accessory.color_key_names[index]
-				UNTYPED_LIST_ADD(accessory_data["colors"], list(
+				UNTYPED_LIST_ADD(color_data, list(
 					"name" = named_index,
 					"index" = index,
 					"color" = color_list[index],
 				))
+			accessory_data["colors"] = color_data
 
 		data["accessory"] = accessory_data
 	else

@@ -1,12 +1,22 @@
+import type { Color } from 'cs/data';
 import { Button } from 'tgui-core/components';
+
+// have to do this because asaycolor sometimes but only sometimes has the hash
+export const ensureColorHash = (text: Color) => {
+  if (!text.startsWith('#')) {
+    return `#${text}`;
+  }
+  return text;
+};
 
 /**
  * This is a standardized {@link Button} that displays a full square of one color.
  */
 export const ColorButton = (
-  props: React.ComponentProps<typeof Button> & { backgroundColor: string },
+  props: React.ComponentProps<typeof Button> & { backgroundColor: Color },
 ) => {
-  let { height, minWidth, fluid, color, style } = props;
+  let { height, minWidth, fluid, color, style, backgroundColor, ...rest } =
+    props;
 
   if (height === undefined) {
     height = '100%';
@@ -37,14 +47,17 @@ export const ColorButton = (
     };
   }
 
+  backgroundColor = ensureColorHash(backgroundColor);
+
   return (
     <Button
       height={height}
       minWidth={minWidth}
       fluid={fluid}
       color={color}
+      backgroundColor={backgroundColor}
       style={style}
-      {...props}
+      {...rest}
     />
   );
 };

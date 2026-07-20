@@ -8,11 +8,9 @@
  */
 
 import fs from 'node:fs';
-import Bun from 'bun';
 import Juke from './juke/index.js';
 import { bun, bunRoot } from './lib/bun';
 import { DreamDaemon, DreamMaker, NamedVersionFile } from './lib/byond';
-import { formatDeps } from './lib/helpers';
 import { prependDefines } from './lib/tgs';
 
 export const TGS_MODE = process.env.CBT_BUILD_MODE === 'TGS';
@@ -20,17 +18,6 @@ export const TGS_MODE = process.env.CBT_BUILD_MODE === 'TGS';
 export const DME_NAME = 'roguetown';
 
 Juke.chdir('../..', import.meta.url);
-
-const dependencies: Record<string, any> = await Bun.file('dependencies.sh')
-  .text()
-  .then(formatDeps)
-  .catch((err) => {
-    Juke.logger.error(
-      'Failed to read dependencies.sh, please ensure it exists and is formatted correctly.',
-    );
-    Juke.logger.error(err);
-    throw new Juke.ExitCode(1);
-  });
 
 export const DefineParameter = new Juke.Parameter({
   type: 'string[]',
@@ -292,6 +279,7 @@ export const AllTarget = new Juke.Target({
 
 export const TguiCleanTarget = new Juke.Target({
   executes: async () => {
+    Juke.rm('node_modules', { recursive: true });
     Juke.rm('tgui/public/.tmp', { recursive: true });
     Juke.rm('tgui/public/*.map');
     Juke.rm('tgui/public/*.{chunk,bundle,hot-update}.*');

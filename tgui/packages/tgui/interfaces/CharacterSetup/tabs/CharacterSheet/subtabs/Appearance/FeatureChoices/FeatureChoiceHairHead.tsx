@@ -1,8 +1,8 @@
+import type { Customizer } from 'cs/tabs/CharacterSheet/data';
 import { useBackend } from 'tgui/backend';
 import { Button, Stack } from 'tgui-core/components';
 import type { BooleanLike } from 'tgui-core/react';
 
-import type { Customizer } from '../../../data';
 import { FeatureChoiceHair, type HairCustomizer } from './FeatureChoiceHair';
 
 export interface HairHeadCustomizer extends HairCustomizer {

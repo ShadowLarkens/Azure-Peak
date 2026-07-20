@@ -1,9 +1,9 @@
+import { ColorButton } from 'cs/components';
+import { ensureColorHash } from 'cs/components/ColorButton';
+import type { Customizer, CustomizerChoice } from 'cs/tabs/CharacterSheet/data';
 import { useBackend } from 'tgui/backend';
 import { Button, LabeledList, Stack } from 'tgui-core/components';
 import type { BooleanLike } from 'tgui-core/react';
-
-import { ColorButton } from '../../../../../components';
-import type { Customizer, CustomizerChoice } from '../../../data';
 
 export interface EyeCustomizer extends CustomizerChoice {
   eye_color: string;
@@ -30,7 +30,7 @@ export const FeatureChoiceEyes = (props: { customizer: Customizer }) => {
               })
             }
             backgroundColor={eye_color}
-            tooltip={eye_color}
+            tooltip={ensureColorHash(eye_color)}
           />
         </LabeledList.Item>
         {allows_heterochromia ? (
@@ -57,7 +57,7 @@ export const FeatureChoiceEyes = (props: { customizer: Customizer }) => {
                     })
                   }
                   backgroundColor={second_color}
-                  tooltip={second_color}
+                  tooltip={ensureColorHash(second_color)}
                 />
               </LabeledList.Item>
             ) : null}
