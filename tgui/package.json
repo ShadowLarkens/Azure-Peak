@@ -20,8 +20,8 @@
 	"packageManager": "bun@1.3.14",
 	"private": true,
 	"scripts": {
-		"tgui:analyze": "rspack --analyze",
-		"tgui:build": "rspack build",
+		"tgui:analyze": "bun x --bun rspack --analyze",
+		"tgui:build": "bun x --bun rspack build",
 		"tgui:dev": "bun --smol packages/tgui-dev-server/index.ts",
 		"tgui:test": "bun test",
 		"tgui:tsc": "tsc"
