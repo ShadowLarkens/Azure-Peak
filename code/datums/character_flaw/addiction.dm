@@ -128,17 +128,6 @@
 	desc = "I've started to feel hungover. The best way to chase a hangover is another drink."
 	icon_state = "alcoholic"
 
-
-/// KLEPTOMANIAC
-
-/datum/charflaw/addiction/kleptomaniac
-	name = "Thief-born"
-	desc = "As a child I had to rely on theft to survive. Whether that changed or not, I just can't get over it."
-	time = ADDICT_TIME_OFTEN
-	needsate_text = "I need to STEAL something! I'll die if I don't!"
-	voyeur_descriptor = "quick-fingered"
-
-
 /// JUNKIE
 
 /datum/charflaw/addiction/junkie

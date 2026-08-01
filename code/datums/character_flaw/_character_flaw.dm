@@ -103,10 +103,6 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			return cf
 	return null
 
-/datum/charflaw/eznoflaw
-	name = "Flawless"
-	desc = "I'm untempted by even the simplest vices. Am I riding the high of my latest TRIUMPH, or am I simply a rarity amongst rarities?" //Originally 'No Flaw', with "I'm a normal person, how rare!" as the desc.
-
 /datum/charflaw/noflaw
 	name = "Flawless (No Passive TRI Gain)"
 	desc = "I'm untempted by even the simplest vices. Am I riding the high of my latest TRIUMPH, or am I simply a rarity amongst rarities?"
@@ -203,7 +199,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/spectacles(H), SLOT_WEAR_MASK)
 	else
 		new /obj/item/clothing/mask/rogue/spectacles(get_turf(H))
-	
+
 	// we don't seem to have a mind when on_mob_creation fires, so set up a timer to check when we probably will
 	addtimer(CALLBACK(src, PROC_REF(apply_reading_skill), H), 5 SECONDS)
 
@@ -225,36 +221,6 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			H = S.stored
 			if(H != user && H.dna.species)
 				. += H
-
-/datum/charflaw/paranoid
-	name = "Paranoid"
-	desc = "I'm even more anxious than most people. I'm extra paranoid of other races and the sight of blood."
-	var/last_check = 0
-
-/datum/charflaw/paranoid/flaw_on_life(mob/user)
-	if(world.time < last_check + 10 SECONDS)
-		return
-	if(!user)
-		return
-	last_check = world.time
-	var/cnt = 0
-	for(var/mob/living/carbon/human/L in get_nearby_humans(user, 7))
-		if(L.dna?.species)
-			if(ishuman(user))
-				var/mob/living/carbon/human/H = user
-				if(L.dna.species.id != H.dna.species.id)
-					cnt++
-		if(cnt > 2)
-			break
-	if(cnt > 2)
-		user.add_stress(/datum/stressevent/paracrowd)
-	cnt = 0
-	for(var/obj/effect/decal/cleanable/blood/B in view(7, user))
-		cnt++
-		if(cnt > 3)
-			break
-	if(cnt > 6)
-		user.add_stress(/datum/stressevent/parablood)
 
 /datum/charflaw/finicky
 	name = "Finicky"
@@ -372,7 +338,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 /datum/charflaw/clingy/apply_post_equipment(mob/user)
 	if(user.mind)
 		is_active = TRUE
-	
+
 
 /datum/charflaw/noeyer
 	name = "Cyclops (R)"
@@ -702,7 +668,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	insane_fool.hallucination = INFINITY
 	ADD_TRAIT(insane_fool, TRAIT_PSYCHOSIS, TRAIT_GENERIC)
 	insane_fool.adjust_triumphs(3)
-	if(insane_fool.patron?.type == /datum/patron/divine/abyssor) 
+	if(insane_fool.patron?.type == /datum/patron/divine/abyssor)
 		insane_fool.grant_language(/datum/language/abyssal)
 
 /datum/charflaw/indebted
