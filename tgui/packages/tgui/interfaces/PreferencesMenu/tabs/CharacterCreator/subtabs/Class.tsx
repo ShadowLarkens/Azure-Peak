@@ -199,7 +199,7 @@ const DEPARTMENT_ENUM_TO_NAME = {
     </Box>
   ),
   [DepartmentEnum.RETINUE]: (
-    <Box inline textColor="#0cb3e6">
+    <Box inline textColor="var(--p-seal-blue, #0cb3e6)">
       Retinue
     </Box>
   ),
@@ -209,7 +209,7 @@ const DEPARTMENT_ENUM_TO_NAME = {
     </Box>
   ),
   [DepartmentEnum.CHURCHMEN]: (
-    <Box inline textColor="#d1ce00">
+    <Box inline textColor="var(--p-seal-amber, #d1ce00)">
       Church
     </Box>
   ),
@@ -219,7 +219,7 @@ const DEPARTMENT_ENUM_TO_NAME = {
     </Box>
   ),
   [DepartmentEnum.INQUISITION]: (
-    <Box inline textColor="#cecece">
+    <Box inline textColor="var(--p-ink-soft, #cecece)">
       Inquisition
     </Box>
   ),

@@ -19,7 +19,7 @@ export const LabeledListLikeTooltip = (props: LabeledListLikeTooltipProps) => {
         {...boxProps}
         as="span"
         style={{
-          borderBottom: '2px dotted rgba(255, 255, 255, 0.8)',
+          borderBottom: '2px dotted var(--p-ink-faint, rgba(255, 255, 255, 0.8))',
         }}
       >
         {children}

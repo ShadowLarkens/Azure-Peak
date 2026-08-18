@@ -521,3 +521,31 @@ $default-faith-geneism: #818181;
     )
   );
 }
+
+.theme-parchment:root,
+.theme-parchment-vellum:root {
+  @include cs-colors(
+    (
+      'virtue': #7a5616,
+      'vice': #8b2020,
+      'faith': #806b12,
+      'faith-ascendent': #8b2020,
+      'faith-geneism': #5f564a,
+    )
+  );
+}
+
+.theme-parchment:root,
+.theme-parchment-vellum:root,
+.theme-parchment-leatherbound:root {
+  .PreferencesMenu {
+    --tab-color: var(--p-ink-soft);
+    --tab-color-selected: var(--p-ink);
+  }
+
+  .PreferencesMenu__Section__Virtues .Button,
+  .PreferencesMenu__Section__Vices .Button,
+  .PreferencesMenu__PatronSelection > .Button {
+    color: var(--p-badge-text);
+  }
+}

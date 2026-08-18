@@ -210,11 +210,11 @@ const Sidebar = (props) => {
           <Button fluid icon="baby" onClick={() => act('agevet')}>
             Verified:{' '}
             {agevet ? (
-              <Box inline color="#74cde0">
+              <Box inline color="var(--p-seal-blue, #74cde0)">
                 YAE!
               </Box>
             ) : (
-              <Box inline color="#897472">
+              <Box inline color="var(--p-seal-red-soft, #897472)">
                 NAE?
               </Box>
             )}

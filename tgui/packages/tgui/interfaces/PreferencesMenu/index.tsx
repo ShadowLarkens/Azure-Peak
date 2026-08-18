@@ -16,7 +16,6 @@ import { KeyBinds } from './tabs/KeyBinds';
 
 export const PreferencesMenu = (props) => {
   const [, setConstantData] = useConstantPrefs();
-  const { config } = useBackendStrict();
 
   let popup: ReactNode = null;
   try {
@@ -26,11 +25,7 @@ export const PreferencesMenu = (props) => {
     popup = <PopupRouteError e={e} />;
   }
 
-  // deny trey liam lol
-  const theme =
-    config.window?.theme === 'trey_liam'
-      ? 'azure_ascendant'
-      : config.window.theme;
+  const theme = 'parchment';
 
   useEffect(() => {
     fetchRetry(resolveAsset('preferences.json'))

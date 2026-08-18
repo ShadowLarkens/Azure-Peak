@@ -78,7 +78,7 @@ const FormattingHelp = (props) => {
       --- : Adds a horizontal rule.
       <br />
       -=FFFFFFtext=- : Adds a specific{' '}
-      <Box inline textColor="#FFF">
+      <Box inline textColor="var(--p-ink, #FFF)">
         colour
       </Box>{' '}
       to text.

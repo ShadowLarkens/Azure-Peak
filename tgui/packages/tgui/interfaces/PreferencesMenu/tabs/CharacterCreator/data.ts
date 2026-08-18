@@ -144,20 +144,20 @@ export const CLASSAVAIL_NAME = {
 
 export const CLASSAVAIL_COLOR = {
   [ClassAvailability.AVAILABLE]: '',
-  [ClassAvailability.UNAVAILABLE_GENERIC]: '#a59461',
+  [ClassAvailability.UNAVAILABLE_GENERIC]: 'var(--p-ink-faint, #a59461)',
   [ClassAvailability.UNAVAILABLE_BANNED]: '#a70202',
-  [ClassAvailability.UNAVAILABLE_PLAYTIME]: '#a59461',
-  [ClassAvailability.UNAVAILABLE_ACCOUNTAGE]: '#a59461',
-  [ClassAvailability.UNAVAILABLE_PATRON]: '#a59461',
-  [ClassAvailability.UNAVAILABLE_RACE]: '#a59461',
-  [ClassAvailability.UNAVAILABLE_SEX]: '#a59461',
-  [ClassAvailability.UNAVAILABLE_AGE]: '#a59461',
-  [ClassAvailability.UNAVAILABLE_WTEAM]: '#a59461',
-  [ClassAvailability.UNAVAILABLE_LASTCLASS]: '#a59461',
-  [ClassAvailability.UNAVAILABLE_JOB_COOLDOWN]: '#a59461',
+  [ClassAvailability.UNAVAILABLE_PLAYTIME]: 'var(--p-ink-faint, #a59461)',
+  [ClassAvailability.UNAVAILABLE_ACCOUNTAGE]: 'var(--p-ink-faint, #a59461)',
+  [ClassAvailability.UNAVAILABLE_PATRON]: 'var(--p-ink-faint, #a59461)',
+  [ClassAvailability.UNAVAILABLE_RACE]: 'var(--p-ink-faint, #a59461)',
+  [ClassAvailability.UNAVAILABLE_SEX]: 'var(--p-ink-faint, #a59461)',
+  [ClassAvailability.UNAVAILABLE_AGE]: 'var(--p-ink-faint, #a59461)',
+  [ClassAvailability.UNAVAILABLE_WTEAM]: 'var(--p-ink-faint, #a59461)',
+  [ClassAvailability.UNAVAILABLE_LASTCLASS]: 'var(--p-ink-faint, #a59461)',
+  [ClassAvailability.UNAVAILABLE_JOB_COOLDOWN]: 'var(--p-ink-faint, #a59461)',
   [ClassAvailability.UNAVAILABLE_SLOTFULL]: '#6d6d6c',
-  [ClassAvailability.UNAVAILABLE_VIRTUESVICE]: '#a59461',
-  [ClassAvailability.UNAVAILABLE_PQ]: '#a59461',
+  [ClassAvailability.UNAVAILABLE_VIRTUESVICE]: 'var(--p-ink-faint, #a59461)',
+  [ClassAvailability.UNAVAILABLE_PQ]: 'var(--p-ink-faint, #a59461)',
 };
 
 export enum ClassPreference {
