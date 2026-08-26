@@ -14,6 +14,7 @@ import { resolveAsset } from 'tgui/assets';
 import { useBackendStrict, useSharedState } from 'tgui/backend';
 import { gameDataAtom } from 'tgui/events/store';
 import { LoadingScreen } from 'tgui/interfaces/common/LoadingScreen';
+import { usePreferences } from 'tgui/interfaces/PreferencesMenu/datumized_data';
 import {
   Box,
   Button,
@@ -91,11 +92,12 @@ const FormattingHelp = () => {
 };
 
 const MechanicalDescriptions = () => {
+  const prefs = usePreferences(['/datum/preference/descriptors']);
   const [constantData] = useConstantPrefs();
   const { act, data } = useBackendStrict<DescriptorData>();
-  const { descriptors, descriptors_custom } = data;
+  const { descriptors_custom } = data;
 
-  if (!constantData) {
+  if (!constantData || !prefs) {
     return (
       <Section fill title="Mechanical Descriptions">
         <LoadingScreen label="Loading descriptors..." />
@@ -103,12 +105,14 @@ const MechanicalDescriptions = () => {
     );
   }
 
+  const { descriptor_entries } = prefs;
+
   const { descriptors: constantDescriptors, descriptor_choices } = constantData;
 
   return (
     <Section fill title="Mechanical Descriptions">
       <LabeledGridList>
-        {descriptors.map((desc) => {
+        {descriptor_entries.map((desc) => {
           const descriptor_choice = descriptor_choices[desc.type];
           const options = descriptor_choice.descriptors.map((type) => ({
             displayText: constantDescriptors[type].name,

@@ -22,13 +22,10 @@
 		"culinary" = get_culinary(),
 		"customizer_choices" = get_customizer_choices(),
 		"customizers" = get_customizers(),
-		"descriptor_choices" = get_descriptor_choices(),
-		"descriptors" = get_descriptors(),
 		"faiths" = get_faiths(),
 		"markings_by_zone" = get_markings_by_zone(),
 		"patrons" = get_patrons(),
 		"preview_backgrounds" = get_preview_bgs(),
-		"species" = get_species(),
 		"sprite_accessories" = get_sprite_accessories(),
 		"statpacks" = get_statpacks(),
 		"taur_types" = get_taur_types(),
@@ -38,6 +35,12 @@
 		// Other data
 		"lore_primer" = build_lore_primer_content(),
 	)
+
+	for(var/pref_path in GLOB.preference_entries)
+		var/datum/preference/P = GLOB.preference_entries[pref_path]
+		var/pref_data = P.get_constant_ui_data()
+		if(pref_data)
+			data += pref_data
 
 	return data
 
@@ -99,17 +102,6 @@ Add a new override in your modular folder that looks like this:
 		var/datum/customizer/customizer = GLOB.customizers[type]
 		.[type] = customizer.constant_ui_data()
 
-/datum/asset/json/preferences/proc/get_descriptor_choices()
-	. = list()
-	for(var/type in GLOB.descriptor_choices)
-		var/datum/descriptor_choice/choice = GLOB.descriptor_choices[type]
-		.[type] = choice.constant_ui_data()
-
-/datum/asset/json/preferences/proc/get_descriptors()
-	. = list()
-	for(var/type in GLOB.mob_descriptors)
-		var/datum/mob_descriptor/descriptor = GLOB.mob_descriptors[type]
-		.[type] = descriptor.constant_ui_data()
 
 /datum/asset/json/preferences/proc/get_faiths()
 	. = list()
@@ -139,16 +131,6 @@ Add a new override in your modular folder that looks like this:
 	// icon_states return always gets json_encode'd as assoc despite not being assoc :D
 	for(var/state in GLOB.char_preview_bgs)
 		. += state
-
-/datum/asset/json/preferences/proc/get_species()
-	. = list()
-
-	for(var/species_name in get_selectable_species())
-		var/datum/species/species = GLOB.species_list[species_name]
-		// fix this one day...
-		species = new species()
-		UNTYPED_LIST_ADD(., species.constant_ui_data())
-		qdel(species)
 
 /datum/asset/json/preferences/proc/get_sprite_accessories()
 	. = list()

@@ -11,6 +11,13 @@
 		ShowChoices(ui.user)
 		return
 
+	. = ui_act_datum_prefs(action, params, ui, state)
+	if(.)
+		if(. == CHARACTER_ACT_PREVIEW_UPDATE)
+			character_preview_view?.update_body()
+		ShowChoices(ui.user)
+		return
+
 	. = ui_act_popup(action, params, ui, state)
 	if(.)
 		if(. == CHARACTER_ACT_PREVIEW_UPDATE)

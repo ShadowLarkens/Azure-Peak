@@ -1,120 +1,5 @@
-//This is the lowest supported version, anything below this is completely obsolete and the entire savefile will be wiped.
-#define SAVEFILE_VERSION_MIN	18
-
-//This is the current version, anything below this will attempt to update (if it's not obsolete)
-//	You do not need to raise this if you are adding new values that have sane defaults.
-//	Only raise this value when changing the meaning/format/name/layout of an existing value
-//	where you would want the updater procs below to run
-
-//	This also works with decimals.
-#define SAVEFILE_VERSION_MAX	36
-
-/*
-SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Carn
-	This proc checks if the current directory of the savefile S needs updating
-	It is to be used by the load_character and load_preferences procs.
-	(S.cd=="/" is preferences, S.cd=="/character[integer]" is a character slot, etc)
-
-	if the current directory's version is below SAVEFILE_VERSION_MIN it will simply wipe everything in that directory
-	(if we're at root "/" then it'll just wipe the entire savefile, for instance.)
-
-	if its version is below SAVEFILE_VERSION_MAX but above the minimum, it will load data but later call the
-	respective update_preferences() or update_character() proc.
-	Those procs allow coders to specify format changes so users do not lose their setups and have to redo them again.
-
-	Failing all that, the standard sanity checks are performed. They simply check the data is suitable, reverting to
-	initial() values if necessary.
-*/
-/datum/preferences/proc/savefile_needs_update(savefile/S)
-	var/savefile_version
-	S["version"] >> savefile_version
-
-	if(savefile_version < SAVEFILE_VERSION_MIN)
-		S.dir.Cut()
-		return -2
-	if(savefile_version < SAVEFILE_VERSION_MAX)
-		return savefile_version
-	return -1
-
-//should these procs get fairly long
-//just increase SAVEFILE_VERSION_MIN so it's not as far behind
-//SAVEFILE_VERSION_MAX and then delete any obsolete if clauses
-//from these procs.
-//This only really meant to avoid annoying frequent players
-//if your savefile is 3 months out of date, then 'tough shit'.
-
-/datum/preferences/proc/update_preferences(current_version, savefile/S)
-	if(current_version < 29)
-		key_bindings = deepCopyList(GLOB.hotkey_keybinding_list_by_key)
-		parent.update_movement_keys()
-		to_chat(parent, span_danger("Empty keybindings, setting default to Hotkey mode"))
-	if(current_version < 31) // RAISE THIS TO SAVEFILE_VERSION_MAX (and make sure to add +1 to the version) EVERY TIME YOU ADD SERVER-CHANGING KEYBINDS LIKE CHANGING HOW SAY WORKS!!
-		force_reset_keybindings_direct()
-		addtimer(CALLBACK(src, PROC_REF(force_reset_keybindings_direct)), 30)
-
-/datum/preferences/proc/update_character(current_version, savefile/S)
-	if(current_version < 30)
-		S["voice_color"]		>> voice_color
-	if(current_version < 34) // Update races
-		var/species_name
-		S["species"] >> species_name
-
-		if(species_name)
-			var/newtype = GLOB.species_list[species_name]
-			if(!newtype)
-				switch(species_name)
-					if("Sissean")
-
-						species_name = "Zardman"
-					if("Vulpkian")
-
-						species_name = "Venardine"
-		_load_species(S, species_name)
-	if(current_version < 35) // Migrate old 3-slot loadout to gear_list
-		gear_list = list()
-		var/list/old_keys = list(
-			list("loadout", "loadout_1_hex"),
-			list("loadout2", "loadout_2_hex"),
-			list("loadout3", "loadout_3_hex"),
-		)
-		for(var/list/pair in old_keys)
-			var/loadout_type
-			S[pair[1]] >> loadout_type
-			if(!loadout_type || !ispath(loadout_type))
-				continue
-			var/datum/loadout_item/LI = GLOB.loadout_items[loadout_type]
-			if(!LI || LI.name == "Parent loadout datum")
-				continue
-			var/list/meta = list()
-			var/old_hex
-			S[pair[2]] >> old_hex
-			if(old_hex)
-				if(old_hex[1] != "#")
-					old_hex = "#[old_hex]"
-				meta["color"] = old_hex
-			gear_list[LI.name] = meta
-	if(current_version < 36) // Strip the old per-item favorite/hated food & drink data now that preferences are category flags
-		S.dir.Remove("culinary_preferences")
-
-/datum/preferences/proc/load_path(ckey,filename="preferences.sav")
-	if(!ckey)
-		return
-	path = "data/player_saves/[copytext(ckey,1,2)]/[ckey]/[filename]"
-
-/datum/preferences/proc/load_preferences()
-	if(!path)
-		return FALSE
-	if(!fexists(path))
-		return FALSE
-
-	var/savefile/S = new /savefile(path)
-	if(!S)
-		return FALSE
+/datum/preferences/proc/load_preferences_old(savefile/S)
 	S.cd = "/"
-
-	var/needs_update = savefile_needs_update(S)
-	if(needs_update == -2)		//fatal, can't load any data
-		return FALSE
 
 	//general preferences
 	S["favorited_slots"]	>> favorited_slots
@@ -167,10 +52,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	// Custom hotkeys
 	S["key_bindings"]		>> key_bindings
-
-	//try to fix any outdated data if necessary
-	if(needs_update >= 0)
-		update_preferences(needs_update, S)		//needs_update = savefile_version if we need an update (positive integer)
 
 	//Sanitize
 	sanitize_preferences()
@@ -230,7 +111,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	exp					= SANITIZE_LIST(exp)
 	menuoptions			= SANITIZE_LIST(menuoptions)
 	be_special			= SANITIZE_LIST(be_special)
-	key_bindings 		= SANITIZE_LIST(key_bindings)
 
 	// etc
 	asaycolor			= sanitize_ooccolor(sanitize_hexcolor(asaycolor, 6, TRUE, initial(asaycolor)))
@@ -241,8 +121,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		be_special = list()
 	verify_keybindings_valid()
 
-
 /datum/preferences/proc/verify_keybindings_valid()
+	key_bindings = SANITIZE_LIST(key_bindings)
+
 	// Sanitize the actual keybinds to make sure they exist.
 	for(var/key in key_bindings)
 		if(!islist(key_bindings[key]))
@@ -255,31 +136,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 			key_bindings -= key
 	// End
 
-/client/verb/export_savefile()
-	set name = "Export Preferences"
-	set desc = "Export your preferences to a file."
-	set category = "OOC"
-	if(!prefs.path)
-		return
+	if(!length(key_bindings))
+		force_reset_keybindings_direct()
 
-	if(alert(src, "Are you sure you want to export your preferences? This will create a file on your computer that contains your preferences.", "Export Preferences", "Yes", "No") == "No")
-		return
-
-	if(!fexists(prefs.path))
-		to_chat(src, span_warning("No savefile, what?!"))
-		return
-
-	var/file_name = "[ckey].sav"
-	var/exportable_file = file(prefs.path)
-
-	DIRECT_OUTPUT(src, ftp(exportable_file, file_name))
-
-/datum/preferences/proc/save_preferences()
-	if(!path)
-		return FALSE
-	var/savefile/S = new /savefile(path)
-	if(!S)
-		return FALSE
+/datum/preferences/proc/save_preferences_old(savefile/S)
 	S.cd = "/"
 
 	WRITE_FILE(S["version"] , SAVEFILE_VERSION_MAX)		//updates (or failing that the sanity checks) will ensure data is not invalid at load. Assume up-to-date
@@ -519,28 +379,54 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["familiar_ooc_extra"]				>> familiar_prefs.familiar_ooc_extra
 	S["familiar_ooc_extra_link"]		>> familiar_prefs.familiar_ooc_extra_link
 
-/datum/preferences/proc/load_character(slot)
-	if(!path)
-		return FALSE
-	if(!fexists(path))
-		return FALSE
-	var/savefile/S = new /savefile(path)
-	if(!S)
-		return FALSE
-	S.cd = "/"
-	if(!slot)
-		slot = default_slot
-	slot = sanitize_integer(slot, 1, max_save_slots, initial(default_slot))
-	if(slot != default_slot)
-		default_slot = slot
-		WRITE_FILE(S["default_slot"] , slot)
+/datum/preferences/proc/_load_customizers(S)
+	// Deserialize
+	var/list/serialized_entries
+	S["customizer_entries"] >> serialized_entries
 
+	var/list/deserialized_entries = list()
+	if(islist(serialized_entries))
+		for(var/i in 1 to length(serialized_entries))
+			var/list/entry = serialized_entries[i]
+			if(istext(entry))
+				entry = json_decode(entry)
+			if(!islist(entry))
+				// Invalid data
+				continue
+			var/path = sanitize_path(entry["type"], /datum/customizer_entry)
+			if(!path)
+				// Invalid data
+				continue
+			var/datum/customizer_entry/CE = new path()
+			if(!CE.deserialize(entry, src))
+				continue
+			deserialized_entries += CE
+
+	customizer_entries = deserialized_entries
+
+/datum/preferences/proc/_load_custom_descriptors(S)
+	// Deserialize
+	var/list/serialized_entries
+	S["custom_descriptors"] >> serialized_entries
+
+	var/list/deserialized_entries = list()
+	if(islist(serialized_entries))
+		for(var/i in 1 to length(serialized_entries))
+			var/list/entry = serialized_entries[i]
+			if(istext(entry))
+				entry = json_decode(entry)
+			if(!islist(entry))
+				// Invalid data
+				continue
+			var/datum/custom_descriptor_entry/DE = new()
+			if(!DE.deserialize(entry, src))
+				continue
+			deserialized_entries += DE
+
+	custom_descriptors = deserialized_entries
+
+/datum/preferences/proc/load_character_old(savefile/S, slot)
 	S.cd = "/character[slot]"
-	var/needs_update = savefile_needs_update(S)
-	if(needs_update == -2)		//fatal, can't load any data
-		return FALSE
-
-	loaded_slot = slot
 
 	//Species
 	_load_species(S)
@@ -552,15 +438,15 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	// LETHALSTONE edit: jank-ass load our statpack choice
 	_load_statpack(S)
-
 	_load_gear_list(S)
-
 	_load_combat_music(S)
 	_load_barks(S)
 
 	//Character
 	_load_appearence(S)
 	_load_familiar_prefs(S)
+	_load_customizers(S)
+	_load_custom_descriptors(S)
 
 	var/patron_typepath
 	S["selected_patron"]	>> patron_typepath
@@ -615,15 +501,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["body_size"] >> features["body_size"]
 	S["body_markings"] >> body_markings
 
-	S["descriptor_entries"] >> descriptor_entries
-	S["custom_descriptors"] >> custom_descriptors
-
-	S["customizer_entries"] >> customizer_entries
 	S["topjob"] >> topjob
-
-	//try to fix any outdated data if necessary
-	if(needs_update >= 0)
-		update_character(needs_update, S)		//needs_update == savefile_version if we need an update (positive integer)
 
 	// Regenerate cache for flavor texts etc. Must be UNCONDITIONAL because prefs is on client.
 	// We use empty string if they are empty, so the previous slot's data don't get kept in the cache.
@@ -711,7 +589,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	body_markings = SANITIZE_LIST(body_markings)
 	validate_body_markings()
 
-	descriptor_entries = SANITIZE_LIST(descriptor_entries)
 	custom_descriptors = SANITIZE_LIST(custom_descriptors)
 	validate_descriptors()
 
@@ -777,12 +654,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		virtuetwo = new /datum/virtue/none
 
 
-/datum/preferences/proc/save_character()
-	if(!path)
-		return FALSE
-	var/savefile/S = new /savefile(path)
-	if(!S)
-		return FALSE
+/datum/preferences/proc/save_character_old(savefile/S)
 	S.cd = "/character[default_slot]"
 
 	WRITE_FILE(S["version"]			, SAVEFILE_VERSION_MAX)	//load_character will sanitize any bad data, so assume up-to-date.)
@@ -824,21 +696,18 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["selected_patron"]		, selected_patron.type)
 
 	// Organs
-	var/list/packed_hair = list()
+	var/list/serialized_customizer_entries = list()
 	for(var/datum/customizer_entry/entry as anything in customizer_entries)
-		if(!istype(entry, /datum/customizer_entry/hair))
-			continue
-		var/datum/customizer_entry/hair/hair_entry = entry
-		packed_hair += hair_entry
-		hair_pack(hair_entry)
-	WRITE_FILE(S["customizer_entries"] , customizer_entries)
-	for(var/datum/customizer_entry/hair/hair_entry as anything in packed_hair)
-		hair_unpack(hair_entry)
+		UNTYPED_LIST_ADD(serialized_customizer_entries, entry.serialize())
+	WRITE_FILE(S["customizer_entries"], serialized_customizer_entries)
+
 	// Body markings
 	WRITE_FILE(S["body_markings"] , body_markings)
-	// Descriptor entries
-	WRITE_FILE(S["descriptor_entries"] , descriptor_entries)
-	WRITE_FILE(S["custom_descriptors"] , custom_descriptors)
+
+	var/list/serialized_custom_descriptors = list()
+	for(var/datum/custom_descriptor_entry/entry as anything in custom_descriptors)
+		UNTYPED_LIST_ADD(serialized_custom_descriptors, entry.serialize())
+	WRITE_FILE(S["custom_descriptors"], serialized_custom_descriptors)
 
 	//Barks
 	WRITE_FILE(S["bark_id"]					, bark_id)
@@ -906,22 +775,3 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["familiar_ooc_extra_link"] , familiar_prefs.familiar_ooc_extra_link)
 
 	return TRUE
-
-#undef SAVEFILE_VERSION_MAX
-#undef SAVEFILE_VERSION_MIN
-
-#ifdef TESTING
-//DEBUG
-//Some crude tools for testing savefiles
-//path is the savefile path
-/client/verb/savefile_export(path as text)
-	set hidden = TRUE
-	var/savefile/S = new /savefile(path)
-	S.ExportText("/",file("[path].txt"))
-//path is the savefile path
-/client/verb/savefile_import(path as text)
-	set hidden = TRUE
-	var/savefile/S = new /savefile(path)
-	S.ImportText("/",file("[path].txt"))
-
-#endif

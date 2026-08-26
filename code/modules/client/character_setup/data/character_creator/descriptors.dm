@@ -1,7 +1,6 @@
 /datum/preferences/proc/ui_data_character_creator_descriptors(mob/user)
 	// Data that doesn't require any conditionals goes inline here!
 	var/list/data = list(
-		"descriptors" = ui_data_descriptors(),
 		"descriptors_custom" = ui_data_descriptors_custom(),
 		// Examine Data
 		"examine_theme" = "None (Use Viewer's)",
@@ -53,19 +52,6 @@
 		data["noble_gossip_cached"] = noble_gossip_cached
 
 	return data
-
-/datum/preferences/proc/ui_data_descriptors(mob/user)
-	var/list/descriptor_data = list()
-	for(var/choice_type in pref_species.descriptor_choices)
-		var/datum/descriptor_choice/choice = DESCRIPTOR_CHOICE(choice_type)
-		var/datum/descriptor_entry/entry = get_descriptor_entry_for_choice(choice_type)
-		UNTYPED_LIST_ADD(descriptor_data, list(
-			"name" = choice.name,
-			"type" = choice_type,
-			"selected" = entry.descriptor_type,
-		))
-
-	return descriptor_data
 
 /datum/preferences/proc/ui_data_descriptors_custom(mob/user)
 	var/static/list/full_translation = CUSTOM_PREFIX_TRANSLATION_LIST

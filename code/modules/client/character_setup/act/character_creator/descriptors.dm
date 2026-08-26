@@ -23,6 +23,7 @@
 			var/datum/descriptor_entry/entry = get_descriptor_entry_for_choice(descriptor_choice)
 			var/datum/mob_descriptor/prev = MOB_DESCRIPTOR(entry.descriptor_type)
 			entry.descriptor_type = mob_descriptor
+			stage_preference(/datum/preference/descriptors)
 
 			verbose_pref_log_change(user, "notice", "Descriptor [LOWER_TEXT(choice.name)]", LOWER_TEXT(prev.name), LOWER_TEXT(descriptor.name))
 			return CHARACTER_ACT_DATA_UPDATE

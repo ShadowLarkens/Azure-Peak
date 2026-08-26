@@ -14,3 +14,13 @@
 	. = ""
 	for(var/color in color_list)
 		. += color
+
+/proc/sanitize_color_string(color_string, default)
+	if(!istext(color_string))
+		return default
+	var/list/L = color_string_to_list(color_string)
+	if(length(L) < 1)
+		return default
+	for(var/i in 1 to length(L))
+		L[i] = sanitize_hexcolor(L[i], 6, TRUE)
+	return color_list_to_string(L)

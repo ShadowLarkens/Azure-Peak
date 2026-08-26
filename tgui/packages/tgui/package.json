@@ -21,7 +21,8 @@
 		"tegaki": "^0.18.0",
 		"tgui-core": "^6.1.1",
 		"tgui-dev-server": "workspace:*",
-		"tgui-webworkers": "workspace:*"
+		"tgui-webworkers": "workspace:*",
+		"zod": "^4.5.4"
 	},
 	"private": true
 }

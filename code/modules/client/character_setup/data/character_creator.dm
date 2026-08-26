@@ -25,7 +25,7 @@ Add a new override in your modular folder that looks like this:
 		"character_preview_view" = character_preview_view?.assigned_map,
 		"preview_background" = character_preview_view?.preview_background.icon_state,
 
-		"loaded_slot" = loaded_slot,
+		"loaded_slot" = default_slot,
 		"real_name" = real_name,
 		"headshot_link" = headshot_link,
 

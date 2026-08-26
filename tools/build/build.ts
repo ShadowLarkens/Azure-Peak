@@ -9,7 +9,7 @@
 
 import fs from 'node:fs';
 import Juke from './juke/index.js';
-import { bun, bunRoot, bunTgfont } from './lib/bun';
+import { bun, bunDmTguiTypeBridge, bunRoot, bunTgfont } from './lib/bun';
 import { DreamDaemon, DreamMaker, NamedVersionFile } from './lib/byond';
 import { prependDefines } from './lib/tgs';
 
@@ -177,12 +177,50 @@ export const TgFontTarget = new Juke.Target({
   executes: () => bunTgfont('tgfont:build'),
 });
 
+export const DmTguiTypeBridgeBun = new Juke.Target({
+  parameters: [CiParameter],
+  inputs: ['tools/dm_tgui_type_bridge/package.json'],
+  executes: () => {
+    return bunDmTguiTypeBridge(
+      'install',
+      '--frozen-lockfile',
+      '--ignore-scripts',
+    );
+  },
+});
+
+export const DmTguiTypeBridgeTarget = new Juke.Target({
+  dependsOn: [DmTguiTypeBridgeBun],
+  // If you put your prefs outside of this you're SOL
+  // Instructions for downstream: Include your modular folder here
+  inputs: [
+    'code/modules/client/preferences/**',
+    'tools/dm_tgui_type_bridge/**/*.ts',
+  ],
+  outputs: ['tgui/packages/common/preferences_bindings.ts'],
+  executes: () => {
+    return bunDmTguiTypeBridge('run generate');
+  },
+});
+
+export const DmTguiTypeBridgeFormatTarget = new Juke.Target({
+  dependsOn: [DmTguiTypeBridgeTarget],
+  inputs: ['tgui/packages/common/preferences_bindings.ts'],
+  outputs: [],
+  executes: () => {
+    return bunRoot(
+      'biome format --fix tgui/packages/common/preferences_bindings.ts',
+    );
+  },
+});
+
 export const TguiTarget = new Juke.Target({
-  dependsOn: [BunTarget, BiomeInstallTarget],
+  dependsOn: [BunTarget, BiomeInstallTarget, DmTguiTypeBridgeFormatTarget],
   inputs: [
     'tgui/rspack.config.ts',
     'tgui/**/package.json',
     'tgui/packages/**/*.+(js|cjs|ts|tsx|jsx|scss)',
+    'tgui/packages/common/preferences_bindings.ts',
   ],
   outputs: [
     'tgui/public/tgui.bundle.css',
@@ -196,7 +234,7 @@ export const TguiTarget = new Juke.Target({
 });
 
 export const TguiTscTarget = new Juke.Target({
-  dependsOn: [BunTarget],
+  dependsOn: [BunTarget, DmTguiTypeBridgeFormatTarget],
   executes: () => bun('tgui:tsc'),
 });
 

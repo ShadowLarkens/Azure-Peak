@@ -151,6 +151,39 @@
 	var/maskjson
 	var/addjson
 
+/datum/customizer_entry/hair/load_from_list(list/data)
+	. = ..()
+	if(!.)
+		return
+
+	hair_color = data["hair_color"]
+	pix_color = data["pix_color"]
+	natural_gradient = sanitize_path(data["natural_gradient"], /datum/hair_gradient, initial(natural_gradient))
+	natural_color = data["natural_color"]
+	dye_gradient = sanitize_path(data["dye_gradient"], /datum/hair_gradient, initial(dye_gradient))
+	dye_color = data["dye_color"]
+	colormasks = data["colormasks"]
+	custom_mask_version = data["custom_mask_version"]
+	addmasks = data["addmasks"]
+	maskjson = data["maskjson"]
+	addjson = data["addjson"]
+
+/datum/customizer_entry/hair/serialize()
+	. = ..()
+	hair_pack(src)
+	.["hair_color"] = hair_color
+	.["pix_color"] = pix_color
+	.["natural_gradient"] = natural_gradient
+	.["natural_color"] = natural_color
+	.["dye_gradient"] = dye_gradient
+	.["dye_color"] = dye_color
+	.["colormasks"] = colormasks
+	.["custom_mask_version"] = custom_mask_version
+	.["addmasks"] = addmasks
+	.["maskjson"] = maskjson
+	.["addjson"] = addjson
+	hair_unpack(src)
+
 /datum/customizer_entry/hair/facial
 
 /datum/customizer/bodypart_feature/hair/head

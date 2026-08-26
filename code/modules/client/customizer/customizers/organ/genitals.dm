@@ -68,6 +68,18 @@
 	var/penis_size = DEFAULT_PENIS_SIZE
 	var/functional = TRUE
 
+/datum/customizer_entry/organ/penis/load_from_list(list/data)
+	. = ..()
+	if(!.)
+		return
+	penis_size = data["penis_size"]
+	functional = sanitize(data["functional"], initial(functional))
+
+/datum/customizer_entry/organ/penis/serialize()
+	. = ..()
+	.["penis_size"] = penis_size
+	.["functional"] = functional
+
 /datum/customizer/organ/penis/human
 	customizer_choices = list(/datum/customizer_choice/organ/penis/human)
 
@@ -291,6 +303,18 @@
 	var/ball_size = DEFAULT_TESTICLES_SIZE
 	var/virility = TRUE
 
+/datum/customizer_entry/organ/testicles/load_from_list(list/data)
+	. = ..()
+	if(!.)
+		return
+	ball_size = data["ball_size"]
+	virility = sanitize(data["virility"], initial(virility))
+
+/datum/customizer_entry/organ/testicles/serialize()
+	. = ..()
+	.["ball_size"] = ball_size
+	.["virility"] = virility
+
 /datum/customizer/organ/breasts
 	abstract_type = /datum/customizer/organ/breasts
 	name = "Breasts"
@@ -354,6 +378,16 @@
 /datum/customizer_entry/organ/breasts
 	var/breast_size = DEFAULT_BREASTS_SIZE
 
+/datum/customizer_entry/organ/breasts/load_from_list(list/data)
+	. = ..()
+	if(!.)
+		return
+	breast_size = data["breast_size"]
+
+/datum/customizer_entry/organ/breasts/serialize()
+	. = ..()
+	.["breast_size"] = breast_size
+
 /datum/customizer/organ/breasts/human
 	customizer_choices = list(/datum/customizer_choice/organ/breasts/human)
 
@@ -392,6 +426,16 @@
 
 /datum/customizer_entry/organ/vagina
 	var/fertility = TRUE
+
+/datum/customizer_entry/organ/vagina/load_from_list(list/data)
+	. = ..()
+	if(!.)
+		return
+	fertility = sanitize(data["fertility"], initial(fertility))
+
+/datum/customizer_entry/organ/vagina/serialize()
+	. = ..()
+	.["fertility"] = fertility
 
 /datum/customizer_choice/organ/vagina/imprint_organ_dna(datum/organ_dna/organ_dna, datum/customizer_entry/entry, datum/preferences/prefs)
 	..()

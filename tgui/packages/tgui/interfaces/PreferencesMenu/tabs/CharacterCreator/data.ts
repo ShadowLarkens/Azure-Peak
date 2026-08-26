@@ -169,7 +169,6 @@ export enum ClassPreference {
 
 // --------------- DescriptorData ---------------
 export type DescriptorData = {
-  descriptors: Descriptor[];
   descriptors_custom: CustomDescriptor[];
 } & ExamineData;
 

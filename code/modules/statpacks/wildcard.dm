@@ -18,7 +18,7 @@
 
 /datum/statpack/wildcard/fated/get_stat_array(mob/living/carbon/human/recipient, mob/dead/new_player/new_player)
 	var/player_ckey = recipient.ckey || new_player?.ckey
-	var/loaded_slot = recipient.client?.prefs?.loaded_slot || new_player?.client?.prefs?.loaded_slot
+	var/loaded_slot = recipient.client?.prefs?.default_slot || new_player?.client?.prefs?.default_slot
 	var/key = "[player_ckey]-[loaded_slot]"
 
 	if(locked_stat_array[key])
@@ -51,7 +51,7 @@
 
 /datum/statpack/wildcard/fated/post_apply(mob/living/carbon/human/recipient, mob/dead/new_player/new_player, list/applied_stats)
 	var/player_ckey = recipient.ckey || new_player?.ckey
-	var/loaded_slot = recipient.client?.prefs?.loaded_slot || new_player?.client?.prefs?.loaded_slot
+	var/loaded_slot = recipient.client?.prefs?.default_slot || new_player?.client?.prefs?.default_slot
 	var/key = "[player_ckey]-[loaded_slot]"
 
 	// lock in the stats

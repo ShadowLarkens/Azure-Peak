@@ -6,9 +6,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/client/parent
 	//doohickeys for savefiles
 	var/path
-	var/default_slot = 1				//Holder so it doesn't default to slot 1, rather the last one used
-	var/max_save_slots = 60
-	var/loaded_slot = 1
+	/// This is both the slot that will loaded when load_character() is called with no argument, and the currently loaded slot.
+	var/default_slot = 1
+	var/max_save_slots = MAX_SAVE_SLOTS
 	var/savefile_write_locked = FALSE // guard against simultaneous savefile writes from the UI causing any sort of horrors
 
 	//non-preference stuff
@@ -137,7 +137,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/ooc_extra
 	var/song_artist
 	var/song_title
-	var/list/descriptor_entries = list()
 	var/list/custom_descriptors = list()
 	COOLDOWN_DECLARE(descriptor_preview)
 
@@ -210,7 +209,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 		if(!IsGuestKey(C.key))
 			load_path(C.ckey)
 			if(C.IsByondMember())
-				max_save_slots = 100
+				max_save_slots = MAX_SAVE_SLOTS_BYOND_MEMBER
 	var/loaded_preferences_successfully = load_preferences()
 	if(loaded_preferences_successfully)
 		if(load_character())
@@ -223,8 +222,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	if(!combat_music)
 		combat_music = GLOB.cmode_tracks_by_type[default_cmusic_type]
-	key_bindings = deepCopyList(GLOB.hotkey_keybinding_list_by_key) // give them default keybinds and update their movement keys
-	C.update_movement_keys()
+	force_reset_keybindings_direct()
 	if(!loaded_preferences_successfully)
 		save_preferences()
 	save_character()		//let's save this new random character so it doesn't keep generating new ones.
@@ -276,6 +274,13 @@ GLOBAL_LIST_EMPTY(chosen_names)
 		)
 		return TRUE
 
+/datum/preferences/proc/is_active_migrant()
+	if(!migrant)
+		return FALSE
+	if(!migrant.queued_wave)
+		return FALSE
+	return TRUE
+
 /// Does the actual reset
 /datum/preferences/proc/force_reset_keybindings_direct()
 	var/list/oldkeys = key_bindings
@@ -285,10 +290,3 @@ GLOBAL_LIST_EMPTY(chosen_names)
 		if(!key_bindings[key])
 			key_bindings[key] = oldkeys[key]
 	parent?.ensure_keys_set(src)
-
-/datum/preferences/proc/is_active_migrant()
-	if(!migrant)
-		return FALSE
-	if(!migrant.queued_wave)
-		return FALSE
-	return TRUE

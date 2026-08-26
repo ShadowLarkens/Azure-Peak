@@ -11,6 +11,7 @@ import {
   Tabs,
 } from 'tgui-core/components';
 import { useConstantPrefs } from '../constant_data';
+import { usePreferences } from '../datumized_data';
 import type { AllPagesData } from './CharacterCreator/data';
 import { SubtabAppearance } from './CharacterCreator/subtabs/Appearance';
 import { SubtabClass } from './CharacterCreator/subtabs/Class';
@@ -99,11 +100,12 @@ const Sidebar = () => {
     hide_pq,
     pq,
     preview_background,
-    real_name,
     headshot_link,
     triumphs,
   } = data;
   const [popupId, setPopupId] = usePopupId();
+
+  const prefs = usePreferences(['/datum/preference/name/real_name']);
 
   return (
     <Stack.Item mr={2} mt={1} width={15}>
@@ -119,7 +121,7 @@ const Sidebar = () => {
         </Stack.Item>
         <Stack.Divider />
         <Stack.Item fontSize={1.2} style={{ wordBreak: 'break-all' }}>
-          {real_name}
+          {prefs?.real_name || 'Loading...'}
         </Stack.Item>
         <Stack.Item width={15} height={15}>
           {/* This needs to be turned off when there's a popup because otherwise it'll intersect */}

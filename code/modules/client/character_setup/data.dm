@@ -5,6 +5,7 @@
 	var/list/data = ui_data_all_pages(user)
 
 	data += ui_data_for_tab(user)
+	data += ui_data_datum_prefs(user)
 	data["popup"] = ui_data_for_popup(user) // see data/popup.dm
 
 	return data

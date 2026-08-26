@@ -218,3 +218,26 @@ GLOBAL_LIST_INIT(attack_blip_pref_list, list(
 #define RANDOMIZE_MINIMAL 0 // Minimal randomization ONLY scrambles enough to support a new pref_species
 #define RANDOMIZE_NORMAL 1 // Default randomize button for players, scrambles appearance and identity but not species and custom text
 #define RANDOMIZE_NEW_CHARACTER 2 // Additionally clears all custom text and randomizes a new species
+
+// Values for /datum/preference/savefile_identifier
+/// This preference is character specific.
+#define PREFERENCE_CHARACTER "character"
+/// This preference is account specific.
+#define PREFERENCE_PLAYER "player"
+
+//This is the lowest supported version, anything below this is completely obsolete and the entire savefile will be wiped.
+#define SAVEFILE_VERSION_MIN	18
+
+//This is the current version, anything below this will attempt to update (if it's not obsolete)
+//	You do not need to raise this if you are adding new values that have sane defaults.
+//	Only raise this value when changing the meaning/format/name/layout of an existing value
+//	where you would want the updater procs below to run
+#define SAVEFILE_VERSION_MAX	37
+
+// RAISE THIS TO SAVEFILE_VERSION_MAX (and make sure to add +1 to the version) EVERY TIME YOU ADD SERVER-CHANGING KEYBINDS LIKE CHANGING HOW SAY WORKS!!
+#define SAVEFILE_VERSION_RESET_KEYBINDS 31
+
+#define MAX_SAVE_SLOTS 60
+#define MAX_SAVE_SLOTS_BYOND_MEMBER 100
+// Keep this up to date with whatever the highest possible slot count is.
+#define MAX_SAVE_SLOTS_POSSIBLE MAX_SAVE_SLOTS_BYOND_MEMBER
