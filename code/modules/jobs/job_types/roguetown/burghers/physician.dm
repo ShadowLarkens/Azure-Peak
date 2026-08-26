@@ -7,7 +7,6 @@
 	spawn_positions = 1
 
 	forbidden_races = list(RACES_DESPISED)
-	allowed_sexes = list(MALE, FEMALE)
 	display_order = JDO_PHYSICIAN
 	tutorial = "You are the Head Physician, master of the city clinic of Azure Peak \
 		and overseer of all medical practice and learning within the University of \

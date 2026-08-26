@@ -259,7 +259,8 @@
 	sources[KEY_MUT_COLOR_TWO] = features["mcolor2"]
 	sources[KEY_MUT_COLOR_THREE] = features["mcolor3"]
 	/// Read specific organ entries to deduce eye, hair and facial hair color
-	if(MUTCOLORS in prefs.pref_species.species_traits)
+	var/datum/species/pref_species = prefs.read_preference(/datum/preference/species)
+	if(MUTCOLORS in pref_species.species_traits)
 		sources[KEY_SKIN_COLOR] = sources[KEY_MUT_COLOR_ONE]
 	else
 		sources[KEY_SKIN_COLOR] = prefs.skin_tone

@@ -5,7 +5,6 @@
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 2
-	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED)
 	tutorial = "You are a Sexton, an apprentice, helping hand or aide for the local church. Your responsibilities are little, but so are your obligations."
 	outfit = /datum/outfit/job/roguetown/sexton/

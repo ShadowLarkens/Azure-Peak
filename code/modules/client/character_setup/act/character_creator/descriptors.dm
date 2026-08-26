@@ -4,6 +4,7 @@
 	switch(action)
 		if("set_descriptor")
 			// Validate our DESCRIPTOR_CHOICE
+			var/datum/species/pref_species = read_preference(/datum/preference/species)
 			var/descriptor_choice = text2path(params["descriptor_choice"])
 			if(!(descriptor_choice in pref_species.descriptor_choices))
 				return CHARACTER_ACT_DATA_UPDATE
@@ -23,6 +24,7 @@
 			var/datum/descriptor_entry/entry = get_descriptor_entry_for_choice(descriptor_choice)
 			var/datum/mob_descriptor/prev = MOB_DESCRIPTOR(entry.descriptor_type)
 			entry.descriptor_type = mob_descriptor
+			stage_preference(/datum/preference/descriptors)
 
 			verbose_pref_log_change(user, "notice", "Descriptor [LOWER_TEXT(choice.name)]", LOWER_TEXT(prev.name), LOWER_TEXT(descriptor.name))
 			return CHARACTER_ACT_DATA_UPDATE
@@ -264,6 +266,7 @@
 
 		// Rumours
 		if("rumour_preview")
+			var/real_name = read_preference(/datum/preference/name/real_name)
 			var/msg = ""
 			if(length(rumour_cached))
 				msg += "<b>You recall what you heard around Town about [real_name]...</b><br>[rumour_cached]"
@@ -390,11 +393,12 @@
 		to_chat(user, span_warning("You must wait before previewing descriptors again."))
 		return
 	COOLDOWN_START(src, descriptor_preview, 5 SECONDS)
+	var/real_name = read_preference(/datum/preference/name/real_name)
 	to_chat(user, span_notice("-- Preview of [real_name]'s descriptors --"))
 
 	// someone please fix this horror one day
 	var/mob/living/temp = new /mob/living(null)
-	temp.pronouns = pronouns
+	temp.pronouns = read_preference(/datum/preference/choiced/pronouns)
 	apply_descriptors(temp)
 
 	// Calculate speaking name

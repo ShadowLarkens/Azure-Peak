@@ -1,6 +1,7 @@
 /datum/preferences/proc/ui_act_popup_taur_type(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	var/mob/user = ui.user
 
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
 	switch(action)
 		if("taur_type")
 			if(isnull(params["taur_type"]))

@@ -27,8 +27,6 @@
 			data = ui_data_popup_origin(user)
 		if(PREFERENCE_POPUP_PATRON_SELECT)
 			data = ui_data_popup_patron_select(user)
-		if(PREFERENCE_POPUP_SPECIES)
-			data = ui_data_popup_species(user)
 		if(PREFERENCE_POPUP_STATPACK)
 			data = ui_data_popup_statpack(user)
 		if(PREFERENCE_POPUP_TAUR_TYPE)

@@ -18,3 +18,4 @@ export function bunWithCwd(
 export const bun = bunWithCwd('./tgui');
 export const bunRoot = bunWithCwd('./');
 export const bunTgfont = bunWithCwd('./tgui/packages/tgfont');
+export const bunDmTguiTypeBridge = bunWithCwd('./tools/dm_tgui_type_bridge');

@@ -10,6 +10,10 @@
 /// If the condition is not true, fails the test
 #define TEST_ASSERT(assertion, reason) if (!(assertion)) { return Fail("Assertion failed: [reason || "No reason"]", __FILE__, __LINE__) }
 
+/// Asserts that a condition is true
+/// If the condition is not true, reports a failure
+#define TEST_CHECK(assertion, reason) if (!(assertion)) { Fail("Assertion failed: [reason || "No reason"]", __FILE__, __LINE__) }
+
 /// Asserts that a parameter is not null
 #define TEST_ASSERT_NOTNULL(a, reason) if (isnull(a)) { return Fail("Expected non-null value: [reason || "No reason"]", __FILE__, __LINE__) }
 
@@ -24,6 +28,17 @@
 		var/rhs = ##b; \
 		if (lhs != rhs) { \
 			return Fail("Expected [isnull(lhs) ? "null" : lhs] to be equal to [isnull(rhs) ? "null" : rhs].[message ? " [message]" : ""]", __FILE__, __LINE__); \
+		} \
+	} while (FALSE)
+
+/// Asserts that the two parameters passed are equal, reports failure otherwise
+/// Optionally allows an additional message in the case of a failure
+#define TEST_CHECK_EQUAL(a, b, message) \
+	do { \
+		var/lhs = ##a; \
+		var/rhs = ##b; \
+		if (lhs != rhs) { \
+			Fail("Expected [isnull(lhs) ? "null" : lhs] to be equal to [isnull(rhs) ? "null" : rhs].[message ? " [message]" : ""]", __FILE__, __LINE__); \
 		} \
 	} while (FALSE)
 
@@ -69,6 +84,7 @@
 #include "focus_only_tests.dm"
 #include "nodupe_salvageresult.dm"
 #include "nodupe_smeltresult.dm"
+#include "preferences.dm"
 #include "reagent_id_typos.dm"
 #include "reagent_recipe_collisions.dm"
 #include "spawn_humans.dm"

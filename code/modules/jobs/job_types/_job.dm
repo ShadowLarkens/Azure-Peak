@@ -71,8 +71,6 @@
 	// WARNING: Only affects jobs within the same department_flag!
 	var/display_order = JOB_DISPLAY_ORDER_DEFAULT
 
-	//allowed sex/race for picking
-	var/list/allowed_sexes = list(MALE, FEMALE)
 	var/list/forbidden_races
 	var/list/allowed_patrons
 	var/list/allowed_ages = ALL_AGES_LIST

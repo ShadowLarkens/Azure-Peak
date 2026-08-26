@@ -2,7 +2,6 @@
 	name = "Potter"
 	tutorial = "You are a skilled artisan in the manipulation of ceramics, \
 	and their fashioning into a multitude of different objects and valuables, including glass."
-	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED)
 
 	outfit = /datum/outfit/job/roguetown/adventurer/potter

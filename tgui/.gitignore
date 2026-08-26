@@ -7,3 +7,4 @@ node_modules
 !/public/*.html
 !/public/ntos-error.min.css
 !/public/helpers.min.js
+/packages/common/preferences_bindings.ts

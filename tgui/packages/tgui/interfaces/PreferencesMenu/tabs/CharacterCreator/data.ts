@@ -170,7 +170,6 @@ export enum ClassPreference {
 
 // --------------- DescriptorData ---------------
 export type DescriptorData = {
-  descriptors: Descriptor[];
   descriptors_custom: CustomDescriptor[];
 } & ExamineData;
 
@@ -225,7 +224,6 @@ export type IdentityData = {
   highlight_color: Color;
   age: string;
 
-  pronouns: string;
   titles_pref: string;
   clothes_pref: string;
 

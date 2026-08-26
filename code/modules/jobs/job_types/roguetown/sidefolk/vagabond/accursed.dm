@@ -1,7 +1,6 @@
 /datum/advclass/vagabond_accursed
 	name = "The Accursed"
 	tutorial = "Cursed by the wilds themselves — or by the god who rules them. You do not remember what you did to earn this fate, if anything at all. A hunter's patience, a farmer's grit, these are etched into your bones, but the face you wore before the first transformation has long since blurred."
-	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/vagabond/accursed
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
 	maximum_possible_slots = 2
@@ -35,7 +34,7 @@
 	if(prob(33))
 		cloak = /obj/item/clothing/cloak/half/brown
 		gloves = /obj/item/clothing/gloves/roguetown/fingerless
-	
+
 	r_hand = /obj/item/rogueweapon/stoneaxe
 
 	if(H.mind)

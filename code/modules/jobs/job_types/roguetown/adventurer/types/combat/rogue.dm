@@ -1,7 +1,6 @@
 /datum/advclass/rogue
 	name = "Treasure Hunter"
 	tutorial = "You are a treasure hunter trained in hunting for valuables. Discern what is treasure or not, your fortune could be hidden anywhere."
-	allowed_sexes = list(MALE, FEMALE)
 
 	outfit = /datum/outfit/job/roguetown/adventurer/rogue
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'

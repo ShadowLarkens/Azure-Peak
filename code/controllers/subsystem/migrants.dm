@@ -407,20 +407,18 @@ SUBSYSTEM_DEF(migrants)
 		return FALSE
 	if(!player.prefs)
 		return FALSE
-	var/datum/preferences/prefs = player.prefs
-	if(role.forbidden_races && (prefs.pref_species.type in role.forbidden_races))
+	var/datum/species/pref_species = player.prefs.read_preference(/datum/preference/species)
+	if(role.forbidden_races && (pref_species.type in role.forbidden_races))
 		return FALSE
-	if(role.allowed_sexes && !(prefs.gender in role.allowed_sexes))
-		return FALSE
-	if(role.allowed_ages && !(prefs.age in role.allowed_ages))
+	if(role.allowed_ages && !(player.prefs.age in role.allowed_ages))
 		return FALSE
 	if(role.banned_flaws)
-		for(var/datum/charflaw/checked_flaw in prefs.charflaws)
+		for(var/datum/charflaw/checked_flaw in player.prefs.charflaws)
 			if(checked_flaw.type in role.banned_flaws)
 				return FALSE
 	if(role.banned_virtues)
 		// i just stole this from the normal virtue restriction code i cant even lie
-		if((prefs.virtue?.type in role.banned_virtues) || (prefs.virtuetwo?.type in role.banned_virtues) || (prefs.virtue_origin?.type in role.banned_virtues))
+		if((player.prefs.virtue?.type in role.banned_virtues) || (player.prefs.virtuetwo?.type in role.banned_virtues) || (player.prefs.virtue_origin?.type in role.banned_virtues))
 			return FALSE
 	return TRUE
 

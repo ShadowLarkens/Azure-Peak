@@ -1,22 +1,26 @@
 /datum/preferences/proc/ui_act_character_creator_identity(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	var/mob/user = ui.user
 
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
 	switch(action)
 		if("real_name")
-			var/new_name = tgui_input_text(user, "The name of this vessel?", "IDENTITY", real_name, encode = FALSE)
+			var/old_name = read_preference(/datum/preference/name/real_name)
+			var/new_name = tgui_input_text(user, "The name of this vessel?", "IDENTITY", old_name, encode = FALSE)
 			if(new_name)
 				new_name = reject_bad_name(new_name)
 				if(new_name)
-					verbose_pref_log_change(user, "notice", "Real Name", real_name, new_name)
-					real_name = new_name
+					verbose_pref_log_change(user, "notice", "Real Name", old_name, new_name)
+					write_preference(/datum/preference/name/real_name, new_name)
 				else
 					to_chat(user, span_warning("Invalid name. Your name should be at least 2 and at most [MAX_NAME_LEN] characters long. It may only contain the characters A-Z, a-z, -, ', . and ,."))
 			return CHARACTER_ACT_DATA_UPDATE
 
 		if("randomize_real_name")
-			var/randomized = pref_species.random_name(gender, TRUE)
-			verbose_pref_log_change(user, "notice", "Real Name", real_name, "[randomized] (randomized)")
-			real_name = randomized
+			// TODO: use identity, not body type
+			var/randomized = pref_species.random_name(read_preference(/datum/preference/choiced/body_type), TRUE)
+			var/old_name = read_preference(/datum/preference/name/real_name)
+			verbose_pref_log_change(user, "notice", "Real Name", old_name, "[randomized] (randomized)")
+			write_preference(/datum/preference/name/real_name, randomized)
 			return CHARACTER_ACT_DATA_UPDATE
 
 		if("randomize_normal")
@@ -38,12 +42,13 @@
 			return CHARACTER_ACT_PREVIEW_UPDATE
 
 		if("nickname")
-			var/new_name = tgui_input_text(user, "Choose your character's nickname (For Highlighting):", "NICKNAME", nickname, encode = FALSE)
+			var/old_nickname = read_preference(/datum/preference/name/nickname)
+			var/new_name = tgui_input_text(user, "Choose your character's nickname (For Highlighting):", "NICKNAME", old_nickname, encode = FALSE)
 			if(new_name)
 				new_name = reject_bad_name(new_name)
 				if(new_name)
-					verbose_pref_log_change(user, "notice", "Nickname", nickname, new_name)
-					nickname = new_name
+					verbose_pref_log_change(user, "notice", "Nickname", old_nickname, new_name)
+					write_preference(/datum/preference/name/nickname, new_name)
 				else
 					to_chat(user, span_warning("Invalid name. Your name should be at least 2 and at most [MAX_NAME_LEN] characters long. It may only contain the characters A-Z, a-z, -, ', . and ,."))
 			return CHARACTER_ACT_DATA_UPDATE
@@ -66,10 +71,12 @@
 			return CHARACTER_ACT_DATA_UPDATE
 
 		if("pronouns")
-			var/pronouns_input = tgui_input_list(user, "Choose your character's pronouns", "PRONOUNS", GLOB.pronouns_list, pronouns)
+			var/datum/preference/choiced/pronouns/pronoun_pref = GLOB.preference_entries[/datum/preference/choiced/pronouns]
+			var/old = read_preference(pronoun_pref.type)
+			var/pronouns_input = tgui_input_list(user, "Choose your character's pronouns", "PRONOUNS", pronoun_pref.get_choices(), old)
 			if(pronouns_input)
-				verbose_pref_log_change(user, "notice", "Pronouns", pronouns, pronouns_input)
-				pronouns = pronouns_input
+				verbose_pref_log_change(user, "notice", "Pronouns", old, pronouns_input)
+				write_preference(pronoun_pref.type, pronouns_input)
 			return CHARACTER_ACT_DATA_UPDATE
 
 		if("titles")

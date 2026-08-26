@@ -12,6 +12,7 @@
 		character.regenerate_limb(BODY_ZONE_R_ARM)
 		character.regenerate_limb(BODY_ZONE_L_ARM)
 
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
 	var/datum/species/chosen_species
 	chosen_species = pref_species.type
 	if(!(pref_species.name in GLOB.roundstart_races))
@@ -20,10 +21,11 @@
 
 	character.age = age
 	character.dna.features = features.Copy()
-	character.gender = gender
+	character.gender = read_preference(/datum/preference/choiced/body_type)
 	character.set_species(chosen_species, icon_update = FALSE, pref_load = src)
 	character.dna.update_body_size()
 
+	var/real_name = read_preference(/datum/preference/name/real_name)
 	if(roundstart_checks)
 		if(CONFIG_GET(flag/humans_need_surnames) && ((pref_species.id == "human") || (pref_species.id == "humen")))
 			var/firstspace = findtext(real_name, " ")
@@ -34,7 +36,8 @@
 				real_name += "[pick(GLOB.last_names)]"
 
 	if(real_name in GLOB.chosen_names)
-		character.real_name = pref_species.random_name(gender)
+		// TODO: use identity, not body type
+		character.real_name = pref_species.random_name(character.gender)
 	else
 		character.real_name = real_name
 	character.name = character.real_name
@@ -43,7 +46,7 @@
 	character.cmode_music_override = combat_music.musicpath
 	character.cmode_music_override_name = combat_music.name
 	character.highlight_color = highlight_color
-	character.nickname = nickname
+	character.nickname = read_preference(/datum/preference/name/nickname)
 
 	character.voice_color = voice_color
 	character.voice_pitch = voice_pitch
@@ -102,7 +105,7 @@
 	character.song_artist = song_artist
 	// LETHALSTONE ADDITION BEGIN: additional customizations
 
-	character.pronouns = pronouns
+	character.pronouns = read_preference(/datum/preference/choiced/pronouns)
 	character.titles_pref = titles_pref
 	character.clothes_pref = clothes_pref
 	character.voice_type = voice_type

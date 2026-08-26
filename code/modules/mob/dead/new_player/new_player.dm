@@ -282,21 +282,9 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	if(!isnull(job.max_pq) && (get_playerquality(ckey) > job.max_pq))
 		return JOB_UNAVAILABLE_PQ
 	#endif
-	var/datum/species/pref_species = client.prefs.pref_species
+	var/datum/species/pref_species = client.prefs.read_preference(/datum/preference/species)
 	if(length(job.forbidden_races) && (pref_species.type in job.forbidden_races))
 		return JOB_UNAVAILABLE_RACE
-	var/list/allowed_sexes = list()
-	if(length(job.allowed_sexes))
-		allowed_sexes |= job.allowed_sexes
-	if(!job.immune_to_genderswap && pref_species?.gender_swapping)
-		if(MALE in job.allowed_sexes)
-			allowed_sexes -= MALE
-			allowed_sexes += FEMALE
-		if(FEMALE in job.allowed_sexes)
-			allowed_sexes -= FEMALE
-			allowed_sexes += MALE
-	if(length(allowed_sexes) && !(client.prefs.gender in allowed_sexes))
-		return JOB_UNAVAILABLE_SEX
 	if(length(job.allowed_ages) && !(client.prefs.age in job.allowed_ages))
 		return JOB_UNAVAILABLE_AGE
 	if(length(job.allowed_patrons) && !(client.prefs.selected_patron.type in job.allowed_patrons))
@@ -496,7 +484,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 					if(job in GLOB.leadership_positions)
 						command_bold = TRUE
 					var/used_name = job_datum.display_title || job_datum.title
-					if(client.prefs.pronouns == SHE_HER && job_datum.f_title)
+					if(client.prefs.read_preference(/datum/preference/choiced/pronouns) == SHE_HER && job_datum.f_title)
 						used_name = job_datum.f_title
 					if(job_datum in SSjob.prioritized_jobs)
 						dat += "<a class='job[command_bold]' href='byond://?src=[REF(src)];SelectedJob=[job_datum.title]'><span class='priority'>[used_name] ([job_datum.current_positions])</span></a>"

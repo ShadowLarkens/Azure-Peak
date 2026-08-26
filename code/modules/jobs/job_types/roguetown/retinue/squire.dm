@@ -6,7 +6,6 @@
 	total_positions = 4
 	spawn_positions = 4
 	forbidden_races = list(RACES_DESPISED)
-	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT)
 	advclass_cat_rolls = list(CTAG_SQUIRE = 20)
 	job_traits = list(TRAIT_SQUIRE_REPAIR, TRAIT_EXPERT_HUNTER)

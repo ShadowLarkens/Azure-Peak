@@ -31,7 +31,7 @@
 	var/datum/customizer_entry/created_entry = chosen_custom.make_default_customizer_entry(prefs, type, changed_entry)
 	if(!changed_entry)
 		created_entry.disabled = default_disabled
-		if(gender_enabled == prefs.gender) // Makes parts that are auto-enabled for that gender automatically enabled.
+		if(gender_enabled == prefs.read_preference(/datum/preference/choiced/body_type)) // Makes parts that are auto-enabled for that gender automatically enabled.
 			created_entry.disabled = FALSE
 	return created_entry
 

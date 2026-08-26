@@ -83,6 +83,20 @@
 	var/heterochromia = FALSE
 	var/second_color = "#111111"
 
+/datum/customizer_entry/organ/eyes/load_from_list(list/data)
+	. = ..()
+	if(!.)
+		return
+	eye_color = data["eye_color"]
+	heterochromia = data["heterochromia"]
+	second_color = data["second_color"]
+
+/datum/customizer_entry/organ/eyes/serialize()
+	. = ..()
+	.["eye_color"] = eye_color
+	.["heterochromia"] = heterochromia
+	.["second_color"] = second_color
+
 /datum/customizer/organ/eyes/humanoid
 	customizer_choices = list(/datum/customizer_choice/organ/eyes/humanoid)
 	default_choice = /datum/customizer_choice/organ/eyes/humanoid

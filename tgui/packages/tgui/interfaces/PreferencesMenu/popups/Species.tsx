@@ -1,16 +1,8 @@
+import type { ConstantPreferenceDataType } from 'common/preferences_bindings';
 import { groupBy, sortBy } from 'es-toolkit/array';
 import { PrefPopupGuard, TabCollapsible } from 'pm/components';
-import {
-  type ConstantData,
-  type ConstantSpecies,
-  useConstantPrefs,
-} from 'pm/constant_data';
-import {
-  type PopupData,
-  registerPopup,
-  useKeyscrollEffect,
-  usePopupBackend,
-} from 'pm/popups';
+import { type ConstantData, useConstantPrefs } from 'pm/constant_data';
+import { registerPopup, useKeyscrollEffect, usePopupBackend } from 'pm/popups';
 import { useEffect, useState } from 'react';
 import {
   Box,
@@ -20,19 +12,11 @@ import {
   Tabs,
   Tooltip,
 } from 'tgui-core/components';
-
-/**
- * @see {@link ConstantData.virtues}
- */
-type SpeciesPopupData = {
-  current_species: string;
-  current_subspecies: string;
-} & PopupData;
+import { usePreferences } from '../datumized_data';
 
 const PopupSpeciesSelector = () => {
+  const prefs = usePreferences(['/datum/preference/species']);
   const [constantData] = useConstantPrefs();
-  const { data } = usePopupBackend<SpeciesPopupData>();
-  const { popup_data_ready } = data;
 
   return (
     <PrefPopupGuard
@@ -40,7 +24,7 @@ const PopupSpeciesSelector = () => {
       loadingScreenText="Races Loading..."
       width="80vw"
       height="60vh"
-      dependencies={[constantData, popup_data_ready]}
+      dependencies={[constantData, prefs]}
     >
       <PopupSpeciesSelectorInner constantData={constantData!} />
     </PrefPopupGuard>
@@ -56,11 +40,13 @@ declare module 'pm/popups' {
 registerPopup('Species', 'species', PopupSpeciesSelector);
 
 const PopupSpeciesSelectorInner = (props: { constantData: ConstantData }) => {
+  const prefs = usePreferences(['/datum/preference/species'])!;
+  const {
+    species: { base_species, sub_species },
+  } = prefs;
   const { constantData } = props;
-  const { data } = usePopupBackend<SpeciesPopupData>();
   const { species } = constantData;
-  const { current_species, current_subspecies } = data;
-  const [viewing, setViewing] = useState(current_subspecies);
+  const [viewing, setViewing] = useState(sub_species);
 
   const speciesByBasename = Object.fromEntries(
     Object.entries(groupBy(species, (s) => s.base_name)).map(([k, v]) => [
@@ -102,7 +88,7 @@ const PopupSpeciesSelectorInner = (props: { constantData: ConstantData }) => {
                 startOpen={
                   // this is just polish, it makes it so that you can see
                   // the tab that opens by default
-                  name === current_species
+                  name === base_species
                 }
               >
                 {speciesByBasename[name].map((s) => (
@@ -118,7 +104,7 @@ const PopupSpeciesSelectorInner = (props: { constantData: ConstantData }) => {
                       ml={2}
                       id={`PreferencesMenuPopupSpeciesSelectorTab_${s.sub_name}`}
                       icon={
-                        current_subspecies === s.sub_name
+                        sub_species === s.sub_name
                           ? 'check'
                           : !s.is_subrace
                             ? 'asterisk'
@@ -143,10 +129,19 @@ const PopupSpeciesSelectorInner = (props: { constantData: ConstantData }) => {
   );
 };
 
+// Extract from the zod schema
+type ConstantSpecies = Pick<
+  ConstantPreferenceDataType,
+  'species'
+>['species'][0];
+
 const RightPane = (props: { species: ConstantSpecies | undefined }) => {
+  const prefs = usePreferences(['/datum/preference/species'])!;
+  const {
+    species: { sub_species },
+  } = prefs;
   const { species } = props;
-  const { act, data } = usePopupBackend<SpeciesPopupData>();
-  const { current_subspecies } = data;
+  const { act } = usePopupBackend();
 
   if (!species) {
     return (
@@ -156,7 +151,7 @@ const RightPane = (props: { species: ConstantSpecies | undefined }) => {
     );
   }
 
-  const selected = current_subspecies === species.sub_name;
+  const selected = sub_species === species.sub_name;
 
   return (
     <Section
@@ -215,7 +210,7 @@ const RightPane = (props: { species: ConstantSpecies | undefined }) => {
               <Box
                 preserveWhitespace
                 dangerouslySetInnerHTML={{
-                  __html: (species.mechanics as unknown as string).trim(),
+                  __html: species.mechanics.trim(),
                 }}
               />
             </Section>

@@ -1,7 +1,6 @@
 /datum/advclass/assassin_ranger
 	name = "Assassin - Ranger"
 	tutorial = "You spent your life tracking the biggest game of all - mortal men. The direbears you've killed do not even compare to the men you've felled. Track your pray, put down the feral dog, and get your pay.."
-	allowed_sexes = list(MALE, FEMALE)
 
 	outfit = /datum/outfit/job/roguetown/assassin/ranger
 	category_tags = list(CTAG_ASSASSIN)

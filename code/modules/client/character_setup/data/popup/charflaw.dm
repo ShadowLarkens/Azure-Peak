@@ -23,6 +23,7 @@
 		return PREFERENCE_CHARFLAW_DENIAL_HIDE
 	if(has_flaw(cf.type) && !istype(cf, /datum/charflaw/randflaw))
 		return PREFERENCE_CHARFLAW_DENIAL_ALREADY_TAKEN
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
 	if(length(cf.restricted_species) && (pref_species.type in cf.restricted_species))
 		return PREFERENCE_CHARFLAW_DENIAL_RESTRICTION
 	if(LAZYLEN(charflaws) >= MAX_VICES)

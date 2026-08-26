@@ -5,19 +5,16 @@
 		return VP
 
 	var/datum/voicepack/VP
-	if(gender == FEMALE && pref_species.soundpack_f)
-		VP = pref_species.soundpack_f
-	else if(pref_species.soundpack_m)
-		VP = pref_species.soundpack_m
-	if(voice_type)
-		switch(voice_type)
-			if(VOICE_TYPE_MASC)
-				VP = pref_species.soundpack_m
+
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
+	switch(voice_type)
+		if(VOICE_TYPE_MASC)
+			VP = pref_species.soundpack_m
+		else
+			if(pref_species.soundpack_f)
+				VP = pref_species.soundpack_f
 			else
-				if(pref_species.soundpack_f)
-					VP = pref_species.soundpack_f
-				else
-					VP = pref_species.soundpack_m
+				VP = pref_species.soundpack_m
 
 	if(!istype(VP))
 		VP = GLOB.voice_packs[VP]
@@ -69,9 +66,11 @@
 	. = "[span_notice("Character Creator:")] [.]"
 
 /datum/preferences/proc/verbose_pref_log_change(user, span, pref, before, after)
+	var/real_name = read_preference(/datum/preference/name/real_name)
 	var/log_entry = "\"[real_name]\" updated. \"[pref]\" switched from \"[before]\" to \"[after]\"."
 	verbose_pref_log(user, log_entry, stylize_log_entry(log_entry, span))
 
 /datum/preferences/proc/verbose_pref_log_notification(user, span, message)
+	var/real_name = read_preference(/datum/preference/name/real_name)
 	var/log_entry = "\"[real_name]\" updated. [message]."
 	verbose_pref_log(user, log_entry, stylize_log_entry(log_entry, span))

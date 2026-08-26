@@ -128,3 +128,10 @@
 			to_chat(usr, "<span class='warning'>The link must be hosted on one of the following sites: 'Gyazo, Lensdump, Imgbox, Catbox, File Garden'</span>")
 		return FALSE
 	return TRUE
+
+/proc/sanitize_path(value, allowed_path, default)
+	if(istext(value))
+		value = text2path(value)
+	if(!ispath(value, allowed_path))
+		return default
+	return value

@@ -21,7 +21,6 @@
 
 /datum/advclass/runaway_prisoner_commoner
 	name = "Runaway Prisoner (commoner)"
-	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/adventurer/runaway_prisoner
 	traits_applied = list(TRAIT_CRITICAL_RESISTANCE)
 	category_tags = list(CTAG_RUNAWAY_PRISONER)
@@ -58,7 +57,6 @@
 
 /datum/advclass/runaway_prisoner_noble
 	name = "Runaway Prisoner (Noble)"
-	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/adventurer/runaway_prisoner
 	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_NOBLE, TRAIT_SEEPRICES)
 	category_tags = list(CTAG_RUNAWAY_PRISONER)
@@ -86,7 +84,6 @@
 
 /datum/advclass/runaway_prisoner_mage
 	name = "Runaway Prisoner (Mage)"
-	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/adventurer/runaway_prisoner
 	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT)
 	category_tags = list(CTAG_RUNAWAY_PRISONER)

@@ -1,3 +1,4 @@
+import type { ConstantPreferenceDataType } from 'common/preferences_bindings';
 import { atom, type ExtractAtomValue, useAtom } from 'jotai';
 import type { BooleanLike } from 'tgui-core/react';
 import type { Path } from './data';
@@ -19,13 +20,10 @@ export type ConstantData = {
   culinary: ConstantCulinary;
   customizer_choices: Record<Path, ConstantCustomizerChoice>;
   customizers: Record<Path, ConstantCustomizer>;
-  descriptor_choices: Record<Path, ConstantDescriptorChoice>;
-  descriptors: Record<Path, ConstantDescriptor>;
   faiths: Record<Path, ConstantFaith>;
   markings_by_zone: Record<string, ConstantMarking[]>;
   patrons: Record<Path, ConstantPatron>;
   preview_backgrounds: string[];
-  species: ConstantSpecies[];
   sprite_accessories: Record<Path, ConstantSpriteAccessory>;
   statpacks: Record<Path, ConstantStatpack>;
   taur_types: Record<Path, ConstantTaurType>;
@@ -34,7 +32,7 @@ export type ConstantData = {
   voicepacks: string[];
   // other data
   lore_primer: TrustedHTML;
-};
+} & ConstantPreferenceDataType;
 
 /** {@link ConstantData.charflaws} */
 export type ConstantCharflaw = {
@@ -245,22 +243,6 @@ export type ConstantPatron = {
   desc: TrustedHTML;
   worshippers: string;
   associated_faith: Path;
-};
-
-/** {@link ConstantData.species} */
-export type ConstantSpecies = {
-  name: string;
-  base_name: string;
-  sub_name: string;
-  id: string;
-  type: Path;
-  is_subrace: BooleanLike;
-  desc: string;
-  desc_title: string;
-  bonus_stats: TrustedHTML | null;
-  bonus_traits: TrustedHTML | null;
-  mechanics: TrustedHTML | null;
-  languages: TrustedHTML | null;
 };
 
 /** {@link ConstantData.sprite_accessories} */

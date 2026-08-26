@@ -5,7 +5,6 @@
 	faction = "Station"
 	total_positions = 0
 	spawn_positions = 0
-	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED) // same as town guard
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
 	tutorial = "You are the club in the dark for the Crown, patrolling the streets of Azure Peak dae and nite on the lookout for knaves and vagabonds looking to cause trouble. \

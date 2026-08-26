@@ -1,7 +1,6 @@
 /datum/advclass/foreigner
 	name = "Eastern Warrior"
 	tutorial = "A warrior hailing from the distant land of Kazengun, far across the eastern sea."
-	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_SMALL) // Clothing has no dwarf sprites.
 	outfit = /datum/outfit/job/roguetown/adventurer/foreigner
 	class_select_category = CLASS_CAT_NOMAD
@@ -339,7 +338,6 @@
 	name = "Szöréndnížine Shepherd"
 	tutorial = "You're a simple shepherd hailing from Aavnr's Free City, taking a pilgrimage or having fled for one reason or another. You can easily fend for yourself in the wilderness, and with enough practice, fend for yourself in combat against even armoured opponents with your traditional axe."
 	extra_context = "This class is for experienced adventurers with a solid grasp on footwork and stamina management. Your weapon has special intents you can juggle through to make fights easier... Sometimes."
-	allowed_sexes = list(MALE, FEMALE)
 
 	subclass_languages = list(/datum/language/aavnic)
 	forbidden_races = list()
@@ -389,7 +387,6 @@
 	name = "Foreign Fencer"
 	tutorial = "You're an itinerant weapons expert that was trained in a Grenzelhoftian fencing school, carrying with you your weapon, your skillset, your pride... And not much else, frankly."
 	extra_context = "This is a freeform class that's meant to evoke a similar feeling to playing a Freifechter, your equipment and skillset is limited compared to other classes - this is by design - but you start with cool weapons."
-	allowed_sexes = list(MALE, FEMALE)
 
 	outfit = /datum/outfit/job/roguetown/adventurer/fencerguy
 	subclass_languages = list(/datum/language/grenzelhoftian)
@@ -695,7 +692,6 @@
 	Azuria's supple forests will learn to regret it."
 	extra_context = "This class is restricted to the Elf, Half-Elf, and Dark Elf species."
 	class_select_category = CLASS_CAT_RACIAL
-	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_BLACKOAK)
 	traits_applied = list(TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_DODGEEXPERT, TRAIT_WOODWALKER)
 	outfit = /datum/outfit/job/roguetown/adventurer/lesserblackoak

@@ -1,7 +1,6 @@
 /datum/advclass/mercenary/desert_rider_sahir
 	name = "Desert Rider Sahir"
 	tutorial = "You're a Sahir - a wisened Magi from the desert of Raneshen. You have spent your lyfe studying the arcyne arts. Some of your rank knows the way of the sword- a necessity when one happens upon monstrsities that are resilient to magyck in the desert. Sahir are granted Ziqa, a cantrip which allows them to easily evade foes and slip capture."
-	allowed_sexes = list(MALE, FEMALE)
 
 	outfit = /datum/outfit/job/roguetown/mercenary/desert_rider_sahir
 	class_select_category = CLASS_CAT_RANESHENI

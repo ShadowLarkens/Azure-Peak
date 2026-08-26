@@ -6,9 +6,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/client/parent
 	//doohickeys for savefiles
 	var/path
-	var/default_slot = 1				//Holder so it doesn't default to slot 1, rather the last one used
-	var/max_save_slots = 60
-	var/loaded_slot = 1
+	/// This is both the slot that will loaded when load_character() is called with no argument, and the currently loaded slot.
+	var/default_slot = 1
+	var/max_save_slots = MAX_SAVE_SLOTS
 	var/savefile_write_locked = FALSE // guard against simultaneous savefile writes from the UI causing any sort of horrors
 
 	//non-preference stuff
@@ -45,9 +45,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/topjob = null
 
 	//character preferences
-	var/real_name						//our character's name
-	var/gender = MALE					//gender of character (well duh) (LETHALSTONE EDIT: this no longer references anything but whether the masculine or feminine model is used)
-	var/pronouns = HE_HIM				// LETHALSTONE EDIT: character's pronouns (well duh)
 	var/titles_pref = TITLES_M
 	var/clothes_pref = CLOTHES_M
 	var/voice_pack = VOICE_PACK_DEFAULT
@@ -65,7 +62,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/extra_language = "None" // Extra language
 	var/voice_color = "#a0a0a0"
 	var/voice_pitch = 1
-	var/datum/species/pref_species = new /datum/species/human/northern()	//Mutant race
 	var/static/datum/species/default_species = new /datum/species/human/northern()
 	var/datum/patron/selected_patron
 	var/static/datum/patron/default_patron = /datum/patron/divine/undivided
@@ -112,7 +108,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/datum/migrant_pref/migrant
 
 	var/domhand = 2
-	var/nickname = "Please Change Me"
 	var/highlight_color = "#FF0000"
 	var/list/charflaws = list()
 
@@ -137,7 +132,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/ooc_extra
 	var/song_artist
 	var/song_title
-	var/list/descriptor_entries = list()
 	var/list/custom_descriptors = list()
 	COOLDOWN_DECLARE(descriptor_preview)
 
@@ -176,8 +170,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/favorite_dish = NONE
 	var/favorite_drink = NONE
 
-	var/race_bonus
-
 	var/preset_bounty_enabled = FALSE
 	var/preset_bounty_poster_key
 	var/preset_bounty_severity_key
@@ -210,21 +202,20 @@ GLOBAL_LIST_EMPTY(chosen_names)
 		if(!IsGuestKey(C.key))
 			load_path(C.ckey)
 			if(C.IsByondMember())
-				max_save_slots = 100
+				max_save_slots = MAX_SAVE_SLOTS_BYOND_MEMBER
 	var/loaded_preferences_successfully = load_preferences()
 	if(loaded_preferences_successfully)
 		if(load_character())
 			return
 
 	// Set the race to properly run race setter logic
-	set_new_race(pref_species, null, skip_random = TRUE)
+	set_new_race(default_species, null, skip_random = TRUE)
 	// Do a FULL scramble
 	random_character(null, RANDOMIZE_NEW_CHARACTER)
 
 	if(!combat_music)
 		combat_music = GLOB.cmode_tracks_by_type[default_cmusic_type]
-	key_bindings = deepCopyList(GLOB.hotkey_keybinding_list_by_key) // give them default keybinds and update their movement keys
-	C.update_movement_keys()
+	force_reset_keybindings_direct()
 	if(!loaded_preferences_successfully)
 		save_preferences()
 	save_character()		//let's save this new random character so it doesn't keep generating new ones.
@@ -234,15 +225,15 @@ GLOBAL_LIST_EMPTY(chosen_names)
 // Only use skip_random if you are immediately going to call random_character(null, RANDOMIZE_MINIMAL) or higher
 // Otherwise the preferences will be left in an invalid state!
 /datum/preferences/proc/set_new_race(datum/species/new_race, user, skip_random = FALSE)
-	pref_species = new_race
+	write_preference(/datum/preference/species, new_race)
 	// new species can have job restrictions so merk job prefs
 	ResetJobs()
 	if(user)
-		to_chat(user, span_notice("You have switched your race to [pref_species.desc_title]."))
+		to_chat(user, span_notice("You have switched your race to [new_race.desc_title]."))
 		to_chat(user, span_red("Classes reset."))
 
 	// get them back to a stable default
-	race_bonus = null
+	write_preference(/datum/preference/choiced_dynamic/race_bonus, null)
 	customizer_entries = list()
 	validate_customizer_entries()
 	// Descriptors depend on species, so we have to reset them
@@ -250,16 +241,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	// actually randomize if allowed
 	if(!skip_random)
-		random_character(gender, RANDOMIZE_MINIMAL)
-
-/datum/preferences/proc/spec_check(mob/user)
-	if(!istype(pref_species))
-		return FALSE
-	if(!(pref_species.name in get_selectable_species()))
-		return FALSE
-	if(!pref_species.check_roundstart_eligible())
-		return FALSE
-	return TRUE
+		random_character(read_preference(/datum/preference/choiced/body_type), RANDOMIZE_MINIMAL)
 
 /datum/preferences/proc/process_link(mob/user, list/href_list)
 	if(href_list["preference"] == "keybindings_set")
@@ -276,6 +258,13 @@ GLOBAL_LIST_EMPTY(chosen_names)
 		)
 		return TRUE
 
+/datum/preferences/proc/is_active_migrant()
+	if(!migrant)
+		return FALSE
+	if(!migrant.queued_wave)
+		return FALSE
+	return TRUE
+
 /// Does the actual reset
 /datum/preferences/proc/force_reset_keybindings_direct()
 	var/list/oldkeys = key_bindings
@@ -285,10 +274,3 @@ GLOBAL_LIST_EMPTY(chosen_names)
 		if(!key_bindings[key])
 			key_bindings[key] = oldkeys[key]
 	parent?.ensure_keys_set(src)
-
-/datum/preferences/proc/is_active_migrant()
-	if(!migrant)
-		return FALSE
-	if(!migrant.queued_wave)
-		return FALSE
-	return TRUE

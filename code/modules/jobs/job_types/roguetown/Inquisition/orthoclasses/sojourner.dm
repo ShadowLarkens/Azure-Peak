@@ -5,7 +5,6 @@
 	Your fists and your will are the one thing that cannot be deprived from you, handy tools when Azuria is rife with monsters and heretics alike. \
 	Where your fists fall short, your wits prevail. Where your magyck falters, your fists answer. \
 	His will be done."
-	allowed_sexes = list(MALE, FEMALE)
 
 	outfit = /datum/outfit/job/roguetown/sojourner
 	subclass_languages = list(/datum/language/otavan, /datum/language/celestial)

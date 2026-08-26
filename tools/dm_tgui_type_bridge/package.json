@@ -1,0 +1,21 @@
+{
+	"name": "dm_tgui_type_bridge",
+	"module": "index.ts",
+	"devDependencies": {
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	},
+	"private": true,
+	"type": "module",
+	"dependencies": {
+		"json-rpc-2.0": "^1.8.0",
+		"lines-and-columns": "^2.0.4",
+		"vscode-languageserver-protocol": "^3.18.3",
+		"zod": "^4.5.4"
+	},
+	"scripts": {
+		"generate": "bun run src/index.ts"
+	}
+}
