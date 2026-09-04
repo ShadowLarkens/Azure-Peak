@@ -1157,7 +1157,6 @@
 		)
 
 /datum/customizer_choice/bodypart_feature/hair/facial/humanoid/get_random_accessory(datum/customizer_entry/entry, datum/preferences/prefs)
-	// TODO: use identity, not body type
 	if(prefs.read_preference(/datum/preference/choiced/body_type) == MALE)
 		return pick(sprite_accessories)
 	else

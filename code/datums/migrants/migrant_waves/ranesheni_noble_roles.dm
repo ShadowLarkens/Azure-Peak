@@ -70,6 +70,7 @@
 
 /datum/migrant_role/ranesheni/amirah
 	name = "Amirah"
+	// TODO: use identity, not body type
 	allowed_sexes = list(FEMALE)
 	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	advclass_cat_rolls = list(CTAG_RANESHENI_AMIRAH = 20)
