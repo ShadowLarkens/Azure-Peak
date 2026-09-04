@@ -20,7 +20,7 @@
 
 	character.age = age
 	character.dna.features = features.Copy()
-	character.gender = gender
+	character.gender = read_preference(/datum/preference/choiced/body_type)
 	character.set_species(chosen_species, icon_update = FALSE, pref_load = src)
 	character.dna.update_body_size()
 
@@ -34,7 +34,8 @@
 				real_name += "[pick(GLOB.last_names)]"
 
 	if(real_name in GLOB.chosen_names)
-		character.real_name = pref_species.random_name(gender)
+		// TODO: use identity, not body type
+		character.real_name = pref_species.random_name(character.gender)
 	else
 		character.real_name = real_name
 	character.name = character.real_name

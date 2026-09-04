@@ -46,7 +46,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	//character preferences
 	var/real_name						//our character's name
-	var/gender = MALE					//gender of character (well duh) (LETHALSTONE EDIT: this no longer references anything but whether the masculine or feminine model is used)
 	var/pronouns = HE_HIM				// LETHALSTONE EDIT: character's pronouns (well duh)
 	var/titles_pref = TITLES_M
 	var/clothes_pref = CLOTHES_M
@@ -248,7 +247,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	// actually randomize if allowed
 	if(!skip_random)
-		random_character(gender, RANDOMIZE_MINIMAL)
+		random_character(read_preference(/datum/preference/choiced/body_type), RANDOMIZE_MINIMAL)
 
 /datum/preferences/proc/spec_check(mob/user)
 	if(!istype(pref_species))

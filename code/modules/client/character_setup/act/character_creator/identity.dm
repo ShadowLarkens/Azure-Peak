@@ -14,7 +14,8 @@
 			return CHARACTER_ACT_DATA_UPDATE
 
 		if("randomize_real_name")
-			var/randomized = pref_species.random_name(gender, TRUE)
+			// TODO: use identity, not body type
+			var/randomized = pref_species.random_name(read_preference(/datum/preference/choiced/body_type), TRUE)
 			verbose_pref_log_change(user, "notice", "Real Name", real_name, "[randomized] (randomized)")
 			real_name = randomized
 			return CHARACTER_ACT_DATA_UPDATE

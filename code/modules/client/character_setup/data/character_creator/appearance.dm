@@ -38,6 +38,7 @@
 
 /// Gets the body type as a user friendly string
 /datum/preferences/proc/ui_data_bodytype()
+	var/gender = read_preference(/datum/preference/choiced/body_type)
 	var/bodytype = null
 	if(!(AGENDER in pref_species.species_traits))
 		if(gender == MALE)

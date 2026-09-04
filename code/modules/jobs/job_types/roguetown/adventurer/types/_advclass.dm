@@ -291,7 +291,7 @@
 			if(FEMALE in allowed_sexes)
 				local_allowed_sexes -= FEMALE
 				local_allowed_sexes += MALE
-		if(length(local_allowed_sexes) && !(prefs.gender in local_allowed_sexes))
+		if(length(local_allowed_sexes) && !(prefs.read_preference(/datum/preference/choiced/body_type) in local_allowed_sexes))
 			return "sex"
 
 	if(length(forbidden_races) && (pref_species?.type in forbidden_races))

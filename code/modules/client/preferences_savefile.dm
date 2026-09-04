@@ -342,7 +342,6 @@
 
 /datum/preferences/proc/_load_appearence(S)
 	S["real_name"]			>> real_name
-	S["gender"]				>> gender
 	S["domhand"]			>> domhand
 	S["age"]				>> age
 	S["vampire_skin"]		>> vampire_skin
@@ -518,12 +517,13 @@
 
 // takes a savefile for writebacks
 /datum/preferences/proc/sanitize_character(savefile/S)
-	gender = sanitize_gender(gender)
 
 	// names
 	real_name = reject_bad_name(real_name)
 	if(!real_name)
-		real_name = random_unique_name(gender)
+		// TODO: use identity, not body type
+		// TODO: only when real_name is converted tho
+		real_name = random_unique_name(MALE)
 
 	nickname = reject_bad_name(nickname)
 	if(!nickname)
@@ -661,7 +661,6 @@
 
 	//Character
 	WRITE_FILE(S["real_name"]			, real_name)
-	WRITE_FILE(S["gender"]				, gender)
 	WRITE_FILE(S["domhand"]				, domhand)
 	WRITE_FILE(S["age"]					, age)
 	WRITE_FILE(S["vampire_skin"]		, vampire_skin)

@@ -5,7 +5,9 @@
 	// because we're about to change a bunch of state in unpredictable ways
 	close_subwindows()
 
+	var/gender
 	if(gender_override)
+		// TODO: just don't write?
 		gender = gender_override
 	else
 		gender = pick(MALE, FEMALE)
@@ -15,6 +17,8 @@
 		clothes_pref = gender == MALE ? CLOTHES_M : CLOTHES_F
 		voice_type = gender == MALE ? VOICE_TYPE_MASC : VOICE_TYPE_FEM
 		voice_pack = pick(GLOB.voice_packs_list)
+
+	write_preference(/datum/preference/choiced/body_type, gender)
 
 	// each randomize setting adds more passes
 	// the previous pass is always active
@@ -52,7 +56,8 @@
 // This is for when the user presses the randomize button
 /datum/preferences/proc/randomize_normal()
 	// Random name!
-	real_name = pref_species.random_name(gender, TRUE)
+	// TODO: use identity, not body type
+	real_name = pref_species.random_name(read_preference(/datum/preference/choiced/body_type), TRUE)
 	nickname = real_name
 	highlight_color = "#[random_color()]"
 	voice_color = "#[random_color()]"

@@ -296,7 +296,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 		if(FEMALE in job.allowed_sexes)
 			allowed_sexes -= FEMALE
 			allowed_sexes += MALE
-	if(length(allowed_sexes) && !(client.prefs.gender in allowed_sexes))
+	if(length(allowed_sexes) && !(client.prefs.read_preference(/datum/preference/choiced/body_type) in allowed_sexes))
 		return JOB_UNAVAILABLE_SEX
 	if(length(job.allowed_ages) && !(client.prefs.age in job.allowed_ages))
 		return JOB_UNAVAILABLE_AGE

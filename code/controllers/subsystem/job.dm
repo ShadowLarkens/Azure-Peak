@@ -171,7 +171,7 @@ SUBSYSTEM_DEF(job)
 		if(!isnull(job.max_pq) && (get_playerquality(player.ckey) > job.max_pq))
 			continue
 		#endif
-		if(!(player.client.prefs.gender in job.allowed_sexes))
+		if(!(player.client.prefs.read_preference(/datum/preference/choiced/body_type) in job.allowed_sexes))
 			JobDebug("FOC incompatible with sex, Player: [player], Job: [job.title]")
 			continue
 		if(length(job.allowed_ages) && !(player.client.prefs.age in job.allowed_ages))
@@ -257,7 +257,7 @@ SUBSYSTEM_DEF(job)
 			JobDebug("GRJ incompatible with age, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
 			continue
 
-		if(length(job.allowed_sexes) && !(player.client.prefs.gender in job.allowed_sexes))
+		if(length(job.allowed_sexes) && !(player.client.prefs.read_preference(/datum/preference/choiced/body_type) in job.allowed_sexes))
 			JobDebug("GRJ incompatible with sex, Player: [player], Job: [job.title]")
 			continue
 
@@ -358,11 +358,11 @@ SUBSYSTEM_DEF(job)
 	var/list/putty = inputlist
 	var/list/newlist = list()
 	for(var/mob/dead/new_player/player in putty)
-		if(player.client.prefs.gender == MALE)
+		if(player.client.prefs.read_preference(/datum/preference/choiced/body_type) == MALE)
 			newlist += player
 			putty -= player
 	for(var/mob/dead/new_player/player in putty)
-		if(player.client.prefs.gender == FEMALE)
+		if(player.client.prefs.read_preference(/datum/preference/choiced/body_type) == FEMALE)
 			newlist += player
 			putty -= player
 	return newlist
@@ -512,7 +512,7 @@ SUBSYSTEM_DEF(job)
 					JobDebug("DO incompatible with age, Player: [player], Job: [job.title]")
 					continue
 
-				if(length(job.allowed_sexes) && !(player.client.prefs.gender in job.allowed_sexes))
+				if(length(job.allowed_sexes) && !(player.client.prefs.read_preference(/datum/preference/choiced/body_type) in job.allowed_sexes))
 					JobDebug("DO incompatible with gender preference, Player: [player], Job: [job.title]")
 					continue
 
@@ -606,7 +606,7 @@ SUBSYSTEM_DEF(job)
 				if(length(job.allowed_ages) && !(player.client.prefs.age in job.allowed_ages))
 					continue
 
-				if(length(job.allowed_sexes) && !(player.client.prefs.gender in job.allowed_sexes))
+				if(length(job.allowed_sexes) && !(player.client.prefs.read_preference(/datum/preference/choiced/body_type) in job.allowed_sexes))
 					continue
 
 				if(!job.special_job_check(player))

@@ -133,6 +133,7 @@
 	return null
 
 /datum/preferences/proc/genderize_customizer_entries()
+	var/gender = read_preference(/datum/preference/choiced/body_type)
 	customizer_entries = SANITIZE_LIST(customizer_entries)
 	var/datum/species/species = pref_species
 	var/list/customizers = species.customizers
