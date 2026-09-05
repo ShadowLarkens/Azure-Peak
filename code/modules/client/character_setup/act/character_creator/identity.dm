@@ -67,10 +67,12 @@
 			return CHARACTER_ACT_DATA_UPDATE
 
 		if("pronouns")
-			var/pronouns_input = tgui_input_list(user, "Choose your character's pronouns", "PRONOUNS", GLOB.pronouns_list, pronouns)
+			var/datum/preference/choiced/pronouns/pronoun_pref = GLOB.preference_entries[/datum/preference/choiced/pronouns]
+			var/old = read_preference(pronoun_pref.type)
+			var/pronouns_input = tgui_input_list(user, "Choose your character's pronouns", "PRONOUNS", pronoun_pref.get_choices(), old)
 			if(pronouns_input)
-				verbose_pref_log_change(user, "notice", "Pronouns", pronouns, pronouns_input)
-				pronouns = pronouns_input
+				verbose_pref_log_change(user, "notice", "Pronouns", old, pronouns_input)
+				write_preference(pronoun_pref.type, pronouns_input)
 			return CHARACTER_ACT_DATA_UPDATE
 
 		if("titles")

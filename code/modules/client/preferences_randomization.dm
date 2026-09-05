@@ -12,7 +12,8 @@
 	else
 		gender = pick(MALE, FEMALE)
 		// make em cis by default
-		pronouns = gender == MALE ? HE_HIM : SHE_HER
+		// TODO: real randomization support
+		write_preference(/datum/preference/choiced/pronouns, gender == MALE ? HE_HIM : SHE_HER)
 		titles_pref = gender == MALE ? TITLES_M : TITLES_F
 		clothes_pref = gender == MALE ? CLOTHES_M : CLOTHES_F
 		voice_type = gender == MALE ? VOICE_TYPE_MASC : VOICE_TYPE_FEM

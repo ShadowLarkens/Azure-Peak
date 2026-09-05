@@ -9,7 +9,6 @@
 		"highlight_color" = highlight_color,
 		"age" = age,
 
-		"pronouns" = pronouns,
 		"titles_pref" = titles_pref,
 		"clothes_pref" = clothes_pref,
 

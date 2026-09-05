@@ -25,6 +25,7 @@ import {
 import { usePopupId } from 'pm/popups';
 import { useBackendStrict } from 'tgui/backend';
 import { LoadingScreen } from 'tgui/interfaces/common/LoadingScreen';
+import { usePreferences } from 'tgui/interfaces/PreferencesMenu/datumized_data';
 import {
   Box,
   Button,
@@ -74,12 +75,12 @@ export const SubtabIdentity = () => {
 };
 
 export const SubtabIdentityCardInfo = () => {
+  const prefs = usePreferences(['/datum/preference/choiced/pronouns']);
   const { act, data } = useBackendStrict<AllPagesData & IdentityData>();
   const {
     clothes_pref,
     highlight_color,
     nickname,
-    pronouns,
     race_bonus,
     real_name,
     species_base_name,
@@ -88,6 +89,11 @@ export const SubtabIdentityCardInfo = () => {
     titles_pref,
   } = data;
   const [, setPopupId] = usePopupId();
+
+  if (!prefs) {
+    return <LoadingScreen label="Loading Character Info..." />;
+  }
+  const { pronouns } = prefs;
 
   return (
     <Section title="Info">

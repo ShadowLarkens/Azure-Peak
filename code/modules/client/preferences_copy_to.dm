@@ -103,7 +103,7 @@
 	character.song_artist = song_artist
 	// LETHALSTONE ADDITION BEGIN: additional customizations
 
-	character.pronouns = pronouns
+	character.pronouns = read_preference(/datum/preference/choiced/pronouns)
 	character.titles_pref = titles_pref
 	character.clothes_pref = clothes_pref
 	character.voice_type = voice_type

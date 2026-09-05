@@ -355,7 +355,6 @@
 	S["feature_mcolor"]		>> features["mcolor"]
 	S["feature_mcolor2"]	>> features["mcolor2"]
 	S["feature_mcolor3"]	>> features["mcolor3"]
-	S["pronouns"]			>> pronouns
 	S["titles_pref"]		>> titles_pref
 	S["clothes_pref"]		>> clothes_pref
 	S["voice_type"]			>> voice_type
@@ -554,7 +553,6 @@
 	// lists
 	age				= sanitize_inlist(age, pref_species.possible_ages, AGE_ADULT)
 	extra_language	= sanitize_inlist(extra_language, GLOB.languages_character_selection, "None") // None just becomes None so it's fine
-	pronouns		= sanitize_inlist(pronouns, GLOB.pronouns_list, THEY_THEM)
 	titles_pref		= sanitize_inlist(titles_pref, GLOB.titles_list, TITLES_M)
 	clothes_pref	= sanitize_inlist(clothes_pref, GLOB.clothespref_list, CLOTHES_M)
 	voice_type		= sanitize_inlist(voice_type, GLOB.voice_types_list, VOICE_TYPE_MASC)
@@ -739,7 +737,6 @@
 	WRITE_FILE(S["examine_theme"] , examine_theme)
 	WRITE_FILE(S["voice_type"] , voice_type)
 	WRITE_FILE(S["voice_pack"] , voice_pack)
-	WRITE_FILE(S["pronouns"] , pronouns)
 	WRITE_FILE(S["titles_pref"] , titles_pref)
 	WRITE_FILE(S["clothes_pref"] , clothes_pref)
 	WRITE_FILE(S["statpack"] , statpack.type)

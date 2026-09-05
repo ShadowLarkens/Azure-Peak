@@ -223,7 +223,6 @@ export type IdentityData = {
   highlight_color: Color;
   age: string;
 
-  pronouns: string;
   titles_pref: string;
   clothes_pref: string;
 

@@ -10,6 +10,7 @@
 		custom_entry.content_text = STRIP_HTML_SIMPLE(LOWER_TEXT(custom_entry.content_text), CUSTOM_DESCRIPTOR_TEXT_LENGTH)
 
 /datum/preferences/proc/reset_descriptors()
+	// TODO: make sure this works when var/pref_species is removed
 	reset_preference(/datum/preference/descriptors)
 
 	custom_descriptors = list()

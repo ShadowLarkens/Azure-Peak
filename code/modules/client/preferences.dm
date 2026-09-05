@@ -46,7 +46,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	//character preferences
 	var/real_name						//our character's name
-	var/pronouns = HE_HIM				// LETHALSTONE EDIT: character's pronouns (well duh)
 	var/titles_pref = TITLES_M
 	var/clothes_pref = CLOTHES_M
 	var/voice_pack = VOICE_PACK_DEFAULT

@@ -396,7 +396,7 @@
 
 	// someone please fix this horror one day
 	var/mob/living/temp = new /mob/living(null)
-	temp.pronouns = pronouns
+	temp.pronouns = read_preference(/datum/preference/choiced/pronouns)
 	apply_descriptors(temp)
 
 	// Calculate speaking name
