@@ -497,7 +497,6 @@
 	name = "Rebellous Daughter"
 	greet_text = span_notice("I am quite rebellious for a princess. Screw Noble Customs!")
 	req_text = "Be a princess"
-	// TODO: use identity, not body type
 	allowed_sexes = list(FEMALE)
 	allowed_jobs = list(/datum/job/roguetown/prince)
 	weight = 50

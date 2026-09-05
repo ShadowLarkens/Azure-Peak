@@ -4,23 +4,16 @@
 		var/datum/voicepack/VP = GLOB.voice_packs[GLOB.voice_packs_list[voice_pack]]
 		return VP
 
-	// TODO: use identity, not body type
-	// TODO: must be mirrored to actual voicepack code too
-	var/gender = read_preference(/datum/preference/choiced/body_type)
 	var/datum/voicepack/VP
-	if(gender == FEMALE && pref_species.soundpack_f)
-		VP = pref_species.soundpack_f
-	else if(pref_species.soundpack_m)
-		VP = pref_species.soundpack_m
-	if(voice_type)
-		switch(voice_type)
-			if(VOICE_TYPE_MASC)
-				VP = pref_species.soundpack_m
+
+	switch(voice_type)
+		if(VOICE_TYPE_MASC)
+			VP = pref_species.soundpack_m
+		else
+			if(pref_species.soundpack_f)
+				VP = pref_species.soundpack_f
 			else
-				if(pref_species.soundpack_f)
-					VP = pref_species.soundpack_f
-				else
-					VP = pref_species.soundpack_m
+				VP = pref_species.soundpack_m
 
 	if(!istype(VP))
 		VP = GLOB.voice_packs[VP]
