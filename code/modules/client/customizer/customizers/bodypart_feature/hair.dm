@@ -655,10 +655,6 @@
 	abstract_type = /datum/customizer/bodypart_feature/hair/facial
 	name = "Facial Hair"
 
-/datum/customizer/bodypart_feature/hair/facial/is_allowed(datum/preferences/prefs)
-	// TODO: use identity, not body type
-	return (prefs.read_preference(/datum/preference/choiced/body_type) == MALE)
-
 /datum/customizer_choice/bodypart_feature/hair/facial
 	abstract_type = /datum/customizer_choice/bodypart_feature/hair/facial
 	name = "Facial Hair"

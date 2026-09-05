@@ -5,6 +5,7 @@
 		return VP
 
 	// TODO: use identity, not body type
+	// TODO: must be mirrored to actual voicepack code too
 	var/gender = read_preference(/datum/preference/choiced/body_type)
 	var/datum/voicepack/VP
 	if(gender == FEMALE && pref_species.soundpack_f)
