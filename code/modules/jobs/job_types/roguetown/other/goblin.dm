@@ -8,7 +8,6 @@
 	min_pq = null //no pq
 	max_pq = null
 
-	allowed_sexes = list(MALE, FEMALE)
 
 	tutorial = "Make Graggar proud or die trying."
 

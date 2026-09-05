@@ -8,7 +8,6 @@
 	total_positions = 5
 	spawn_positions = 5
 
-	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED)
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
 

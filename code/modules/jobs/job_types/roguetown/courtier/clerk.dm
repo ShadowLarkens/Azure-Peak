@@ -7,7 +7,6 @@
 	spawn_positions = 1
 
 	forbidden_races = list(RACES_DESPISED)
-	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT)
 	is_quest_giver = TRUE
 	quest_claim_barred = TRUE

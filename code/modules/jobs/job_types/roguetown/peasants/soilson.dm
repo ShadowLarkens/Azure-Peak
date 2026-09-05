@@ -6,7 +6,6 @@
 	total_positions = 3
 	spawn_positions = 5
 	display_order = JDO_SOILSON
-	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED)
 	cmode_music = 'sound/music/cmode/towner/combat_towner2.ogg'
 

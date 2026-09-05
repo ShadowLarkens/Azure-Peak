@@ -7,7 +7,6 @@
 	spawn_positions = 1
 
 	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)		//Nobility, no construct
-	allowed_sexes = list(MALE, FEMALE)
 	spells = list()
 	display_order = JDO_MAGICIAN
 	tutorial = "Your creed is one dedicated to the conquering of the arcane arts and the constant thrill of knowledge. \

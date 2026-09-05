@@ -1,7 +1,6 @@
 /datum/advclass/wretch/licker
 	name = "Licker"
 	tutorial = "You have recently been embraced as a vampire. You do not know whom your sire is, strange urges, unnatural strength, a thirst you can barely control. You were outed as a monster and are now on the run."
-	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	outfit = /datum/outfit/job/roguetown/wretch/licker
 	class_select_category = CLASS_CAT_ACCURSED

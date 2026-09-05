@@ -20,7 +20,7 @@
 		turbo_slop = SSrole_class_handler.special_session_queue[ckey_of_buyer][triumph_buy_id]
 		turbo_slop.maximum_possible_slots += 1
 
-// It should be there you know? lol 
+// It should be there you know? lol
 // If not we are desyncing somehow
 /datum/triumph_buy/pick_any_class/on_removal()
 	SSrole_class_handler.special_session_queue[ckey_of_buyer].Remove(triumph_buy_id)
@@ -30,7 +30,6 @@
 /datum/advclass/pick_everything
 	name = "Pick-Classes"
 	tutorial = "This will open up another menu when you spawn allowing you to pick from any class as long as its not disabled."
-	allowed_sexes = list(MALE, FEMALE)
 	maximum_possible_slots = 0
 
 	outfit = null

@@ -171,9 +171,6 @@ SUBSYSTEM_DEF(job)
 		if(!isnull(job.max_pq) && (get_playerquality(player.ckey) > job.max_pq))
 			continue
 		#endif
-		if(!(player.client.prefs.read_preference(/datum/preference/choiced/body_type) in job.allowed_sexes))
-			JobDebug("FOC incompatible with sex, Player: [player], Job: [job.title]")
-			continue
 		if(length(job.allowed_ages) && !(player.client.prefs.age in job.allowed_ages))
 			JobDebug("FOC incompatible with age, Player: [player], Job: [job.title], Age: [player.client.prefs.age]")
 			continue
@@ -255,10 +252,6 @@ SUBSYSTEM_DEF(job)
 
 		if(length(job.allowed_ages) && !(player.client.prefs.age in job.allowed_ages))
 			JobDebug("GRJ incompatible with age, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
-			continue
-
-		if(length(job.allowed_sexes) && !(player.client.prefs.read_preference(/datum/preference/choiced/body_type) in job.allowed_sexes))
-			JobDebug("GRJ incompatible with sex, Player: [player], Job: [job.title]")
 			continue
 
 		#ifdef USES_PQ
@@ -512,10 +505,6 @@ SUBSYSTEM_DEF(job)
 					JobDebug("DO incompatible with age, Player: [player], Job: [job.title]")
 					continue
 
-				if(length(job.allowed_sexes) && !(player.client.prefs.read_preference(/datum/preference/choiced/body_type) in job.allowed_sexes))
-					JobDebug("DO incompatible with gender preference, Player: [player], Job: [job.title]")
-					continue
-
 				if(!job.special_job_check(player))
 					JobDebug("DO player did not pass special check, Player: [player], Job:[job.title]")
 					continue
@@ -604,9 +593,6 @@ SUBSYSTEM_DEF(job)
 						continue
 
 				if(length(job.allowed_ages) && !(player.client.prefs.age in job.allowed_ages))
-					continue
-
-				if(length(job.allowed_sexes) && !(player.client.prefs.read_preference(/datum/preference/choiced/body_type) in job.allowed_sexes))
 					continue
 
 				if(!job.special_job_check(player))

@@ -4,7 +4,6 @@
 	tutorial = "You are the Heartfelt Armorer destined for greatness,\
 	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be. \
 	Travellers often warn of Heartfelt having fallen already, and words of secretive cultists isn't unheard of."
-	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/armorer
 	maximum_possible_slots = 1
 	pickprob = 100

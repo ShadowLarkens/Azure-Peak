@@ -7,7 +7,6 @@
 	var/townie_contract_gate_hide_in_list = FALSE
 	/// Subclass-specific tutorial shown via to_chat on spawn, separate from the class-picker tutorial.
 	var/subclass_tutorial
-	var/list/allowed_sexes
 	var/list/forbidden_races
 	var/list/allowed_patrons
 	var/list/allowed_ages
@@ -230,21 +229,6 @@
 	On the datum! Wow!
 */
 /datum/advclass/proc/check_requirements(mob/living/carbon/human/H)
-
-	var/datum/species/pref_species = H.dna.species
-	var/list/local_allowed_sexes = list()
-	if(length(allowed_sexes))
-		local_allowed_sexes |= allowed_sexes
-	if(!immune_to_genderswap && pref_species?.gender_swapping)
-		if(MALE in allowed_sexes)
-			local_allowed_sexes -= MALE
-			local_allowed_sexes += FEMALE
-		if(FEMALE in allowed_sexes)
-			local_allowed_sexes -= FEMALE
-			local_allowed_sexes += MALE
-	if(length(local_allowed_sexes) && !(H.gender in local_allowed_sexes))
-		return FALSE
-
 	if(length(forbidden_races) && (H.dna.species.type in forbidden_races))
 		return FALSE
 
@@ -282,17 +266,6 @@
 		return "unavailable"
 
 	var/datum/species/pref_species = prefs.pref_species
-	if(length(allowed_sexes))
-		var/list/local_allowed_sexes = allowed_sexes.Copy()
-		if(!immune_to_genderswap && pref_species?.gender_swapping)
-			if(MALE in allowed_sexes)
-				local_allowed_sexes -= MALE
-				local_allowed_sexes += FEMALE
-			if(FEMALE in allowed_sexes)
-				local_allowed_sexes -= FEMALE
-				local_allowed_sexes += MALE
-		if(length(local_allowed_sexes) && !(prefs.read_preference(/datum/preference/choiced/body_type) in local_allowed_sexes))
-			return "sex"
 
 	if(length(forbidden_races) && (pref_species?.type in forbidden_races))
 		return "species"

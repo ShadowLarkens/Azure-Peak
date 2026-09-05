@@ -1,7 +1,6 @@
 /datum/advclass/gnoll/templar
 	name = "Gnoll Templar"
 	tutorial = "None are as valued to protect graggarite worship as his gnoll champions themselves."
-	allowed_sexes = list(MALE, FEMALE)
 
 	outfit = /datum/outfit/job/roguetown/gnoll/templar
 	category_tags = list(CTAG_GNOLL)

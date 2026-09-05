@@ -1,8 +1,7 @@
 /datum/advclass/vagabond_wanted
 	name = "Wanted"
 	tutorial = "The long arm of the law reaches out for you - are you slippery enough to evade its grip this time, or is your head destined to end up in an Excidium's maw?"
-	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/vagabond/wanted
 	category_tags = list(CTAG_VAGABOND)
 	traits_applied = list(TRAIT_OUTLAW)
@@ -23,7 +22,7 @@
 
 	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/rags
-	
+
 	else if(should_wear_masc_clothes(H))
 		pants = /obj/item/clothing/under/roguetown/tights/vagrant
 
@@ -31,14 +30,14 @@
 			pants = /obj/item/clothing/under/roguetown/tights/vagrant/l
 
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
-		
+
 		if(prob(50))
 			shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/l
 
 	if(prob(33))
 		cloak = /obj/item/clothing/cloak/half/brown
 		gloves = /obj/item/clothing/gloves/roguetown/fingerless
-	
+
 	if(H.mind)
 		H.change_stat(STATKEY_LCK, rand(-2, 2))
 		if(!H.has_flaw(/datum/charflaw/wanted))

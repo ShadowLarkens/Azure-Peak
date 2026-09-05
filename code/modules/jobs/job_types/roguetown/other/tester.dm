@@ -11,8 +11,7 @@
 	spawn_positions = 0
 #endif
 	min_pq = null //no pq
-	allowed_sexes = list(MALE, FEMALE)
-	
+
 	tutorial = ""
 	outfit = /datum/outfit/job/roguetown/tester
 	plevel_req = 0

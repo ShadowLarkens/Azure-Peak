@@ -410,8 +410,6 @@ SUBSYSTEM_DEF(migrants)
 	var/datum/preferences/prefs = player.prefs
 	if(role.forbidden_races && (prefs.pref_species.type in role.forbidden_races))
 		return FALSE
-	if(role.allowed_sexes && !(prefs.read_preference(/datum/preference/choiced/body_type) in role.allowed_sexes))
-		return FALSE
 	if(role.allowed_ages && !(prefs.age in role.allowed_ages))
 		return FALSE
 	return TRUE

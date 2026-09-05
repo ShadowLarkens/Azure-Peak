@@ -10,7 +10,6 @@
 /datum/advclass/vampguardsman
 	name = "Vampiric Footsoldier"
 	tutorial = "You are a seasoned weapon specialist, clad in maille, with years of experience in warfare and battle under your belt, more than any mortal could ever claim."
-	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/other/vampguardsman
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_MEDIUMARMOR, TRAIT_UNCONVERTIBLE)
 	category_tags = list(CTAG_VAMPGUARD)
@@ -131,7 +130,6 @@
 /datum/advclass/vampskirmisher
 	name = "Vampiric Skirmisher"
 	tutorial = "You are a professional soldier, light in footwork, yet with years of experience in warfare and archery, far more than most mortals could claim. Your lord's will be done."
-	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/other/vampskirmisher
 	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_OUTDOORSMAN)
 	category_tags = list(CTAG_VAMPGUARD)

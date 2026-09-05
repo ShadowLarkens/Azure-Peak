@@ -4,8 +4,6 @@
 	tutorial = "You are a Courtier of Heartfelt, a respected noblewoman looking to impress your lover. \
 	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be. \
 	Travellers often warn of Heartfelt having fallen already, and words of secretive cultists isn't unheard of."
-	// TODO: use identity, not body type
-	allowed_sexes = list(FEMALE)
 	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/courtier
 	maximum_possible_slots = 1

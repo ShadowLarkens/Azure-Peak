@@ -6,8 +6,6 @@
 	var/role_category = ""
 	/// Restricts species if the list is not null
 	var/list/forbidden_races
-	/// Restricts sexes if list is not null
-	var/list/allowed_sexes
 	/// Restricts ages if list is not null
 	var/list/allowed_ages
 	/// Typepath of outfit for the migrant role

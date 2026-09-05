@@ -1,7 +1,6 @@
 /datum/advclass/wretch/necromancer
 	name = "Necromancer"
 	tutorial = "You have been ostracized and hunted by society for your dark magics and perversion of lyfe; your speciality is gaining power through what you raise."
-	allowed_sexes = list(MALE, FEMALE)
 
 	outfit = /datum/outfit/job/roguetown/wretch/necromancer
 	cmode_music = 'sound/music/combat_heretic.ogg'

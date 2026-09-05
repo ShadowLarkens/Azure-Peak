@@ -1,8 +1,7 @@
 /datum/advclass/mercenary/desert_rider
 	name = "Desert Rider Janissary"
 	tutorial = "Janissaries are often ex-soldiers, recruited from one of the many city-states of Raneshen. Defection or a completed tour?; it hardly matters. With a shield, stout armor, and disciplined stance, they stand tall. Their Momentum gives them Strength."
-	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/mercenary/desert_rider
 	class_select_category = CLASS_CAT_RANESHENI
 	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_BULWARK)

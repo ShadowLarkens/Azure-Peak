@@ -1,7 +1,6 @@
 /datum/advclass/mercenary/rumaclan
 	name = "Ruma Clan Gun-in"
 	tutorial = "A warrior from a band of Kazengite foreigners. The Ruma Clan were outcasts from the Xinyi Dynasty, believed to be associated with the rebels at the time. The clan departed to avoid repercussion. It is no organized group of soldiers, but rather a loose collection of experienced fighters."
-	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_SMALL) //no dwarf sprites
 	outfit = /datum/outfit/job/roguetown/mercenary/rumaclan
 	subclass_languages = list(/datum/language/kazengunese)
@@ -116,7 +115,6 @@
 /datum/advclass/mercenary/rumaclan_sasu
 	name = "Ruma Clan Sasu"
 	tutorial = "A skirmisher from a band of Kazengite foreigners. The Ruma Clan were outcasts from the Xinyi Dynasty, believed to be associated with the rebels at the time. The clan departed to avoid repercussion. It is no organized group of soldiers, but rather a loose collection of experienced fighters."
-	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_SMALL) //no dwarf sprites
 	outfit = /datum/outfit/job/roguetown/mercenary/rumaclan_sasu
 	subclass_languages = list(/datum/language/kazengunese)

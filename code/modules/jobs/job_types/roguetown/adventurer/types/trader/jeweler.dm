@@ -1,7 +1,6 @@
 /datum/advclass/trader/jeweler
 	name = "Jeweler"
 	tutorial = "You make your coin peddling exotic jewelry, gems, and shiny things."
-	allowed_sexes = list(MALE, FEMALE)
 
 	category_tags = list(CTAG_TRADER, CTAG_COURTAGENT, CTAG_LICKER_WRETCH)
 	class_select_category = CLASS_CAT_TRADER
