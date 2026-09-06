@@ -42,12 +42,13 @@
 			return CHARACTER_ACT_PREVIEW_UPDATE
 
 		if("nickname")
-			var/new_name = tgui_input_text(user, "Choose your character's nickname (For Highlighting):", "NICKNAME", nickname, encode = FALSE)
+			var/old_nickname = read_preference(/datum/preference/name/nickname)
+			var/new_name = tgui_input_text(user, "Choose your character's nickname (For Highlighting):", "NICKNAME", old_nickname, encode = FALSE)
 			if(new_name)
 				new_name = reject_bad_name(new_name)
 				if(new_name)
-					verbose_pref_log_change(user, "notice", "Nickname", nickname, new_name)
-					nickname = new_name
+					verbose_pref_log_change(user, "notice", "Nickname", old_nickname, new_name)
+					write_preference(/datum/preference/name/nickname, new_name)
 				else
 					to_chat(user, span_warning("Invalid name. Your name should be at least 2 and at most [MAX_NAME_LEN] characters long. It may only contain the characters A-Z, a-z, -, ', . and ,."))
 			return CHARACTER_ACT_DATA_UPDATE

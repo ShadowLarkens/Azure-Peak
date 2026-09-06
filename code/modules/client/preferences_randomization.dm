@@ -62,7 +62,6 @@
 	var/new_name = pref_species.random_name(read_preference(/datum/preference/choiced/body_type), TRUE)
 	write_preference(/datum/preference/name/real_name, new_name)
 	write_preference(/datum/preference/name/nickname, new_name)
-	nickname = new_name
 	highlight_color = "#[random_color()]"
 	voice_color = "#[random_color()]"
 

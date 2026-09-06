@@ -46,7 +46,7 @@
 	character.cmode_music_override = combat_music.musicpath
 	character.cmode_music_override_name = combat_music.name
 	character.highlight_color = highlight_color
-	character.nickname = nickname
+	character.nickname = read_preference(/datum/preference/name/nickname)
 
 	character.voice_color = voice_color
 	character.voice_pitch = voice_pitch

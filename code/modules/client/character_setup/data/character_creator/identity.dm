@@ -6,7 +6,7 @@
 		"species_check" = TRUE, // TODO: remove
 		"race_bonus" = null,
 
-		"nickname" = nickname,
+		"nickname" = read_preference(/datum/preference/name/nickname),
 		"highlight_color" = highlight_color,
 		"age" = age,
 
