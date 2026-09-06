@@ -8,6 +8,8 @@
 	return data
 
 /datum/preferences/proc/ui_data_character_creator_appearance_body(mob/user)
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
+
 	var/list/data = list(
 		"body_type" = ui_data_bodytype(),
 
@@ -38,6 +40,7 @@
 
 /// Gets the body type as a user friendly string
 /datum/preferences/proc/ui_data_bodytype()
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
 	var/gender = read_preference(/datum/preference/choiced/body_type)
 	var/bodytype = null
 	if(!(AGENDER in pref_species.species_traits))
@@ -51,6 +54,7 @@
 
 /// Gets all valid skintones as an assoc list Name -> Hex
 /datum/preferences/proc/get_valid_skin_tones()
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
 	if(!pref_species.use_skintones)
 		return list()
 
@@ -59,6 +63,7 @@
 		.["Rotten"] = SKIN_COLOR_ROT
 
 /datum/preferences/proc/ui_data_character_creator_appearance_features(mob/user)
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
 	var/list/data = list(
 		"customizers" = list(),
 	)

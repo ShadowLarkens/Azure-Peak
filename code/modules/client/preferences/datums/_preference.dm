@@ -215,7 +215,7 @@ GLOBAL_LIST_INIT(preference_entries_by_key, init_preference_entries_by_key())
 	CRASH("`is_valid()` was not implemented for [type]!")
 
 /// UI data for the preferences menu to use
-/datum/preference/proc/get_ui_data(deserialized_value)
+/datum/preference/proc/get_ui_data(deserialized_value, datum/preferences/preferences)
 	// Return null if you want to completely exclude this from the data package
 	return null
 
@@ -259,7 +259,7 @@ GLOBAL_LIST_INIT(preference_entries_by_key, init_preference_entries_by_key())
 	// Also over the maximum length!
 	return list(/datum/preference/text, repeat_string(maximum_value_length + 1, "A"))
 
-/datum/preference/text/get_ui_data(deserialized_value)
+/datum/preference/text/get_ui_data(deserialized_value, datum/preferences/preferences)
 	return deserialized_value
 
 /datum/preference/text/get_constant_ui_data()
@@ -308,8 +308,45 @@ GLOBAL_LIST_INIT(preference_entries_by_key, init_preference_entries_by_key())
 /datum/preference/choiced/create_invalid_values()
 	return list("!!ALMOST_CERTAINLY_INVALID!!")
 
-/datum/preference/choiced/get_ui_data(deserialized_value)
+/datum/preference/choiced/get_ui_data(deserialized_value, datum/preferences/preferences)
 	return deserialized_value
 
 /datum/preference/choiced/get_constant_ui_data()
 	return list("[savefile_key]_choices" = get_choices())
+
+
+// Preference like /datum/preference/choiced but for lists depending on other prefs
+/datum/preference/choiced_dynamic
+	abstract_type = /datum/preference/choiced_dynamic
+	zod_schema = "z.object({ choices: z.array(z.string()), value: z.string() })"
+
+/// Returns a list of every possible value.
+/// The first time this is called, will run `init_values()`.
+/// Return value can be in the form of:
+/// - A flat list of raw values, such as list(MALE, FEMALE, PLURAL).
+/// - An assoc list of raw values to atoms/icons.
+/datum/preference/choiced_dynamic/proc/get_choices(datum/preferences/preferences)
+	CRASH("`get_choices` was not implemented for [type]!")
+
+/datum/preference/choiced_dynamic/is_valid(value, datum/preferences/preferences)
+	return value in get_choices(preferences)
+
+/datum/preference/choiced_dynamic/deserialize(input, datum/preferences/preferences)
+	return sanitize_inlist(input, get_choices(preferences), create_informed_default_value(preferences))
+
+/datum/preference/choiced_dynamic/create_default_value()
+	CRASH("`create_default_value` is not supported for [type], use `create_informed_default_value`!")
+
+/datum/preference/choiced_dynamic/create_informed_default_value(datum/preferences/preferences)
+	return pick(get_choices(preferences))
+
+// Only used for unit tests
+/datum/preference/choiced_dynamic/create_invalid_values()
+	return list("!!ALMOST_CERTAINLY_INVALID!!")
+
+/datum/preference/choiced_dynamic/get_ui_data(deserialized_value, datum/preferences/preferences)
+	return list(
+		"choices" = get_choices(preferences),
+		"value" = deserialized_value,
+	)
+

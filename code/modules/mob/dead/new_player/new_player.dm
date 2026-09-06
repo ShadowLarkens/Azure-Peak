@@ -283,7 +283,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 		if(!isnull(job.max_pq) && (get_playerquality(ckey) > job.max_pq))
 			return JOB_UNAVAILABLE_PQ
 	#endif
-	var/datum/species/pref_species = client.prefs.pref_species
+	var/datum/species/pref_species = client.prefs.read_preference(/datum/preference/species)
 	if(length(job.forbidden_races) && (pref_species.type in job.forbidden_races))
 		return JOB_UNAVAILABLE_RACE
 	if(length(job.allowed_ages) && !(client.prefs.age in job.allowed_ages))

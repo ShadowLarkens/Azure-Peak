@@ -25,6 +25,8 @@
 
 	if(istype(V, /datum/virtue/heretic) && !istype(selected_patron, /datum/patron/inhumen))
 		return CHARACTER_ACT_DATA_UPDATE
+
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
 	if(V.restricted == TRUE)
 		if((pref_species.type in V.races))
 			return CHARACTER_ACT_DATA_UPDATE

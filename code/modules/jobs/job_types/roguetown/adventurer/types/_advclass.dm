@@ -265,7 +265,7 @@
 	if(!prefs)
 		return "unavailable"
 
-	var/datum/species/pref_species = prefs.pref_species
+	var/datum/species/pref_species = prefs.read_preference(/datum/preference/species)
 
 	if(length(forbidden_races) && (pref_species?.type in forbidden_races))
 		return "species"

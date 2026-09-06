@@ -154,12 +154,8 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		return
 	if (!player.prefs)
 		return
-	if (!player.prefs.race_bonus || player.prefs.race_bonus == "None")
-		return
-	if(!length(character.dna.species.custom_selection))
-		return
-	var/bonus = player.prefs.race_bonus
-	if(!(bonus in character.dna.species.custom_selection))
+	var/bonus = player.prefs.read_preference(/datum/preference/choiced_dynamic/race_bonus)
+	if(!bonus || bonus == "None" || !(bonus in character.dna.species.custom_selection))
 		return
 	var/full_bonus
 	full_bonus = character.dna.species.custom_selection[bonus]

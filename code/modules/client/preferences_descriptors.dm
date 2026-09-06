@@ -36,6 +36,7 @@
 
 /datum/preferences/proc/apply_descriptors(mob/living/character)
 	character.clear_mob_descriptors()
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
 	for(var/choice_type in pref_species.descriptor_choices)
 		var/datum/descriptor_entry/entry = get_descriptor_entry_for_choice(choice_type)
 		character.add_mob_descriptor(entry.descriptor_type)

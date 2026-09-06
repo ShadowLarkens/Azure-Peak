@@ -35,9 +35,9 @@
 	return pref_species.name
 
 /datum/preference/species/create_default_value()
-	return new default_species()
+	return new default_species.type()
 
-/datum/preference/species/get_ui_data(datum/species/pref_species)
+/datum/preference/species/get_ui_data(datum/species/pref_species, datum/preferences/preferences)
 	return list("base_species" = pref_species.base_name, "sub_species" = pref_species.sub_name)
 
 /datum/preference/species/get_constant_ui_data()
@@ -55,3 +55,21 @@
 	data["species"] = species_data
 
 	return data
+
+
+/datum/preference/choiced_dynamic/race_bonus
+	savefile_key = "race_bonus"
+	savefile_identifier = PREFERENCE_CHARACTER
+
+	dependencies = list(
+		/datum/preference/species,
+	)
+
+/datum/preference/choiced_dynamic/race_bonus/get_choices(datum/preferences/preferences)
+	var/datum/species/pref_species = preferences.read_preference(/datum/preference/species)
+	if(length(pref_species.custom_selection))
+		return pref_species.custom_selection + list("None")
+	return list("None")
+
+/datum/preference/choiced_dynamic/race_bonus/create_informed_default_value(datum/preferences/preferences)
+	return "None"

@@ -6,6 +6,7 @@
 
 	var/datum/voicepack/VP
 
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
 	switch(voice_type)
 		if(VOICE_TYPE_MASC)
 			VP = pref_species.soundpack_m

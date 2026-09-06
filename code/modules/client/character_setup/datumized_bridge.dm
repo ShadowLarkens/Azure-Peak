@@ -44,7 +44,7 @@
 			continue
 
 		var/deserialized_value = read_preference(pref_path)
-		datumized_data[P.savefile_key] = P.get_ui_data(deserialized_value)
+		datumized_data[P.savefile_key] = P.get_ui_data(deserialized_value, src)
 	data["datumized"] = datumized_data
 
 	return data

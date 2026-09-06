@@ -20,27 +20,28 @@
 		voice_pack = pick(GLOB.voice_packs_list)
 
 	write_preference(/datum/preference/choiced/body_type, gender)
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
 
 	// each randomize setting adds more passes
 	// the previous pass is always active
 	switch(randomize_setting)
 		if(RANDOMIZE_MINIMAL)
-			randomize_minimal()
+			randomize_minimal(pref_species)
 		if(RANDOMIZE_NORMAL)
 			// minimal before normal for taur type
-			randomize_minimal()
-			randomize_normal()
+			randomize_minimal(pref_species)
+			randomize_normal(pref_species)
 		if(RANDOMIZE_NEW_CHARACTER)
 			// new_character first for species
-			randomize_new_character()
+			randomize_new_character(pref_species)
 			// minimal before normal for taur type
-			randomize_minimal()
-			randomize_normal()
+			randomize_minimal(pref_species)
+			randomize_normal(pref_species)
 
 // This is just for set_new_race to make things stable again, NOTHING else
-/datum/preferences/proc/randomize_minimal()
+/datum/preferences/proc/randomize_minimal(datum/species/pref_species)
 	// Reset gameplay options that can be species locked
-	race_bonus = null
+	write_preference(/datum/preference/choiced_dynamic/race_bonus, null)
 	virtue = new /datum/virtue/none
 	virtuetwo = new /datum/virtue/none
 	virtue_origin = new pref_species.origin_default
@@ -55,7 +56,7 @@
 	randomize_all_customizer_accessories()
 
 // This is for when the user presses the randomize button
-/datum/preferences/proc/randomize_normal()
+/datum/preferences/proc/randomize_normal(datum/species/pref_species)
 	// Random name!
 	// TODO: use identity, not body type
 	real_name = pref_species.random_name(read_preference(/datum/preference/choiced/body_type), TRUE)
@@ -93,7 +94,7 @@
 
 // Only run this for "new character" style randomization
 // new characters get all texts merked and a random species assigned
-/datum/preferences/proc/randomize_new_character()
+/datum/preferences/proc/randomize_new_character(datum/species/pref_species)
 	// assign new species
 	var/random_species_type = GLOB.species_list[pick(get_selectable_species())]
 	set_new_race(new random_species_type, skip_random = TRUE)

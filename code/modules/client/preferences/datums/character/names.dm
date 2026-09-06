@@ -23,7 +23,7 @@
 	return list(/datum/preference/name, "", repeat_string(maximum_value_length + 1, "A")) \
 		+ allow_numbers ? list() : "a1234"
 
-/datum/preference/name/get_ui_data(deserialized_value)
+/datum/preference/name/get_ui_data(deserialized_value, datum/preferences/preferences)
 	return deserialized_value
 
 /datum/preference/name/get_constant_ui_data()

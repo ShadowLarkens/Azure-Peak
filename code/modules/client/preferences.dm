@@ -63,7 +63,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/extra_language = "None" // Extra language
 	var/voice_color = "#a0a0a0"
 	var/voice_pitch = 1
-	var/datum/species/pref_species = new /datum/species/human/northern()	//Mutant race
 	var/static/datum/species/default_species = new /datum/species/human/northern()
 	var/datum/patron/selected_patron
 	var/static/datum/patron/default_patron = /datum/patron/divine/undivided
@@ -173,8 +172,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/favorite_dish = NONE
 	var/favorite_drink = NONE
 
-	var/race_bonus
-
 	var/preset_bounty_enabled = FALSE
 	var/preset_bounty_poster_key
 	var/preset_bounty_severity_key
@@ -214,7 +211,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			return
 
 	// Set the race to properly run race setter logic
-	set_new_race(pref_species, null, skip_random = TRUE)
+	set_new_race(default_species, null, skip_random = TRUE)
 	// Do a FULL scramble
 	random_character(null, RANDOMIZE_NEW_CHARACTER)
 
@@ -230,15 +227,15 @@ GLOBAL_LIST_EMPTY(chosen_names)
 // Only use skip_random if you are immediately going to call random_character(null, RANDOMIZE_MINIMAL) or higher
 // Otherwise the preferences will be left in an invalid state!
 /datum/preferences/proc/set_new_race(datum/species/new_race, user, skip_random = FALSE)
-	pref_species = new_race
+	write_preference(/datum/preference/species, new_race)
 	// new species can have job restrictions so merk job prefs
 	ResetJobs()
 	if(user)
-		to_chat(user, span_notice("You have switched your race to [pref_species.desc_title]."))
+		to_chat(user, span_notice("You have switched your race to [new_race.desc_title]."))
 		to_chat(user, span_red("Classes reset."))
 
 	// get them back to a stable default
-	race_bonus = null
+	write_preference(/datum/preference/choiced_dynamic/race_bonus, null)
 	customizer_entries = list()
 	validate_customizer_entries()
 	// Descriptors depend on species, so we have to reset them
@@ -247,15 +244,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	// actually randomize if allowed
 	if(!skip_random)
 		random_character(read_preference(/datum/preference/choiced/body_type), RANDOMIZE_MINIMAL)
-
-/datum/preferences/proc/spec_check(mob/user)
-	if(!istype(pref_species))
-		return FALSE
-	if(!(pref_species.name in get_selectable_species()))
-		return FALSE
-	if(!pref_species.check_roundstart_eligible())
-		return FALSE
-	return TRUE
 
 /datum/preferences/proc/process_link(mob/user, list/href_list)
 	if(href_list["preference"] == "keybindings_set")

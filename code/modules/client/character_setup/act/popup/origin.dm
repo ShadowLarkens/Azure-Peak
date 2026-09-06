@@ -1,6 +1,7 @@
 /datum/preferences/proc/ui_act_popup_origin(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	var/mob/user = ui.user
 
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
 	switch(action)
 		if("select_origin")
 			// Typepath index

@@ -12,6 +12,7 @@
 		character.regenerate_limb(BODY_ZONE_R_ARM)
 		character.regenerate_limb(BODY_ZONE_L_ARM)
 
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
 	var/datum/species/chosen_species
 	chosen_species = pref_species.type
 	if(!(pref_species.name in GLOB.roundstart_races))

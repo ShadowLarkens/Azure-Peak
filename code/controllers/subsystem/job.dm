@@ -141,11 +141,12 @@ SUBSYSTEM_DEF(job)
 		if(player.mind && (job.title in player.mind.restricted_roles))
 			JobDebug("FOC incompatible with antagonist role, Player: [player]")
 			continue
-		if(length(job.forbidden_races) && (player.client.prefs.pref_species.type in job.forbidden_races))
-			JobDebug("FOC incompatible with species, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+		var/datum/species/pref_species = player.client.prefs.read_preference(/datum/preference/species)
+		if(length(job.forbidden_races) && (pref_species.type in job.forbidden_races))
+			JobDebug("FOC incompatible with species, Player: [player], Job: [job.title], Race: [pref_species.name]")
 			continue
 		if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron?.type in job.allowed_patrons))
-			JobDebug("FOC incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+			JobDebug("FOC incompatible with patron, Player: [player], Job: [job.title], Race: [pref_species.name]")
 			continue
 		if(length(job.virtue_restrictions) && ((player.client.prefs.virtue?.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions) || (player.client.prefs.virtue_origin?.type in job.virtue_restrictions)))
 			JobDebug("FOC incompatible with virtues, Player: [player], Job: [job.title], Virtue 1: [player.client.prefs.virtue?.name]")
@@ -163,7 +164,7 @@ SUBSYSTEM_DEF(job)
 			JobDebug("FOC incompatible with advclass virtues/vices, Player: [player], Job: [job.title]")
 			continue
 		if(job.plevel_req > player.client.patreonlevel())
-			JobDebug("FOC incompatible with PATREON LEVEL, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+			JobDebug("FOC incompatible with PATREON LEVEL, Player: [player], Job: [job.title], Race: [pref_species.name]")
 			continue
 		#ifdef USES_PQ
 		if(!isnull(job.min_pq) && (get_playerquality(player.ckey) < job.min_pq))
@@ -221,12 +222,13 @@ SUBSYSTEM_DEF(job)
 			JobDebug("GRJ incompatible with antagonist role, Player: [player], Job: [job.title]")
 			continue
 
-		if(length(job.forbidden_races) && (player.client.prefs.pref_species.type in job.forbidden_races))
-			JobDebug("GRJ incompatible with species, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+		var/datum/species/pref_species = player.client.prefs.read_preference(/datum/preference/species)
+		if(length(job.forbidden_races) && (pref_species.type in job.forbidden_races))
+			JobDebug("GRJ incompatible with species, Player: [player], Job: [job.title], Race: [pref_species.name]")
 			continue
 
 		if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron?.type in job.allowed_patrons))
-			JobDebug("GRJ incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+			JobDebug("GRJ incompatible with patron, Player: [player], Job: [job.title], Race: [pref_species.name]")
 			continue
 
 		if(length(job.virtue_restrictions) && ((player.client.prefs.virtue?.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions) || (player.client.prefs.virtue_origin?.type in job.virtue_restrictions)))
@@ -247,11 +249,11 @@ SUBSYSTEM_DEF(job)
 			continue
 
 		if(job.plevel_req > player.client.patreonlevel())
-			JobDebug("GRJ incompatible with PATREON LEVEL, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+			JobDebug("GRJ incompatible with PATREON LEVEL, Player: [player], Job: [job.title], Race: [pref_species.name]")
 			continue
 
 		if(length(job.allowed_ages) && !(player.client.prefs.age in job.allowed_ages))
-			JobDebug("GRJ incompatible with age, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+			JobDebug("GRJ incompatible with age, Player: [player], Job: [job.title], Race: [pref_species.name]")
 			continue
 
 		#ifdef USES_PQ
@@ -462,12 +464,13 @@ SUBSYSTEM_DEF(job)
 					JobDebug("DO incompatible with antagonist role, Player: [player], Job:[job.title]")
 					continue
 
-				if(length(job.forbidden_races) && (player.client.prefs.pref_species.type in job.forbidden_races))
-					JobDebug("DO incompatible with species, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+				var/datum/species/pref_species = player.client.prefs.read_preference(/datum/preference/species)
+				if(length(job.forbidden_races) && (pref_species.type in job.forbidden_races))
+					JobDebug("DO incompatible with species, Player: [player], Job: [job.title], Race: [pref_species.name]")
 					continue
 
 				if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron?.type in job.allowed_patrons))
-					JobDebug("DO incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+					JobDebug("DO incompatible with patron, Player: [player], Job: [job.title], Race: [pref_species.name]")
 					continue
 
 				if(length(job.virtue_restrictions) && ((player.client.prefs.virtue?.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions) || (player.client.prefs.virtue_origin?.type in job.virtue_restrictions)))
@@ -563,7 +566,8 @@ SUBSYSTEM_DEF(job)
 				if(player.mind && (job.title in player.mind.restricted_roles))
 					continue
 
-				if(length(job.forbidden_races) && (player.client.prefs.pref_species.type in job.forbidden_races))
+				var/datum/species/pref_species = player.client.prefs.read_preference(/datum/preference/species)
+				if(length(job.forbidden_races) && (pref_species.type in job.forbidden_races))
 					continue
 
 				if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron?.type in job.allowed_patrons))

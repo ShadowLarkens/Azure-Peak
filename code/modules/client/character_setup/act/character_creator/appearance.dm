@@ -15,6 +15,7 @@
 /datum/preferences/proc/ui_act_character_creator_appearance_body(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	var/mob/user = ui.user
 
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
 	switch(action)
 		if("bodytype")
 			var/static/list/friendlyGenders = list("male" = "masculine", "female" = "feminine")
@@ -25,11 +26,12 @@
 			genderize_customizer_entries()
 			return CHARACTER_ACT_PREVIEW_UPDATE
 		if("race_bonus_select")
-			if(length(pref_species.custom_selection))
-				var/choice = tgui_input_list(user, "What has fate blessed your race with?", "BONUS", pref_species.custom_selection, race_bonus)
-				if(choice)
-					verbose_pref_log_change(user, "notice", "Racial Bonus", race_bonus, choice)
-					race_bonus = choice
+			var/datum/preference/choiced_dynamic/race_bonus/RB = GLOB.preference_entries[/datum/preference/choiced_dynamic/race_bonus]
+			var/old = read_preference(RB.type)
+			var/choice = tgui_input_list(user, "What has fate blessed your race with?", "BONUS", RB.get_choices(src), old)
+			if(choice)
+				verbose_pref_log_change(user, "notice", "Racial Bonus", old, choice)
+				write_preference(RB.type, choice)
 			return CHARACTER_ACT_DATA_UPDATE
 		if("taur_color")
 			var/new_taur_color = tgui_color_picker(user, "Choose your character's taur color:", "Taur Color", taur_color)
@@ -118,6 +120,7 @@
 /datum/preferences/proc/ui_act_character_creator_appearance_markings(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	var/mob/user = ui.user
 
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
 	switch(action)
 		if("marking_use_preset")
 			var/confirm = alert(usr, "Are you sure you want to use a preset (This will clear your existing markings)?", "Markings Preset", "Yes", "No")
@@ -248,6 +251,7 @@
 				body_markings[zone] -= name
 
 /datum/preferences/proc/reset_body_marking_colors()
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
 	for(var/zone in body_markings)
 		var/list/bml = body_markings[zone]
 		for(var/key in bml)

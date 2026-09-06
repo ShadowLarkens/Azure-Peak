@@ -123,8 +123,9 @@
 	if(!try_migrate_savefile(psa_default))
 		return FALSE
 
-	load_preferences_old(psa_default.open_save)
+	// must be read first
 	read_from_storage_pref(psa_default)
+	load_preferences_old(psa_default.open_save)
 	return TRUE
 
 /datum/preferences/proc/load_character(slot)
@@ -144,8 +145,9 @@
 	if(!try_migrate_savefile(psa_default, slot))
 		return FALSE
 
-	load_character_old(psa_default.open_save, slot)
+	// must be read first
 	read_from_storage_char(psa_default, slot)
+	load_character_old(psa_default.open_save, slot)
 	return TRUE
 
 /datum/preferences/proc/save_preferences()

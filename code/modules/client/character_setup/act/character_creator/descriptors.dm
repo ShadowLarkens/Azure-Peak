@@ -4,6 +4,7 @@
 	switch(action)
 		if("set_descriptor")
 			// Validate our DESCRIPTOR_CHOICE
+			var/datum/species/pref_species = read_preference(/datum/preference/species)
 			var/descriptor_choice = text2path(params["descriptor_choice"])
 			if(!(descriptor_choice in pref_species.descriptor_choices))
 				return CHARACTER_ACT_DATA_UPDATE

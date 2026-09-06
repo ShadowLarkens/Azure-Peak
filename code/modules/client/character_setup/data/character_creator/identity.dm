@@ -1,8 +1,9 @@
 /datum/preferences/proc/ui_data_character_creator_identity(mob/user)
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
 	var/list/data = list(
 		"species_base_name" = pref_species.base_name,
 		"species_sub_name" = pref_species.sub_name,
-		"species_check" = spec_check(user),
+		"species_check" = TRUE, // TODO: remove
 		"race_bonus" = null,
 
 		"nickname" = nickname,
@@ -56,6 +57,7 @@
 	// Inline data
 	if(LAZYLEN(pref_species.custom_selection))
 		var/race_bonus_display
+		var/race_bonus = read_preference(/datum/preference/choiced_dynamic/race_bonus)
 		if(race_bonus)
 			for(var/bonus in pref_species.custom_selection)
 				if(bonus == race_bonus)
@@ -149,6 +151,7 @@
 	return data
 
 /datum/preferences/proc/virtue_spawn_error(index, datum/virtue/V)
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
 	if(index == 2)
 		if(!statpack.virtuous)
 			return "This virtue slot will only be used with virtuous stat packs."

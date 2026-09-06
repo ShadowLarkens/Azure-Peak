@@ -1,6 +1,7 @@
 /datum/preferences/proc/ui_act_character_creator_identity(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	var/mob/user = ui.user
 
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
 	switch(action)
 		if("real_name")
 			var/new_name = tgui_input_text(user, "The name of this vessel?", "IDENTITY", real_name, encode = FALSE)

@@ -194,28 +194,6 @@
 	WRITE_FILE(S["compliance_notifs"], compliance_notifs)
 	return TRUE
 
-
-/datum/preferences/proc/_load_species(S, species_name = null)
-	if(!species_name)
-		S["species"] >> species_name
-
-	if(species_name)
-		var/newtype = GLOB.species_list[species_name]
-		if(newtype)
-			pref_species = new newtype
-			if(!spec_check())
-				testing("spec_check() failed on type [newtype] and name [species_name], defaulting to [default_species].")
-				pref_species = new default_species.type()
-			else
-				testing("spec_check() succeeded on type [newtype] and name [species_name].")
-		else
-
-			pref_species = new default_species.type()
-	else
-		pref_species = new default_species.type()
-	if(pref_species.custom_selection)
-		S["race_bonus"] >> race_bonus
-
 /datum/preferences/proc/_load_flaw(S)
 	S["charflaws"] >> charflaws
 	// Sanitize
@@ -426,9 +404,6 @@
 /datum/preferences/proc/load_character_old(savefile/S, slot)
 	S.cd = "/character[slot]"
 
-	//Species
-	_load_species(S)
-
 	_load_virtue(S)
 	_load_flaw(S)
 
@@ -551,13 +526,13 @@
 	features["body_size"] = sanitize_float(features["body_size"], BODY_SIZE_MIN, BODY_SIZE_MAX, 0.01, BODY_SIZE_NORMAL)
 
 	// lists
+	var/datum/species/pref_species = read_preference(/datum/preference/species)
 	age				= sanitize_inlist(age, pref_species.possible_ages, AGE_ADULT)
 	extra_language	= sanitize_inlist(extra_language, GLOB.languages_character_selection, "None") // None just becomes None so it's fine
 	titles_pref		= sanitize_inlist(titles_pref, GLOB.titles_list, TITLES_M)
 	clothes_pref	= sanitize_inlist(clothes_pref, GLOB.clothespref_list, CLOTHES_M)
 	voice_type		= sanitize_inlist(voice_type, GLOB.voice_types_list, VOICE_TYPE_MASC)
 	voice_pack		= sanitize_inlist(voice_pack, GLOB.voice_packs_list, VOICE_PACK_DEFAULT)
-	race_bonus		= sanitize_inlist_no_pick(race_bonus, pref_species.custom_selection, initial(race_bonus))
 	examine_theme	= sanitize_inlist_no_pick(examine_theme, GLOB.tgui_themes, initial(examine_theme))
 	taur_type		= sanitize_inlist_no_pick(taur_type, pref_species.get_taur_list(), null)
 	averse_chosen_faction = sanitize_inlist(averse_chosen_faction, GLOB.averse_factions, initial(averse_chosen_faction))
@@ -669,7 +644,6 @@
 	WRITE_FILE(S["voice_color"]			, voice_color)
 	WRITE_FILE(S["voice_pitch"]			, voice_pitch)
 	WRITE_FILE(S["skin_tone"]			, skin_tone)
-	WRITE_FILE(S["species"]				, pref_species.name)
 	WRITE_FILE(S["charflaws"]			, charflaws)
 	WRITE_FILE(S["feature_mcolor"]		, features["mcolor"])
 	WRITE_FILE(S["feature_mcolor2"]		, features["mcolor2"])
@@ -745,7 +719,6 @@
 	WRITE_FILE(S["virtuetwo"], virtuetwo.type)
 	WRITE_FILE(S["virtuetwochoices"] , virtuetwo.picked_choices)
 	WRITE_FILE(S["virtue_origin"], virtue_origin.type)
-	WRITE_FILE(S["race_bonus"], race_bonus)
 	WRITE_FILE(S["combat_music"], combat_music.type)
 	WRITE_FILE(S["body_size"] , features["body_size"])
 	WRITE_FILE(S["nsfwflavortext"] , html_decode(nsfwflavortext))

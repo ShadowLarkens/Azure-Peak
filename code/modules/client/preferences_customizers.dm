@@ -1,7 +1,7 @@
 /datum/preferences/proc/validate_customizer_entries()
 	customizer_entries = SANITIZE_LIST(customizer_entries)
 	listclearnulls(customizer_entries)
-	var/datum/species/species = pref_species
+	var/datum/species/species = read_preference(/datum/preference/species)
 	var/list/customizers = species.customizers
 	/// Check if we have any customizer entries that don't match.
 	for(var/datum/customizer_entry/entry as anything in customizer_entries)
@@ -135,7 +135,7 @@
 /datum/preferences/proc/genderize_customizer_entries()
 	var/gender = read_preference(/datum/preference/choiced/body_type)
 	customizer_entries = SANITIZE_LIST(customizer_entries)
-	var/datum/species/species = pref_species
+	var/datum/species/species = read_preference(/datum/preference/species)
 	var/list/customizers = species.customizers
 
 	/// Check if we have any missing customizer entries

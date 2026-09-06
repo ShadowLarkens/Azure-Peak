@@ -119,7 +119,7 @@
 	return deserialized_entries
 
 // UI data
-/datum/preference/descriptors/get_ui_data(list/deserialized_value)
+/datum/preference/descriptors/get_ui_data(list/deserialized_value, datum/preferences/preferences)
 	var/list/data = list()
 
 	// Thanks to our deserialize implementation, we can be confident that this matches what our pref_species wants
