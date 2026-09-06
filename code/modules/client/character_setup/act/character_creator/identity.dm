@@ -4,12 +4,13 @@
 	var/datum/species/pref_species = read_preference(/datum/preference/species)
 	switch(action)
 		if("real_name")
-			var/new_name = tgui_input_text(user, "The name of this vessel?", "IDENTITY", real_name, encode = FALSE)
+			var/old_name = read_preference(/datum/preference/name/real_name)
+			var/new_name = tgui_input_text(user, "The name of this vessel?", "IDENTITY", old_name, encode = FALSE)
 			if(new_name)
 				new_name = reject_bad_name(new_name)
 				if(new_name)
-					verbose_pref_log_change(user, "notice", "Real Name", real_name, new_name)
-					real_name = new_name
+					verbose_pref_log_change(user, "notice", "Real Name", old_name, new_name)
+					write_preference(/datum/preference/name/real_name, new_name)
 				else
 					to_chat(user, span_warning("Invalid name. Your name should be at least 2 and at most [MAX_NAME_LEN] characters long. It may only contain the characters A-Z, a-z, -, ', . and ,."))
 			return CHARACTER_ACT_DATA_UPDATE
@@ -17,8 +18,9 @@
 		if("randomize_real_name")
 			// TODO: use identity, not body type
 			var/randomized = pref_species.random_name(read_preference(/datum/preference/choiced/body_type), TRUE)
-			verbose_pref_log_change(user, "notice", "Real Name", real_name, "[randomized] (randomized)")
-			real_name = randomized
+			var/old_name = read_preference(/datum/preference/name/real_name)
+			verbose_pref_log_change(user, "notice", "Real Name", old_name, "[randomized] (randomized)")
+			write_preference(/datum/preference/name/real_name, randomized)
 			return CHARACTER_ACT_DATA_UPDATE
 
 		if("randomize_normal")

@@ -27,7 +27,7 @@ SUBSYSTEM_DEF(lobbymenu)
 				if(player.ready == PLAYER_READY_TO_PLAY)
 					if(!ready_players_by_job[job_name])
 						ready_players_by_job[job_name] = list()
-					ready_players_by_job[job_name] += player.client.prefs.real_name
+					ready_players_by_job[job_name] += player.client.prefs.read_preference(/datum/preference/name/real_name)
 					break
 
 	LAZYCLEARLIST(lobby_player_display)

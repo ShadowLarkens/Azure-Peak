@@ -25,6 +25,7 @@
 	character.set_species(chosen_species, icon_update = FALSE, pref_load = src)
 	character.dna.update_body_size()
 
+	var/real_name = read_preference(/datum/preference/name/real_name)
 	if(roundstart_checks)
 		if(CONFIG_GET(flag/humans_need_surnames) && ((pref_species.id == "human") || (pref_species.id == "humen")))
 			var/firstspace = findtext(real_name, " ")

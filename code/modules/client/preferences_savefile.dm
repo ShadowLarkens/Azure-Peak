@@ -319,7 +319,6 @@
 	mute_barks = sanitize_bool(mute_barks, initial(mute_barks))
 
 /datum/preferences/proc/_load_appearence(S)
-	S["real_name"]			>> real_name
 	S["domhand"]			>> domhand
 	S["age"]				>> age
 	S["vampire_skin"]		>> vampire_skin
@@ -491,14 +490,6 @@
 
 // takes a savefile for writebacks
 /datum/preferences/proc/sanitize_character(savefile/S)
-
-	// names
-	real_name = reject_bad_name(real_name)
-	if(!real_name)
-		// TODO: use identity, not body type
-		// TODO: only when real_name is converted tho
-		real_name = random_unique_name(MALE)
-
 	nickname = reject_bad_name(nickname)
 	if(!nickname)
 		nickname = initial(nickname)
@@ -633,7 +624,6 @@
 	WRITE_FILE(S["version"]			, SAVEFILE_VERSION_MAX)	//load_character will sanitize any bad data, so assume up-to-date.)
 
 	//Character
-	WRITE_FILE(S["real_name"]			, real_name)
 	WRITE_FILE(S["domhand"]				, domhand)
 	WRITE_FILE(S["age"]					, age)
 	WRITE_FILE(S["vampire_skin"]		, vampire_skin)

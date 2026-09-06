@@ -19,7 +19,7 @@
 	data["ticker_state"] = SSticker.current_state
 	data["ready"] = ready
 	data["migrant"] = client?.prefs?.is_active_migrant() || FALSE // turns null into 0
-	data["active_character"] = client?.prefs?.real_name
+	data["active_character"] = client?.prefs?.read_preference(/datum/preference/name/real_name)
 
 	data["time_remaining"] = SSticker.GetTimeLeft()
 	data["ready_count"] = SSticker.totalPlayersReady

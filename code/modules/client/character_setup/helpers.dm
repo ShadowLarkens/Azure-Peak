@@ -66,9 +66,11 @@
 	. = "[span_notice("Character Creator:")] [.]"
 
 /datum/preferences/proc/verbose_pref_log_change(user, span, pref, before, after)
+	var/real_name = read_preference(/datum/preference/name/real_name)
 	var/log_entry = "\"[real_name]\" updated. \"[pref]\" switched from \"[before]\" to \"[after]\"."
 	verbose_pref_log(user, log_entry, stylize_log_entry(log_entry, span))
 
 /datum/preferences/proc/verbose_pref_log_notification(user, span, message)
+	var/real_name = read_preference(/datum/preference/name/real_name)
 	var/log_entry = "\"[real_name]\" updated. [message]."
 	verbose_pref_log(user, log_entry, stylize_log_entry(log_entry, span))

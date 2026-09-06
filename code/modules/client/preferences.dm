@@ -45,7 +45,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/topjob = null
 
 	//character preferences
-	var/real_name						//our character's name
 	var/titles_pref = TITLES_M
 	var/clothes_pref = CLOTHES_M
 	var/voice_pack = VOICE_PACK_DEFAULT

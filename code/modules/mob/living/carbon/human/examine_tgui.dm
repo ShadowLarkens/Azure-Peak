@@ -166,7 +166,7 @@
 		ooc_extra_image = pref.ooc_extra_img
 		if(is_naked)
 			nsfw_ooc_extra_image = pref.nsfw_ooc_extra_img
-		char_name = pref.real_name
+		char_name = pref.read_preference(/datum/preference/name/real_name)
 		song_url = pref.ooc_extra
 		is_vet = viewing.check_agevet()
 		if(!headshot)

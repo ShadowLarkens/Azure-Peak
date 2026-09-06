@@ -651,7 +651,7 @@ GLOBAL_LIST_EMPTY(species_list)
 	if(observer.client)
 		observer.client.update_ooc_verb_visibility()
 	if(observer.client && observer.client.prefs)
-		observer.real_name = observer.client.prefs.real_name
+		observer.real_name = observer.client.prefs.read_preference(/datum/preference/name/real_name)
 		observer.name = observer.real_name
 	observer.update_icon()
 	observer.stop_sound_channel(CHANNEL_LOBBYMUSIC)

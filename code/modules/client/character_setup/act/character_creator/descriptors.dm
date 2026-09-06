@@ -267,6 +267,7 @@
 
 		// Rumours
 		if("rumour_preview")
+			var/real_name = read_preference(/datum/preference/name/real_name)
 			var/msg = ""
 			if(length(rumour_cached))
 				msg += "<b>You recall what you heard around Town about [real_name]...</b><br>[rumour_cached]"
@@ -393,6 +394,7 @@
 		to_chat(user, span_warning("You must wait before previewing descriptors again."))
 		return
 	COOLDOWN_START(src, descriptor_preview, 5 SECONDS)
+	var/real_name = read_preference(/datum/preference/name/real_name)
 	to_chat(user, span_notice("-- Preview of [real_name]'s descriptors --"))
 
 	// someone please fix this horror one day

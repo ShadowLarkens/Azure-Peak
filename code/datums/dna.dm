@@ -170,7 +170,7 @@
 			if(pref_load)
 				dna.features = pref_load.features.Copy()
 				dna.body_markings = deepCopyList(pref_load.body_markings)
-				dna.real_name = pref_load.real_name
+				dna.real_name = pref_load.read_preference(/datum/preference/name/real_name)
 				dna.species.regenerate_organs(src, dna.species, pref_load = pref_load)
 				remove_all_bodypart_features()
 				for(var/bodypart_feature_type in dna.species.bodypart_features)
@@ -196,19 +196,19 @@
 		if(pref_load)
 			dna.features = pref_load.features.Copy()
 			dna.body_markings = deepCopyList(pref_load.body_markings)
-			dna.real_name = pref_load.real_name
+			dna.real_name = pref_load.read_preference(/datum/preference/name/real_name)
 		dna.species.on_species_gain(src, old_species, pref_load)
 
 /mob/living/carbon/human/set_species(datum/species/mrace, icon_update = TRUE, datum/preferences/pref_load = null)
 	set waitfor = 0
-	
+
 	if(pref_load)
 		skin_tone = pref_load.skin_tone
 	..()
 	if(icon_update)
 		update_body()
 		update_hair()
-		update_body_parts(TRUE)	
+		update_body_parts(TRUE)
 
 /mob/proc/has_dna()
 	return

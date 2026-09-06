@@ -21,6 +21,8 @@ Add a new override in your modular folder that looks like this:
 */
 
 /datum/preferences/proc/ui_data_character_creator_all_pages(mob/user)
+	var/real_name = read_preference(/datum/preference/name/real_name)
+
 	return list(
 		"character_preview_view" = character_preview_view?.assigned_map,
 		"preview_background" = character_preview_view?.preview_background.icon_state,
