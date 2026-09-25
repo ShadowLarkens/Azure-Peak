@@ -171,6 +171,7 @@ GLOBAL_LIST_INIT(preference_entries_by_key, init_preference_entries_by_key())
 /// Must be overridden by subtypes.
 /// Can return null if no value was found, this will prompt create_informed_default_value
 /// Also note, deserialize(deserialize(V)) MUST equal deserialize(V).
+/// - This is so the UI can call deserialize unconditionally but also work with already deserialized values in some circumstances
 /datum/preference/proc/deserialize(input, datum/preferences/preferences)
 	SHOULD_NOT_SLEEP(TRUE)
 	SHOULD_CALL_PARENT(FALSE)
